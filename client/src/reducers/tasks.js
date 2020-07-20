@@ -6,7 +6,7 @@ import {
   assoc,
   dissoc
 } from 'ramda'
-import { MEMBERS } from '../constants/ActionTypes'
+import { TASKS } from '../constants/ActionTypes'
 
 import toLoadable from '../helpers/to-loadable'
 
@@ -19,33 +19,33 @@ const initialState = {
 export default function members(state = initialState, action) {
   switch (action.type) {
 
-    case MEMBERS.FETCH.REQUEST:
+    case TASKS.FETCH.REQUEST:
       return { ...state, isLoading: true }
-    case MEMBERS.FETCH.RECEIVE:
+    case TASKS.FETCH.RECEIVE:
       return { ...state, isLoading: false, data: toLoadable(indexBy(prop('id'), action.payload)) }
-    case MEMBERS.FETCH.ERROR:
+    case TASKS.FETCH.ERROR:
       return { ...state, isLoading: false }
 
-    case MEMBERS.CREATE.REQUEST:
+    case TASKS.CREATE.REQUEST:
       return { ...state, isCreating: true }
-    case MEMBERS.CREATE.RECEIVE:
+    case TASKS.CREATE.RECEIVE:
       return { ...state, isCreating: false, data:
         assoc(action.payload.id, { isLoading: false, data: action.payload }, state.data) }
-    case MEMBERS.CREATE.ERROR:
+    case TASKS.CREATE.ERROR:
       return { ...state, isCreating: false }
 
-    case MEMBERS.UPDATE.REQUEST:
+    case TASKS.UPDATE.REQUEST:
       return set(lensPath(['data', action.payload.id, 'isLoading']), true, state)
-    case MEMBERS.UPDATE.RECEIVE:
+    case TASKS.UPDATE.RECEIVE:
       return set(lensPath(['data', action.meta.id]), { isLoading: false, data: action.payload }, state)
-    case MEMBERS.UPDATE.ERROR:
+    case TASKS.UPDATE.ERROR:
       return set(lensPath(['data', action.meta.id, 'isLoading']), false, state)
 
-    case MEMBERS.DELETE.REQUEST:
+    case TASKS.DELETE.REQUEST:
       return set(lensPath(['data', action.payload.id, 'isLoading']), true, state)
-    case MEMBERS.DELETE.RECEIVE:
+    case TASKS.DELETE.RECEIVE:
       return { ...state, data: dissoc(action.meta.id, state.data) }
-    case MEMBERS.DELETE.ERROR:
+    case TASKS.DELETE.ERROR:
       return set(lensPath(['data', action.meta.id, 'isLoading']), true, state)
 
     default:
