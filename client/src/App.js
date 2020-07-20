@@ -21,7 +21,7 @@ import MembersPage from './containers/MembersPage'
 import Title from './components/Title'
 
 const items = [
-  { type: 'item', icon: 'cogs',        label: 'Settings', path: '/settings' },
+  { type: 'item', icon: 'cogs',        label: null,       path: '/settings' },
   { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members',     index: true  },
   { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks' },
   { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/grants'},

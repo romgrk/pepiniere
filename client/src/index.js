@@ -10,6 +10,7 @@ import App from './App'
 import registerServiceWorker from './helpers/registerServiceWorker'
 import isLocalhost from './helpers/is-localhost.js'
 
+import './styles/typography.css'
 import './styles/alerts.css'
 import './styles/badges.css'
 import './styles/button.css'

@@ -820,6 +820,23 @@ section {
 
 
 /*
+ * MembersPage
+ */
+
+.MembersPage {
+  padding: (4 * $padding) (6 * $padding);
+}
+.MembersPage__list {
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  justify-content: space-between;
+}
+.MembersPage__member {
+  cursor: pointer;
+}
+
+
+/*
  * Grants
  */
 
@@ -911,37 +928,6 @@ section {
   }
 }
 
-
-/*
- * History
- */
-
-.History {
-  padding: (4 * $padding) (6 * $padding);
-  height: 100%;
-  overflow: auto;
-}
-.History__table {
-  & td, & th {
-    padding: 0 $padding;
-  }
-}
-
-
-/*
- * FAQ
- */
-
-.Question {
-  position: relative;
-  padding: 0 6*$padding;
-  margin-bottom: 2em;
-}
-.Question > .Icon {
-  position: absolute;
-  top:  5px;
-  left: $padding;
-}
 
 
 /*

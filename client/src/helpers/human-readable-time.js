@@ -72,6 +72,19 @@ export default function humanReadableTime(date, empty = '') {
   return asDate(date) + ' ' + date.getFullYear()
 }
 
+export function humanReadableDate(date, empty = '') {
+  if (date === null)
+    return empty
+
+  if (!(date instanceof Date))
+    date = new Date(date)
+
+  if (isThisYear(date))
+    return asDate(date)
+
+  return asDate(date) + ' ' + date.getFullYear()
+}
+
 export function humanDetailedTime(date, empty = '') {
   if (date === null)
     return empty

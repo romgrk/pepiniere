@@ -49,7 +49,11 @@ CREATE TABLE runs (
 INSERT INTO members (firstName, lastName, country, isPermanent, startDate, endDate)
     VALUES ('Eric', 'Delorimier', 'CAN', 1, null, null);
 INSERT INTO members (firstName, lastName, country, isPermanent, startDate, endDate)
+    VALUES ('Camille', 'F', 'CHE', 1, null, null);
+INSERT INTO members (firstName, lastName, country, isPermanent, startDate, endDate)
     VALUES ('Romain', 'Gregoire', 'CAN', 0, date('2020-07-11'), date('2020-07-31'));
+INSERT INTO members (firstName, lastName, country, isPermanent, startDate, endDate)
+    VALUES ('Claire', 'Hanny', 'CAN', 0, date('2020-07-11'), date('2020-07-19'));
 
 INSERT INTO categories (name, color) VALUES ('Production',   '#3366CC');
 INSERT INTO categories (name, color) VALUES ('Construction', '#DC3912');
