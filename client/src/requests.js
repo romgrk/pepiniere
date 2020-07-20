@@ -16,35 +16,12 @@ export const settings = {
   update: (key, value) => POST(`/settings/update/${key}`, { value }),
 }
 
-export const users = {
-  list: () => GET('/user/list'),
-  get: (id) => GET(`/user/get/${id}`),
-  update: (id, data) => POST(`/user/update/${id}`, data),
-  delete: (id) => POST(`/user/delete/${id}`),
-}
-
-export const applicants = {
-  list: () => GET('/applicant/list'),
-  get: (id) => GET(`/applicant/get/${id}`),
-  create: (data) => POST(`/applicant/create`, data),
-  update: (id, data) => POST(`/applicant/update/${id}`, data),
-  delete: (id) => POST(`/applicant/delete/${id}`),
-}
-
-export const grants = {
-  list: () => GET('/grant/list'),
-  get: (id) => GET(`/grant/get/${id}`),
-  create: (data) => POST(`/grant/create`, data),
-  update: (id, data) => POST(`/grant/update/${id}`, data),
-  delete: (id) => POST(`/grant/delete/${id}`),
-}
-
-export const fundings = {
-  list: () => GET('/funding/list'),
-  get: (id) => GET(`/funding/get/${id}`),
-  create: (data) => POST(`/funding/create`, data),
-  update: (id, data) => POST(`/funding/update/${id}`, data),
-  delete: (id) => POST(`/funding/delete/${id}`),
+export const members = {
+  list: () => GET('/member/list'),
+  get: (id) => GET(`/member/get/${id}`),
+  create: (data) => POST(`/member/create`, data),
+  update: (id, data) => POST(`/member/update/${id}`, data),
+  delete: (id) => POST(`/member/delete/${id}`),
 }
 
 export const categories = {
@@ -55,10 +32,20 @@ export const categories = {
   delete: (id) => POST(`/category/delete/${id}`),
 }
 
-export const history = {
-  list: () => GET('/history/list'),
-  findByEntity: (table, id) => GET(`/history/find-by-entity/${table}/${id}`),
-  findByRange: (start, end) => GET(`/history/find-by-range/${start}/${end}`),
+export const tasks = {
+  list: () => GET('/task/list'),
+  get: (id) => GET(`/task/get/${id}`),
+  create: (data) => POST(`/task/create`, data),
+  update: (id, data) => POST(`/task/update/${id}`, data),
+  delete: (id) => POST(`/task/delete/${id}`),
+}
+
+export const runs = {
+  list: () => GET('/run/list'),
+  get: (id) => GET(`/run/get/${id}`),
+  create: (data) => POST(`/run/create`, data),
+  update: (id, data) => POST(`/run/update/${id}`, data),
+  delete: (id) => POST(`/run/delete/${id}`),
 }
 
 

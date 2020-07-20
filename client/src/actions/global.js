@@ -9,11 +9,10 @@ import * as requests from '../requests'
 
 import openCentered from '../helpers/open-centered'
 import settings from './settings.js'
-import users from './users.js'
-import applicants from './applicants.js'
-import grants from './grants.js'
-import fundings from './fundings.js'
+import members from './members.js'
 import categories from './categories.js'
+import tasks from './tasks.js'
+import runs from './runs.js'
 
 const createPayload = (message, details) => ({ message, details })
 
@@ -34,11 +33,10 @@ export const fetchAll = createAsyncAction(() => (dispatch, getState) => {
 
   return Promise.all([
     settings.fetch(),
-    users.fetch(),
-    applicants.fetch(),
-    grants.fetch(),
-    fundings.fetch(),
+    members.fetch(),
     categories.fetch(),
+    tasks.fetch(),
+    runs.fetch(),
   ])
 })
 

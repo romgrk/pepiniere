@@ -1,21 +1,21 @@
-import { GRANTS } from '../constants/ActionTypes'
+import { RUNS } from '../constants/ActionTypes'
 
 import { createFetchActions } from '../helpers/create-actions'
 import * as requests from '../requests'
 
-const grants = {
-  fetch:  createFetchActions(GRANTS.FETCH,  requests.grants.list),
-  update: createFetchActions(GRANTS.UPDATE, requests.grants.update,
+const runs = {
+  fetch:  createFetchActions(RUNS.FETCH,  requests.runs.list),
+  update: createFetchActions(RUNS.UPDATE, requests.runs.update,
     (id, data) => ({ id, data }),
     (res, id, data) => ({ id, data }),
     (err, id, data) => ({ id, data })),
-  create: createFetchActions(GRANTS.CREATE, requests.grants.create,
+  create: createFetchActions(RUNS.CREATE, requests.runs.create,
     (data) => ({ data }),
     (res, data) => ({ data }),
     (err, data) => ({ data })),
-  delete: createFetchActions(GRANTS.DELETE, requests.grants.delete,
+  delete: createFetchActions(RUNS.DELETE, requests.runs.delete,
     (id) => ({ id }),
     (res, id) => ({ id }),
     (err, id) => ({ id })),
 }
-export default grants
+export default runs

@@ -9,21 +9,23 @@ import {
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 
-import Global from '../actions/global'
-import Navbar from '../components/Navbar'
-// import CompletionFunctionsContainer from '../containers/CompletionFunctionsContainer'
-import FAQContainer from '../containers/FAQContainer'
-import IndexContainer from '../containers/IndexContainer'
-import NotificationsContainer from '../containers/NotificationsContainer'
-import GrantsContainer from '../containers/GrantsContainer'
-import SettingsContainer from '../containers/SettingsContainer'
-import HistoryContainer from '../containers/HistoryContainer'
-import Title from '../components/Title'
+import Global from './actions/global'
+
+import Navbar from './components/Navbar'
+
+import FAQContainer from './containers/FAQContainer'
+import IndexContainer from './containers/IndexContainer'
+import NotificationsContainer from './containers/NotificationsContainer'
+import SettingsContainer from './containers/SettingsContainer'
+import MembersPage from './containers/MembersPage'
+import Title from './components/Title'
 
 const items = [
-  { type: 'item', icon: 'cogs',    label: 'Settings', path: '/settings' },
-  { type: 'item', icon: 'table',   label: 'Grants',   path: '/grants',     index: true },
-  { type: 'item', icon: 'history', label: 'History',  path: '/history' },
+  { type: 'item', icon: 'cogs',        label: 'Settings', path: '/settings' },
+  { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members',     index: true  },
+  { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks' },
+  { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/grants'},
+  { type: 'item', icon: 'table',       label: 'Report',   path: '/reports' },
 ]
 const indexRoute = items.find(i => i.index).path
 
@@ -52,11 +54,13 @@ function Routes({ isLoggedIn, isLoggingIn }) {
               index={items.findIndex(i => props.location.pathname.startsWith(i.path))}
               items={items}
             >
-              <Navbar.Title>
-                <Title large keepCase muted>
-                  Grants Application
-                </Title>
-              </Navbar.Title>
+              {!window.isMobile &&
+                <Navbar.Title>
+                  <Title large keepCase muted>
+                    Tree Nursery
+                  </Title>
+                </Navbar.Title>
+              }
               <Navbar.Button icon='question-circle' title='Help'    onClick={Global.showFAQ} />
               <Navbar.Button icon='sign-out'        title='Log Out' onClick={Global.logOut} />
             </Navbar>
@@ -82,8 +86,7 @@ function Routes({ isLoggedIn, isLoggingIn }) {
 
           <Switch>
             <Route path='/settings' component={SettingsContainer} />
-            <Route path='/grants'   component={GrantsContainer} />
-            <Route path='/history'  component={HistoryContainer} />
+            <Route path='/members'  component={MembersPage} />
           </Switch>
         </div>
 

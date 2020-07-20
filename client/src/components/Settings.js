@@ -6,9 +6,9 @@ import { sortBy, prop } from 'ramda'
 
 import Global from '../actions/global'
 import Setting from '../actions/settings'
-import User from '../actions/users'
-import Applicant from '../actions/applicants'
+import Member from '../actions/members'
 import Category from '../actions/categories'
+import Task from '../actions/tasks'
 
 import isColor from '../helpers/is-color'
 import uniq from '../helpers/uniq'
@@ -31,9 +31,9 @@ const Group = styled.div`
 class Settings extends React.Component {
 
   static propTypes = {
-    users: PropTypes.arrayOf(PropTypes.object).isRequired,
-    applicants: PropTypes.object.isRequired,
+    members: PropTypes.arrayOf(PropTypes.object).isRequired,
     categories: PropTypes.object.isRequired,
+    tasks: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -41,7 +41,7 @@ class Settings extends React.Component {
 
     this.state = {
       whitelist: {},
-      newApplicant: '',
+      newTask: '',
       newCategory: { name: '', color: '#' },
       ...this.parseProps(props)
     }
@@ -86,30 +86,30 @@ class Settings extends React.Component {
   }
 
   onDeleteUser = (id) => {
-    User.delete(id)
+    Member.delete(id)
   }
 
   onUpdateUserName = (id, name) => {
-    const user = { ...this.props.users.find(u => u.id === id), name }
-    User.update(id, user)
+    const user = { ...this.props.members.find(u => u.id === id), name }
+    Member.update(id, user)
   }
 
   onUpdateUserEmail = (id, email) => {
-    const user = { ...this.props.users.find(u => u.id === id), email }
-    User.update(id, user)
+    const user = { ...this.props.members.find(u => u.id === id), email }
+    Member.update(id, user)
   }
 
-  onChangeNewApplicant = newApplicant => {
-    this.setState({ newApplicant })
+  onChangeNewTask = newTask => {
+    this.setState({ newTask })
   }
 
-  onCreateNewApplicant = () => {
-    const {newApplicant} = this.state
-    if (!newApplicant)
+  onCreateNewTask = () => {
+    const {newTask} = this.state
+    if (!newTask)
       return
-    Applicant.create({ name: newApplicant })
-    .then(() => this.setState({ newApplicant: '' }))
-  }
+    Task.create({ name: newTask })
+    .then(() => this.setState({ newTask: '' }))
+  } 
 
   onChangeNewCategoryName = name => {
     this.setState({ newCategory: { ...this.state.newCategory, name } })
@@ -129,14 +129,14 @@ class Settings extends React.Component {
 
   render() {
     const {
-      users,
-      applicants,
+      members,
       categories,
+      tasks,
     } = this.props
 
     const {
       whitelist,
-      newApplicant,
+      newTask,
       newCategory,
     } = this.state
 
@@ -146,6 +146,7 @@ class Settings extends React.Component {
         <div className='Settings__content hbox'>
           <div className='Settings__left fill'>
 
+            {/*
             <Group>
               <Title>Whitelist</Title>
               <Text block muted>
@@ -160,6 +161,7 @@ class Settings extends React.Component {
                 onDelete={value => this.onListDelete('whitelist', value)}
               />
             </Group>
+            */}
 
             <Group>
               <Title>Users</Title>
@@ -177,7 +179,7 @@ class Settings extends React.Component {
                 </thead>
                 <tbody>
                   {
-                    sortBy(prop('id'), users).map(user =>
+                    sortBy(prop('id'), members).map(user =>
                       <tr key={user.id}>
                         <td>
                           {
@@ -217,7 +219,7 @@ class Settings extends React.Component {
                     )
                   }
                   {
-                    users.length === 0 &&
+                    members.length === 0 &&
                       <tr className='empty'>
                         <td colSpan='3'>
                           No users yet
@@ -230,162 +232,6 @@ class Settings extends React.Component {
           </div>
 
           <Gap fill='40px' />
-
-          <div className='Settings__right fill'>
-
-            <Group>
-              <Title>Applicants</Title>
-              <Text block muted>
-                This is the list of grant applicants. <br/>
-              </Text>
-
-              <table className='table Settings__table Settings__table__first'>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    sortBy(prop('id'), applicants).map(applicant =>
-                      <tr key={applicant.id}>
-                        <td>
-                          <EditableLabel
-                            value={applicant.data.name}
-                            onEnter={name => Applicant.update(applicant.data.id, { name })}
-                          />
-                        </td>
-                        <td className='button-column'>
-                          <Button
-                            flat
-                            square
-                            small
-                            icon='close'
-                            disabled={applicant.isLoading}
-                            onClick={() => Applicant.delete(applicant.data.id)}
-                          />
-                        </td>
-                      </tr>
-                    )
-                  }
-                  {
-                    applicants.length === 0 &&
-                      <tr className='empty'>
-                        <td colSpan='2'>
-                          No applicants yet
-                        </td>
-                      </tr>
-                  }
-                  <tr>
-                    <td className='input-cell'>
-                      <Input
-                        placeholder='Create new applicant'
-                        className='fill-width'
-                        disabled={applicants.isCreating}
-                        value={newApplicant}
-                        onChange={this.onChangeNewApplicant}
-                        onEnter={this.onCreateNewApplicant}
-                      />
-                    </td>
-                    <td className='button-column'>
-                      <Button
-                        flat
-                        square
-                        small
-                        icon='plus'
-                        disabled={applicants.isCreating || applicants.isLoading}
-                        onClick={this.onCreateNewApplicant}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </Group>
-
-            <Group>
-              <Title>Funding Sources</Title>
-              <Text block muted>
-                This is the list of funding sources. <br/>
-              </Text>
-
-              <table className='table Settings__table Settings__table__first'>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Color</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    sortBy(prop('id'), categories).map(category =>
-                      <tr key={category.id}>
-                        <td>
-                          <EditableLabel
-                            value={category.data.name}
-                            onEnter={name => Category.update(category.data.id, { ...category.data, name })}
-                          />
-                        </td>
-                        <td>
-                          <ColorPicker
-                            value={category.data.color}
-                            onChange={color => Category.update(category.data.id, { ...category.data, color })}
-                          />
-                        </td>
-                        <td className='button-column'>
-                          <Button
-                            flat
-                            square
-                            small
-                            icon='close'
-                            disabled={category.isLoading}
-                            onClick={() => Category.delete(category.data.id)}
-                          />
-                        </td>
-                      </tr>
-                    )
-                  }
-                  {
-                    categories.length === 0 &&
-                      <tr className='empty'>
-                        <td colSpan='3'>
-                          No sources yet
-                        </td>
-                      </tr>
-                  }
-                  <tr>
-                    <td className='input-cell'>
-                      <Input
-                        placeholder='Create new source'
-                        className='fill-width'
-                        disabled={categories.isCreating || categories.isLoading}
-                        value={newCategory.name}
-                        onChange={this.onChangeNewCategoryName}
-                        onEnter={this.onCreateNewCategory}
-                      />
-                    </td>
-                    <td>
-                      <ColorPicker
-                        value={newCategory.color}
-                        onChange={this.onChangeNewCategoryColor}
-                      />
-                    </td>
-                    <td className='button-column'>
-                      <Button
-                        flat
-                        square
-                        small
-                        icon='plus'
-                        disabled={categories.isCreating || categories.isLoading}
-                        onClick={this.onCreateNewCategory}
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </Group>
-          </div>
         </div>
 
       </section>

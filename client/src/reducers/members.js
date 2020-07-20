@@ -1,5 +1,4 @@
 import {
-  get,
   set,
   lensPath,
   indexBy,
@@ -7,7 +6,7 @@ import {
   assoc,
   dissoc
 } from 'ramda'
-import { APPLICANTS } from '../constants/ActionTypes'
+import { MEMBERS } from '../constants/ActionTypes'
 
 import toLoadable from '../helpers/to-loadable'
 
@@ -17,36 +16,36 @@ const initialState = {
   data: {}
 }
 
-export default function applicants(state = initialState, action) {
+export default function members(state = initialState, action) {
   switch (action.type) {
 
-    case APPLICANTS.FETCH.REQUEST:
+    case MEMBERS.FETCH.REQUEST:
       return { ...state, isLoading: true }
-    case APPLICANTS.FETCH.RECEIVE:
+    case MEMBERS.FETCH.RECEIVE:
       return { ...state, isLoading: false, data: toLoadable(indexBy(prop('id'), action.payload)) }
-    case APPLICANTS.FETCH.ERROR:
+    case MEMBERS.FETCH.ERROR:
       return { ...state, isLoading: false }
 
-    case APPLICANTS.CREATE.REQUEST:
+    case MEMBERS.CREATE.REQUEST:
       return { ...state, isCreating: true }
-    case APPLICANTS.CREATE.RECEIVE:
+    case MEMBERS.CREATE.RECEIVE:
       return { ...state, isCreating: false, data:
         assoc(action.payload.id, { isLoading: false, data: action.payload }, state.data) }
-    case APPLICANTS.CREATE.ERROR:
+    case MEMBERS.CREATE.ERROR:
       return { ...state, isCreating: false }
 
-    case APPLICANTS.UPDATE.REQUEST:
+    case MEMBERS.UPDATE.REQUEST:
       return set(lensPath(['data', action.payload.id, 'isLoading']), true, state)
-    case APPLICANTS.UPDATE.RECEIVE:
+    case MEMBERS.UPDATE.RECEIVE:
       return set(lensPath(['data', action.meta.id]), { isLoading: false, data: action.payload }, state)
-    case APPLICANTS.UPDATE.ERROR:
+    case MEMBERS.UPDATE.ERROR:
       return set(lensPath(['data', action.meta.id, 'isLoading']), false, state)
 
-    case APPLICANTS.DELETE.REQUEST:
+    case MEMBERS.DELETE.REQUEST:
       return set(lensPath(['data', action.payload.id, 'isLoading']), true, state)
-    case APPLICANTS.DELETE.RECEIVE:
+    case MEMBERS.DELETE.RECEIVE:
       return { ...state, data: dissoc(action.meta.id, state.data) }
-    case APPLICANTS.DELETE.ERROR:
+    case MEMBERS.DELETE.ERROR:
       return set(lensPath(['data', action.meta.id, 'isLoading']), true, state)
 
     default:

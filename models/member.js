@@ -20,7 +20,7 @@ function findAll() {
 }
 
 function findById(id) {
-  return db.selectOne('SELECT * FROM members WHERE id = @id', { id })
+  return db.findOne('SELECT * FROM members WHERE id = @id', { id })
     .catch(err =>
       err.type === k.ROW_NOT_FOUND ?
         rejectMessage('User account not found', k.ACCOUNT_NOT_FOUND) :
@@ -29,7 +29,7 @@ function findById(id) {
 }
 
 function findBygoogleID(googleID) {
-  return db.selectOne('SELECT * FROM members WHERE "googleID" = @googleID', { googleID })
+  return db.findOne('SELECT * FROM members WHERE "googleID" = @googleID', { googleID })
     .catch(err =>
       err.type === k.ROW_NOT_FOUND ?
         rejectMessage('User account not found', k.ACCOUNT_NOT_FOUND) :
@@ -38,7 +38,7 @@ function findBygoogleID(googleID) {
 }
 
 function update(member) {
-  return db.query(`
+  return db.run(`
     UPDATE members
        SET ${db.toMapping(member)}
      WHERE id = @id
@@ -62,5 +62,5 @@ function create(member) {
 }
 
 module.exports.delete = function(id) {
-  return db.query('DELETE FROM members WHERE id = @id', { id })
+  return db.run('DELETE FROM members WHERE id = @id', { id })
 }

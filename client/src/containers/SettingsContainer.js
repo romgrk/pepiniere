@@ -1,5 +1,4 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 
@@ -12,9 +11,9 @@ class SettingsContainer extends React.Component {
       <Settings
         isLoading={this.props.settings.isLoading}
         data={this.props.settings.data}
-        users={this.props.users}
-        applicants={this.props.applicants}
+        members={this.props.members}
         categories={this.props.categories}
+        tasks={this.props.tasks}
       />
     )
   }
@@ -22,9 +21,9 @@ class SettingsContainer extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   settings: createSelector(state => state.settings, state => state),
-  users: createSelector(state => Object.values(fromLoadable(state.users.data)), state => state),
-  applicants: createSelector(state => Object.values(state.applicants.data), state => state),
+  members: createSelector(state => Object.values(state.members.data), state => state),
   categories: createSelector(state => Object.values(state.categories.data), state => state),
+  tasks: createSelector(state => Object.values(state.tasks.data), state => state),
 })
 
 export default connect(mapStateToProps)(SettingsContainer)

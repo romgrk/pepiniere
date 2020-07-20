@@ -17,8 +17,8 @@ import Color from 'color'
 import { decay, easing, pointer, tween, value } from 'popmotion'
 import { clamp, groupBy, path, lensPath, set } from 'ramda'
 
-import Grant from '../actions/grants'
-import Funding from '../actions/fundings'
+// import Grant from '../actions/grants'
+// import Funding from '../actions/fundings'
 
 import * as KeyEvent from '../helpers/key-event'
 import {formatISO} from '../helpers/time'
@@ -1279,7 +1279,7 @@ class Grants extends React.Component {
   }
 
   onClickFunding = (event, id) => {
-    Funding.delete(id)
+    // Funding.delete(id)
   }
 
   onClickGrant = (event, grant) => {
@@ -1379,27 +1379,27 @@ class Grants extends React.Component {
 
       this.setState({ funding })
 
-      Funding.create(funding.data)
-        .then(() => {
-          this.setState({ fundingMode: false, funding: null })
-        })
+      /* Funding.create(funding.data)
+       *   .then(() => {
+       *     this.setState({ fundingMode: false, funding: null })
+       *   }) */
     }
   }
 
   onCreateGrant = (grant) => {
-    Grant.create(grant.data)
-    .then(() => {
-      this.exitGrantMode()
-    })
-    .catch(() => { /* FIXME(assert we're showing the message) */})
+    /* Grant.create(grant.data)
+     * .then(() => {
+     *   this.exitGrantMode()
+     * })
+     * .catch(() => { [> FIXME(assert we're showing the message) <]}) */
   }
 
   onUpdateGrant = (grant) => {
-    Grant.update(grant.data.id, grant.data)
-    .then(() => {
-      this.exitGrantMode()
-    })
-    .catch(() => { /* FIXME(assert we're showing the message) */})
+    /* Grant.update(grant.data.id, grant.data)
+     * .then(() => {
+     *   this.exitGrantMode()
+     * })
+     * .catch(() => { [> FIXME(assert we're showing the message) <]}) */
   }
 
   onDeleteGrant = (grant) => {
@@ -1412,9 +1412,9 @@ class Grants extends React.Component {
     if (deleteGrantID === undefined)
       return
 
-    Grant.delete(deleteGrantID)
-    .then(this.unsetGrantDeleteID)
-    .catch(() => { /* FIXME(assert we're showing the message) */})
+    /* Grant.delete(deleteGrantID)
+     * .then(this.unsetGrantDeleteID)
+     * .catch(() => { [> FIXME(assert we're showing the message) <]}) */
   }
 
   /*

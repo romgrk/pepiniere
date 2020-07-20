@@ -3,9 +3,10 @@ import {
   lensPath,
   indexBy,
   prop,
+  assoc,
   dissoc
 } from 'ramda'
-import { USERS } from '../constants/ActionTypes'
+import { MEMBERS } from '../constants/ActionTypes'
 
 import toLoadable from '../helpers/to-loadable'
 
@@ -15,28 +16,36 @@ const initialState = {
   data: {}
 }
 
-export default function users(state = initialState, action) {
+export default function members(state = initialState, action) {
   switch (action.type) {
 
-    case USERS.FETCH.REQUEST:
+    case MEMBERS.FETCH.REQUEST:
       return { ...state, isLoading: true }
-    case USERS.FETCH.RECEIVE:
+    case MEMBERS.FETCH.RECEIVE:
       return { ...state, isLoading: false, data: toLoadable(indexBy(prop('id'), action.payload)) }
-    case USERS.FETCH.ERROR:
+    case MEMBERS.FETCH.ERROR:
       return { ...state, isLoading: false }
 
-    case USERS.UPDATE.REQUEST:
+    case MEMBERS.CREATE.REQUEST:
+      return { ...state, isCreating: true }
+    case MEMBERS.CREATE.RECEIVE:
+      return { ...state, isCreating: false, data:
+        assoc(action.payload.id, { isLoading: false, data: action.payload }, state.data) }
+    case MEMBERS.CREATE.ERROR:
+      return { ...state, isCreating: false }
+
+    case MEMBERS.UPDATE.REQUEST:
       return set(lensPath(['data', action.payload.id, 'isLoading']), true, state)
-    case USERS.UPDATE.RECEIVE:
+    case MEMBERS.UPDATE.RECEIVE:
       return set(lensPath(['data', action.meta.id]), { isLoading: false, data: action.payload }, state)
-    case USERS.UPDATE.ERROR:
+    case MEMBERS.UPDATE.ERROR:
       return set(lensPath(['data', action.meta.id, 'isLoading']), false, state)
 
-    case USERS.DELETE.REQUEST:
+    case MEMBERS.DELETE.REQUEST:
       return set(lensPath(['data', action.payload.id, 'isLoading']), true, state)
-    case USERS.DELETE.RECEIVE:
+    case MEMBERS.DELETE.RECEIVE:
       return { ...state, data: dissoc(action.meta.id, state.data) }
-    case USERS.DELETE.ERROR:
+    case MEMBERS.DELETE.ERROR:
       return set(lensPath(['data', action.meta.id, 'isLoading']), true, state)
 
     default:

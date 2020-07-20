@@ -1,5 +1,4 @@
 import {
-  get,
   set,
   lensPath,
   indexBy,

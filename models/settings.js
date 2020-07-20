@@ -25,12 +25,12 @@ function findAll() {
 }
 
 function findByKey(key) {
-  return db.selectOne('SELECT value FROM settings WHERE key = @key', { key })
+  return db.findOne('SELECT value FROM settings WHERE key = @key', { key })
     .then(({ value }) => value)
 }
 
 function update(key, value) {
-  return db.query('UPDATE settings SET value = @value WHERE key = @key', {
+  return db.run('UPDATE settings SET value = @value WHERE key = @key', {
     key,
     value: JSON.stringify(value) // https://github.com/brianc/node-postgres/issues/442
   })
@@ -40,7 +40,7 @@ function update(key, value) {
 function canLogin(email) {
   if (email === config.authorizedEmail)
     return Promise.resolve()
-  return db.selectOneOrZero("SELECT value FROM settings WHERE key = 'whitelist' AND value ? @email", { email })
+  return db.findOneOrZero("SELECT value FROM settings WHERE key = 'whitelist' AND value ? @email", { email })
     .then(result => result === undefined ?
         Promise.reject(new Error('Email not in whitelist'))
       : Promise.resolve())

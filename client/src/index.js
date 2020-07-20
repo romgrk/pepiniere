@@ -3,8 +3,10 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import 'font-awesome/css/font-awesome.min.css'
 
+import './helpers/platform-detect.js'
+
 import store from './store'
-import Routes from './routes'
+import App from './App'
 import registerServiceWorker from './helpers/registerServiceWorker'
 import isLocalhost from './helpers/is-localhost.js'
 
@@ -23,7 +25,7 @@ import global from './actions/global'
 
 render(
   <Provider store={store}>
-    <Routes />
+    <App />
   </Provider>,
   document.getElementById('root')
 )
@@ -54,10 +56,10 @@ setInterval(() => {
 
 // Register service worker
 
-if (process.env.NODE_ENV !== 'development'
-    && window.location.protocol === 'https:'
-    && !isLocalhost(window.location.href))
-  registerServiceWorker()
+/* if (process.env.NODE_ENV !== 'development'
+ *     && window.location.protocol === 'https:'
+ *     && !isLocalhost(window.location.href))
+ *   registerServiceWorker() */
 
 
 
@@ -66,11 +68,11 @@ if (process.env.NODE_ENV !== 'development'
 if (module.hot) {
   /* eslint-disable global-require */
 
-  module.hot.accept(['./routes'], () => {
-    const NextRoutes = require('./routes').default;
+  module.hot.accept(['./App'], () => {
+    const NextApp = require('./App').default;
     render(
       <Provider store={store}>
-        <NextRoutes />
+        <NextApp />
       </Provider>,
       document.querySelector('#root')
     )

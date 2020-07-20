@@ -17,11 +17,11 @@ function findAll() {
 }
 
 function findById(id) {
-  return db.selectOne('SELECT * FROM tasks WHERE id = @id', { id })
+  return db.findOne('SELECT * FROM tasks WHERE id = @id', { id })
 }
 
 function update(task) {
-  return db.query(`
+  return db.run(`
     UPDATE tasks
        SET ${db.toMapping(task)}
      WHERE id = @id
@@ -40,5 +40,5 @@ function create(task) {
 }
 
 module.exports.delete = function(id) {
-  return db.query('DELETE FROM tasks WHERE id = @id', { id })
+  return db.run('DELETE FROM tasks WHERE id = @id', { id })
 }

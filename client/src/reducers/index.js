@@ -2,22 +2,18 @@ import { combineReducers } from 'redux'
 
 import ui from './ui.js'
 import settings from './settings.js'
-import users from './users.js'
-import applicants from './applicants.js'
-import grants from './grants.js'
-import fundings from './fundings.js'
+import members from './members.js'
 import categories from './categories.js'
-import history from './history.js'
+import tasks from './tasks.js'
+import runs from './runs.js'
 
 const rootReducer = combineReducers({
   ui,
   settings,
-  users,
-  applicants,
-  grants,
-  fundings,
+  members,
   categories,
-  history,
+  tasks,
+  runs,
 })
 
 export default rootReducer

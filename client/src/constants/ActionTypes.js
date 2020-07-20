@@ -22,10 +22,8 @@ export const SHOW = {
   WARNING: 'SHOW.WARNING',
   ERROR:   'SHOW.ERROR',
 }
-export const SETTINGS   = createModelConstants('SETTINGS')
-export const USERS      = createModelConstants('USERS')
-export const APPLICANTS = createModelConstants('APPLICANTS')
-export const GRANTS     = createModelConstants('GRANTS')
-export const FUNDINGS   = createModelConstants('FUNDINGS')
+export const SETTINGS = createModelConstants('SETTINGS')
+export const MEMBERS = createModelConstants('MEMBERS')
 export const CATEGORIES = createModelConstants('CATEGORIES')
-export const HISTORY    = createModelConstants('HISTORY')
+export const TASKS = createModelConstants('TASKS')
+export const RUNS = createModelConstants('RUNS')

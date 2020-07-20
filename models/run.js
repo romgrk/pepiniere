@@ -17,11 +17,11 @@ function findAll() {
 }
 
 function findById(id) {
-  return db.selectOne('SELECT * FROM runs WHERE id = @id', { id })
+  return db.findOne('SELECT * FROM runs WHERE id = @id', { id })
 }
 
 function update(run) {
-  return db.query(`
+  return db.run(`
     UPDATE runs
        SET ${db.toMapping(run)}
      WHERE id = @id
@@ -43,5 +43,5 @@ function create(run) {
 }
 
 module.exports.delete = function(id) {
-  return db.query('DELETE FROM runs WHERE id = @id', { id })
+  return db.run('DELETE FROM runs WHERE id = @id', { id })
 }
