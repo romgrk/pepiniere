@@ -1,0 +1,129 @@
+@import './_variables.scss';
+@import './_mixins.scss';
+
+$width: 100px;
+$color-size: 15px;
+
+.ColorPicker {
+  display: inline-block;
+  position: relative;
+  width: $width;
+  text-align: left;
+  cursor: pointer;
+  &:hover {
+    background-color: $hover-bg-color;
+  }
+  &:active {
+    background-color: $active-bg-color;
+  }
+  &.open {
+    background-color: $input-bg-color;
+    box-shadow: inset 0 0 1px $input-border-color;
+  }
+}
+.ColorPicker__color {
+  display: inline-block;
+  content: '';
+  width:  $color-size;
+  height: $color-size;
+  border-radius: 3px;
+  box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.25);
+}
+.ColorPicker__color--main {
+  position: absolute;
+  z-index: 1;
+  left: 5px;
+  top: calc(50% - #{$color-size/2});
+  cursor: pointer;
+  &:active, &:focus {
+    outline: none;
+  }
+}
+.ColorPicker__color--button {
+  display: inline-block;
+  margin: $padding;
+  cursor: pointer;
+  transition: all .25s;
+  &:hover {
+    // box-shadow: inset 0px 0px 1px 1px rgba(white, 0.3);
+    transform: scale(1.2);
+  }
+}
+.ColorPicker__input {
+  display: inline-block;
+  width: $width;
+
+  input {
+    padding: 0 0 0 ($color-size + 2 * $padding);
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    font-family: $font-family-text;
+    font-weight: bold;
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}
+
+
+.ColorPicker__inner {
+  position: absolute;
+  min-width: 112px;
+  cursor: default;
+  padding: $padding;
+  @include popup();
+}
+.ColorPicker__menu {
+  position: absolute;
+  z-index: 2;
+}
+.ColorPicker__arrow {
+  position: absolute;
+  z-index: 2;
+  content: '';
+  display: inline-block;
+  border-style: solid;
+  border-color: transparent;
+  border-bottom-color: $border-color-dark;
+  border-width: 0 6px 8px 6px;
+  &::after {
+    position: absolute;
+    z-index: 2;
+    top: 1px;
+    left: -6px;
+    content: '';
+    display: inline-block;
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-color: $dropdown-bg-color;
+    border-width: 0 6px 8px 6px;
+  }
+}
+.ColorPicker__inner {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all .25s;
+  pointer-events: none;
+}
+.ColorPicker__menu.open > .ColorPicker__inner {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: unset;
+}
+.ColorPicker__menu.bottom {
+  & > .ColorPicker__inner {
+    transform: translateY(-10px);
+  }
+  &.open > .ColorPicker__inner {
+    transform: translateY(0);
+  }
+}
+.ColorPicker__track {
+  display: inline-block;
+  height: 15px;
+  width: 100%;
+  border: 1px solid $border-color-dark;
+  border-radius: 4px;
+}
