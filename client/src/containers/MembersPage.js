@@ -10,13 +10,8 @@ import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 import { fromLoadable } from '../helpers/to-loadable'
 import isColor from '../helpers/is-color'
 import uniq from '../helpers/uniq'
-import getEmails from '../helpers/get-emails'
 
-import Global from '../actions/global'
-import Setting from '../actions/settings'
 import Member from '../actions/members'
-import Category from '../actions/categories'
-import Task from '../actions/tasks'
 
 import Button from '../components/Button'
 import Checkbox from '../components/Checkbox'
@@ -60,6 +55,8 @@ class MembersPage extends React.Component {
   }
 
   onDeleteMember = (member) => {
+    if (!window.confirm(`Are you sure you want to delete ${member.data.firstName}?`))
+      return
     Member.delete(member.data.id)
   }
 
@@ -69,6 +66,9 @@ class MembersPage extends React.Component {
 
   onUpdateMember = (member, key, value) => {
     Member.update(member.data.id, set(member.data, [key], value))
+  }
+
+  openCreateMemberForm = () => {
   }
 
   openUpdateMemberForm = (member) => {
@@ -127,10 +127,13 @@ class MembersPage extends React.Component {
           </div>
         </div>
 
-        <div className='row no-padding'>
-          <Button className='full-width' info onClick={this.onCreateMember}>
-            Create
+        <div className='row no-padding flex'>
+          <Button className='fill' info onClick={this.openCreateMemberForm}>
+            Add Member
           </Button>
+          <Checkbox>
+            Show All
+          </Checkbox>
         </div>
 
       </section>
