@@ -1,11 +1,16 @@
+@import './reset.scss';
+
 @import './typography.scss';
 @import './layout.scss';
 @import './alerts.scss';
 @import './badges.scss';
 @import './button.scss';
 @import './export-variables.scss';
+@import './Input.scss';
+@import './Dropdown.scss';
+@import './ColorPicker.scss';
+
 @import './global-styles.scss';
 @import './modal.scss';
 @import './notifications.scss';
-@import './reset.scss';
 @import './spinner.scss';

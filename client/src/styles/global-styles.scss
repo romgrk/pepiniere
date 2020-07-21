@@ -1,8 +1,5 @@
 @import './_variables.scss';
 @import './_mixins.scss';
-@import './Input.scss';
-@import './Dropdown.scss';
-@import './ColorPicker.scss';
 
 html, body {
   width: 100%;
@@ -124,7 +121,7 @@ input, textarea, select, button {
 .label.editable {
   padding: 0 $padding;
 }
-.label.editable.fill-width {
+.label.editable.fill {
   width: 100%;
 }
 button.label.editable {
@@ -699,7 +696,6 @@ section {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  padding-bottom: (4 * $padding);
 }
 .MembersPage__listContainer {
   overflow: auto;
@@ -721,7 +717,70 @@ section {
   cursor: pointer;
 }
 .MembersPage__controls {
+  padding: (2 * $padding) (6 * $padding);
+  background-color: $bg-color-dark;
+}
+
+
+/*
+ * TasksPage
+ */
+
+.TasksPage {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.TasksPage__listContainer {
+  overflow: auto;
   padding: 0 (6 * $padding);
+  padding-top: (4 * $padding);
+}
+.TasksPage__list {
+}
+@media (min-width: $breakpoint-sm) { .TasksPage__list {
+}}
+@media (min-width: $breakpoint-md) { .TasksPage__list {
+}}
+.TasksPage__controls {
+  padding: (2 * $padding) (6 * $padding);
+  background-color: $bg-color-dark;
+}
+
+
+.Category__section {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid $border-color;
+  margin-bottom: 2 * $padding;
+  border-radius: 2px;
+  padding-left: 4*$padding;
+}
+.Category__color {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  top: 0;
+  height: 105%;
+  width: 4*$padding;
+  border: none;
+  border-radius: 0;
+}
+.Category__name {
+  padding: $padding;
+}
+.Category__tasks {
+  padding-left: 4*$padding;
+  padding-bottom: 4*$padding;
+}
+
+.Task {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid $border-color;
+  margin-bottom: 2 * $padding;
+  border-radius: 2px;
+  padding-left: $padding;
 }
 
 

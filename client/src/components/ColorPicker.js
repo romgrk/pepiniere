@@ -2,7 +2,7 @@ import React from 'react'
 import Prop from 'prop-types'
 import { createPortal, findDOMNode } from 'react-dom'
 import pure from 'recompose/pure'
-import classname from 'classname'
+import cx from 'classname'
 import objectEquals from 'object-equals'
 import Color from 'color'
 
@@ -111,7 +111,9 @@ class ColorPicker extends React.Component {
     let menu
     let arrow
 
-    if (this.props.position === 'bottom left') {
+    const { position, align } = this.props
+
+    if (position === 'bottom' && align === 'left') {
       menu = {
         top:  element.top + element.height + gap,
         left: element.left - inner.width + element.width,
@@ -121,7 +123,7 @@ class ColorPicker extends React.Component {
         left: element.left - inner.left + colorSize,
       }
     }
-    else if (this.props.position === 'right') {
+    else if (position === 'bottom' && align === 'right') {
       menu = {
         top:  element.top,
         left: element.right,
@@ -129,6 +131,16 @@ class ColorPicker extends React.Component {
       arrow = {
         top: element.top,
         left: element.left,
+      }
+    }
+    else if (position === 'top' && align === 'right') {
+      menu = {
+        top:  element.top - inner.width - element.width,
+        left: element.right + gap,
+      }
+      arrow = {
+        top: element.top - element.width,
+        left: element.right,
       }
     }
     else {
@@ -177,6 +189,10 @@ class ColorPicker extends React.Component {
   }
 
   onClickColor = (event) => {
+    if (this.props.simple) {
+      this.open()
+      return
+    }
     this.input.focus()
     this.input.select()
   }
@@ -186,47 +202,59 @@ class ColorPicker extends React.Component {
       className,
       position,
       loading,
+      simple,
     } = this.props
     const { value } = this.state
 
     const isControlled = 'open' in this.props
     const open = isControlled ? this.props.open : this.state.open
 
-    const colorPickerClassName = classname(
+    const colorPickerClassName = cx(
       'ColorPicker',
       className,
+      simple ? 'ColorPicker__color' : undefined,
       {
-        'open': open,
+        'ColorPicker--open': open,
+        'ColorPicker--simple': simple,
       })
 
-    const menuClassName = classname(
+    const menuClassName = cx(
       'ColorPicker__menu',
       className,
       position,
       {
-        'open': open,
+        'ColorPicker__menu--open': open,
       })
 
     return [
-        <span
-          className={colorPickerClassName}
-          ref={this.onRef}
-        >
+        simple &&
           <button
-            className='ColorPicker__color ColorPicker__color--main'
+            className={colorPickerClassName}
             style={{ backgroundColor: isColor(value) ? value : 'transparent' }}
             onClick={this.onClickColor}
-          />{' '}
-          <Input
-            className='ColorPicker__input'
-            value={value}
-            onFocus={this.open}
-            onChange={this.onChangeInput}
-            onBlur={this.onBlurInput}
-            onEnter={this.onAcceptInput}
-            ref={ref => ref && (this.input = ref)}
-          />
-        </span>,
+            ref={this.onRef}
+          />,
+
+        !simple &&
+          <span
+            className={colorPickerClassName}
+            ref={this.onRef}
+          >
+            <button
+              className='ColorPicker__color ColorPicker__color--main'
+              style={{ backgroundColor: isColor(value) ? value : 'transparent' }}
+              onClick={this.onClickColor}
+            />{' '}
+            <Input
+              className='ColorPicker__input'
+              value={value}
+              onFocus={this.open}
+              onChange={this.onChangeInput}
+              onBlur={this.onBlurInput}
+              onEnter={this.onAcceptInput}
+              ref={ref => ref && (this.input = ref)}
+            />
+          </span>,
 
         createPortal(
           <div className={menuClassName}

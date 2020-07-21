@@ -40,5 +40,8 @@ function create(category) {
 }
 
 module.exports.delete = function(id) {
-  return db.run('DELETE FROM categories WHERE id = @id', { id })
+  return Promise.all([
+    db.run('DELETE FROM categories WHERE id = @id', { id }),
+    db.run('DELETE FROM tasks WHERE categoryId = @id', { id }),
+  ])
 }

@@ -2,7 +2,8 @@
 @import './_mixins.scss';
 
 $width: 100px;
-$color-size: 15px;
+$color-size: 20px;
+$width-simple: 20px;
 
 .ColorPicker {
   display: inline-block;
@@ -16,10 +17,14 @@ $color-size: 15px;
   &:active {
     background-color: $active-bg-color;
   }
-  &.open {
-    background-color: $input-bg-color;
-    box-shadow: inset 0 0 1px $input-border-color;
-  }
+}
+.ColorPicker--open {
+  background-color: $input-bg-color;
+  box-shadow: inset 0 0 1px $input-border-color;
+}
+.ColorPicker--simple {
+  width:  $width-simple;
+  height: $width-simple;
 }
 .ColorPicker__color {
   display: inline-block;
@@ -28,6 +33,11 @@ $color-size: 15px;
   height: $color-size;
   border-radius: 3px;
   box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.25);
+
+  .ColorPicker--simple & {
+    width:  $width-simple;
+    height: $width-simple;
+  }
 }
 .ColorPicker__color--main {
   position: absolute;
@@ -70,7 +80,7 @@ $color-size: 15px;
 
 .ColorPicker__inner {
   position: absolute;
-  min-width: 112px;
+  min-width: 7 * $color-size - $padding;
   cursor: default;
   padding: $padding;
   @include popup();
@@ -78,6 +88,10 @@ $color-size: 15px;
 .ColorPicker__menu {
   position: absolute;
   z-index: 2;
+  pointer-events: none;
+}
+.ColorPicker__menu--open {
+  pointer-events: initial;
 }
 .ColorPicker__arrow {
   position: absolute;
@@ -107,7 +121,7 @@ $color-size: 15px;
   transition: all .25s;
   pointer-events: none;
 }
-.ColorPicker__menu.open > .ColorPicker__inner {
+.ColorPicker__menu.ColorPicker__menu--open > .ColorPicker__inner {
   opacity: 1;
   transform: translateY(0);
   pointer-events: unset;
@@ -116,7 +130,7 @@ $color-size: 15px;
   & > .ColorPicker__inner {
     transform: translateY(-10px);
   }
-  &.open > .ColorPicker__inner {
+  &.ColorPicker__menu--open > .ColorPicker__inner {
     transform: translateY(0);
   }
 }

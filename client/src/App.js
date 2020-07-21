@@ -18,12 +18,13 @@ import IndexContainer from './containers/IndexContainer'
 import NotificationsContainer from './containers/NotificationsContainer'
 import SettingsContainer from './containers/SettingsContainer'
 import MembersPage from './containers/MembersPage'
+import TasksPage from './containers/TasksPage'
 import Title from './components/Title'
 
 const items = [
   { type: 'item', icon: 'cogs',        label: null,       path: '/settings' },
-  { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members',     index: true  },
-  { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks' },
+  { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members'},
+  { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks',     index: true   },
   { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/grants'},
   { type: 'item', icon: 'table',       label: 'Report',   path: '/reports' },
 ]
@@ -84,6 +85,7 @@ function Routes({ isLoggedIn, isLoggingIn }) {
           <Switch>
             <Route path='/settings' component={SettingsContainer} />
             <Route path='/members'  component={MembersPage} />
+            <Route path='/tasks'    component={TasksPage} />
           </Switch>
         </div>
 

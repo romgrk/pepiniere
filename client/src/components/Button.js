@@ -15,7 +15,6 @@ function Button(props) {
     flat,
     basic,
     round,
-    iconButton,
     square,
     center,
     small,
@@ -40,6 +39,10 @@ function Button(props) {
     onClick,
     ...rest
   } = props
+  let { iconButton } = props
+
+  if (iconButton === undefined && !children && icon)
+    iconButton = true
 
   const buttonClassName = classname(
     'Button',

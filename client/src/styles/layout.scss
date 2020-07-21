@@ -12,6 +12,7 @@
 .hbox {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 .box--align-end {
   justify-content: flex-end;
