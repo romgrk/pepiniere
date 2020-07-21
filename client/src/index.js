@@ -10,16 +10,7 @@ import App from './App'
 import registerServiceWorker from './helpers/registerServiceWorker'
 import isLocalhost from './helpers/is-localhost.js'
 
-import './styles/typography.css'
-import './styles/alerts.css'
-import './styles/badges.css'
-import './styles/button.css'
-import './styles/export-variables.css'
-import './styles/global-styles.css'
-import './styles/modal.css'
-import './styles/notifications.css'
-import './styles/reset.css'
-import './styles/spinner.css'
+import './styles/index.css'
 
 import * as requests from './requests.js'
 import global from './actions/global'
@@ -57,10 +48,7 @@ setInterval(() => {
 
 // Register service worker
 
-/* if (process.env.NODE_ENV !== 'development'
- *     && window.location.protocol === 'https:'
- *     && !isLocalhost(window.location.href))
- *   registerServiceWorker() */
+registerServiceWorker()
 
 
 
@@ -79,17 +67,6 @@ if (module.hot) {
     )
   })
 
-  const styles = [
-    './styles/badges.css',
-    './styles/button.css',
-    './styles/export-variables.css',
-    './styles/global-styles.css',
-    './styles/modal.css',
-    './styles/notifications.css',
-    './styles/reset.css',
-    './styles/spinner.css',
-  ]
-  styles.forEach(s => {
-    module.hot.accept(s, () => require(s))
-  })
+  module.hot.accept('./styles/index.css', () =>
+    require('./styles/index.css'))
 }

@@ -54,14 +54,11 @@ function Routes({ isLoggedIn, isLoggingIn }) {
               index={items.findIndex(i => props.location.pathname.startsWith(i.path))}
               items={items}
             >
-              {!window.isMobile &&
-                <Navbar.Title>
-                  <Title large keepCase muted>
-                    Tree Nursery
-                  </Title>
-                </Navbar.Title>
-              }
-              <Navbar.Button icon='question-circle' title='Help'    onClick={Global.showFAQ} />
+              <Navbar.Title className='sm-hidden'>
+                <Title large keepCase muted>
+                  Tree Nursery
+                </Title>
+              </Navbar.Title>
               <Navbar.Button icon='sign-out'        title='Log Out' onClick={Global.logOut} />
             </Navbar>
 

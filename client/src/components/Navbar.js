@@ -2,7 +2,7 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import prop from 'prop-types'
 import { Link } from 'react-router-dom'
-import classname from 'classname'
+import cx from 'classname'
 
 import Icon from './Icon'
 import Tooltip from './Tooltip'
@@ -114,13 +114,13 @@ class Navbar extends React.Component {
       children,
     } = this.props
 
-    const navClassName = classname('Navbar', {
+    const navClassName = cx('Navbar', {
       visible,
       [direction]: true,
       'vbox': direction === 'vertical',
       'hbox': direction === 'horizontal',
     })
-    const navItemsClassName = classname('Navbar__items', {
+    const navItemsClassName = cx('Navbar__items', {
       'vbox': direction === 'vertical',
       'hbox': direction === 'horizontal',
     })
@@ -172,9 +172,13 @@ class Navbar extends React.Component {
   }
 }
 
-Navbar.Button = function Button({ icon, title, direction, onClick, ...rest }) {
+Navbar.Button = function Button({ className, icon, title, direction, onClick, ...rest }) {
   const element = (
-    <button className='Navbar__item' onClick={onClick} {...rest}>
+    <button
+      className={cx('Navbar__item', className)}
+      onClick={onClick}
+      {...rest}
+    >
       <Icon large name={icon} />
     </button>
   )
@@ -189,9 +193,9 @@ Navbar.Button = function Button({ icon, title, direction, onClick, ...rest }) {
   )
 }
 
-Navbar.Title = function Title({ children }) {
+Navbar.Title = function Title({ className, children }) {
   return (
-    <div className='Navbar__title title'>
+    <div className={cx('Navbar__title title', className)}>
       { children }
     </div>
   )

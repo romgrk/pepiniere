@@ -57,138 +57,10 @@ input, textarea, select, button {
 }
 
 
-/*
- * Typography
- */
-
-h1, h2, h3 {
-  margin: 0 0 1em;
-}
-h1 {
-  font-size: 2em;
-}
-h2 {
-  font-size: 1.5em;
-}
-h3 {
-  font-size: 1.2em;
-}
-h4 {
-  font-size: 1.1em;
-}
-
-.font-weight-normal {
-  font-weight: normal;
-}
-.font-weight-bold {
-  font-weight: bold;
-}
-.no-wrap {
-  white-space: nowrap;
-}
-
 
 /*
- * Layout
+ * General
  */
-
-.vbox {
-  display: flex;
-  flex-direction: column;
-}
-.hbox {
-  display: flex;
-  flex-direction: row;
-}
-.box--align-end {
-  justify-content: flex-end;
-}
-.center {
-  @include center;
-}
-.hcenter {
-  @include hcenter;
-}
-.vcenter {
-  @include vcenter;
-}
-.flex-fill {
-  display: flex;
-}
-.flex-fill>* {
-  flex: 1 1 auto;
-  min-width: -webkit-max-content !important;;
-  min-width:    -moz-max-content !important;;
-  min-width:         max-content !important;;
-}
-.flex-column {
-  flex-direction: column;
-}
-.text-center {
-  text-align: center !important;
-}
-.text-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.inline {
-  display: inline-block;
-}
-.block {
-  display: block;
-}
-.full {
-  width: 100%;
-  height: 100%;
-}
-.full-width {
-  width: 100%;
-}
-.full-height {
-  height: 100%;
-}
-
-.padded {
-  padding: 2 * $padding;
-}
-.vpadded {
-  padding-top: 2 * $padding;
-  padding-bottom: 2 * $padding;
-}
-.hpadded {
-  padding-left: 2 * $padding;
-  padding-right: 2 * $padding;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  padding: 2*$padding;
-}
-.row > * {
-  flex: 0 0 auto;
-  margin-right: $padding;
-}
-.fill {
-  flex: 1 1;
-}
-.static {
-  flex: 0 0 auto;
-}
-.flex-hidden {
-  flex: 0 0 0;
-  height: 0;
-  width: 0;
-}
-.column {
-  display: flex;
-  flex-direction: column;
-  padding: 2*$padding;
-}
-.no-padding {
-  padding: 0;
-}
 
 
 .clickable {
@@ -831,6 +703,12 @@ section {
   grid-template-columns: 30% 30% 30%;
   justify-content: space-between;
 }
+@media (min-width: $breakpoint-sm) { .MembersPage__list {
+  grid-template-columns: 22% 22% 22% 22%;
+}}
+@media (min-width: $breakpoint-md) { .MembersPage__list {
+  grid-template-columns: 18% 18% 18% 18% 18%;
+}}
 .MembersPage__member {
   cursor: pointer;
 }
