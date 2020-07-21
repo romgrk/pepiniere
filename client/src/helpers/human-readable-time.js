@@ -2,6 +2,7 @@
  * date.js
  */
 
+import { format } from 'date-fns'
 
 const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -79,10 +80,13 @@ export function humanReadableDate(date, empty = '') {
   if (!(date instanceof Date))
     date = new Date(date)
 
-  if (isThisYear(date))
-    return asDate(date)
+  date = new Date(date)
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
 
-  return asDate(date) + ' ' + date.getFullYear()
+  if (isThisYear(date))
+    return format(date, 'MMM d')
+
+  return format(date, 'MMM d yyyy')
 }
 
 export function humanDetailedTime(date, empty = '') {

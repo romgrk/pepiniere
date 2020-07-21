@@ -1,19 +1,7 @@
 import React from 'react'
 import Prop from 'prop-types'
 import pure from 'recompose/pure'
-import {
-  startOfYear,
-  endOfYear,
-  startOfMonth,
-  endOfMonth,
-  startOfDay,
-  addDays,
-  addYears,
-  addMonths,
-  format,
-  differenceInCalendarDays
-} from 'date-fns'
-import { over, lensPath, set } from 'ramda'
+import { lensPath, set } from 'ramda'
 import cx from 'classname'
 
 import Member from '../../actions/members'
@@ -23,8 +11,6 @@ import {formatISO} from '../../helpers/time'
 import Button from '../../components/Button'
 import Checkbox from '../../components/Checkbox'
 import Dropdown from '../../components/Dropdown'
-import EditableLabel from '../../components/EditableLabel'
-import FilteringDropdown from '../../components/FilteringDropdown'
 import Input from '../../components/Input'
 import Label from '../../components/Label'
 import Modal from '../../components/Modal'
@@ -58,6 +44,7 @@ class MemberEditor extends React.Component {
     open: Prop.bool.isRequired,
     mode: Prop.string,
     member: Prop.object,
+    onDelete: Prop.func.isRequired,
     onDone: Prop.func.isRequired,
     onCancel: Prop.func.isRequired,
   }
@@ -280,7 +267,6 @@ class MemberEditor extends React.Component {
           <br/>
 
           <div className='row no-padding'>
-            <div className='fill' />
             <Button
               variant='default'
               onClick={this.onCancel}
@@ -288,6 +274,16 @@ class MemberEditor extends React.Component {
             >
               Cancel
             </Button>
+            <div className='fill' />
+            {mode === MemberEditor.MODE.UPDATE &&
+              <Button
+                variant='error'
+                onClick={() => this.props.onDelete(member)}
+                loading={member.isLoading}
+              >
+                Delete
+              </Button>
+            }
             <Button
               className='default'
               variant='info'

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { set } from 'object-path-immutable'
-import { sortBy, prop } from 'ramda'
+import { sort } from 'ramda'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import getUnicodeFlagIcon from 'country-flag-icons/unicode'
@@ -49,10 +49,13 @@ class MembersPage extends React.Component {
     }
   }
 
-  onDeleteMember = (id) => {
-    if (!window.confirm(`Are you sure you want to delete member ${id}?`))
+  onDeleteMember = (member) => {
+    if (!window.confirm(`Are you sure you want to delete ${member.data.firstName}?`))
       return
-    Member.delete(id)
+    Member.delete(member.data.id)
+    .then(() => {
+      this.closeMemberForm()
+    })
   }
 
   onCreateMember = (member) => {
@@ -100,7 +103,11 @@ class MembersPage extends React.Component {
 
     const filteredMembers = showAll ? members :
       members.filter(isVisibleToday)
-    const visibleMembers = sortBy(prop('id'), filteredMembers)
+    const visibleMembers = sort(({ data: a }, { data: b }) => {
+      if (+a.isPermanent !== +b.isPermanent)
+        return +b.isPermanent - +a.isPermanent
+      return a.id - b.id
+    }, filteredMembers)
 
     return (
       <section className='MembersPage vbox'>
@@ -164,6 +171,7 @@ class MembersPage extends React.Component {
           open={memberFormMode !== null}
           mode={memberFormMode}
           member={member}
+          onDelete={this.onDeleteMember}
           onDone={this.onEditMemberDone}
           onCancel={this.closeMemberForm}
         />

@@ -20,5 +20,6 @@ export function formatISO(date) {
   const d = new Date(date)
   if (Number.isNaN(d.getTime()))
     return date
-  return format(new Date(+d + d.getTimezoneOffset()*60000), 'YYYY-MM-DD')
+  d.setMinutes(d.getMinutes() + d.getTimezoneOffset())
+  return format(new Date(+d + d.getTimezoneOffset()*60000), 'yyyy-MM-dd')
 }
