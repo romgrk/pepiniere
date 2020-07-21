@@ -2,31 +2,20 @@
  * models.js
  */
 
-import startOfToday from 'date-fns/start_of_today'
-import endOfMonth from 'date-fns/end_of_month'
+import {
+  startOfToday,
+  endOfToday,
+} from 'date-fns'
 
-import Status from './constants/status'
 
 
-export const getNewGrant = (start = startOfToday(), end = endOfMonth()) => ({
-  name:       'New Grant',
-  applicants: [],
-  categoryID: undefined,
-  start:      start,
-  end:        null,
-  status:     Status.SUBMITTED,
-  total:      0,
-  cofunding:  0,
-  fields:     [],
-})
-
-export const getNewField = () => ({
-  name: 'Field',
-  amount: 0,
-})
-
-export const getNewFunding = (fromGrantID) => ({
-  fromGrantID,
-  toGrantID: null,
-  amount: null,
-})
+export function isVisibleToday(member) {
+  const { data: { isPermanent, startDate, endDate } } = member
+  if (isPermanent)
+    return true
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+  if (start < startOfToday() && end > endOfToday())
+    return true
+  return false
+}

@@ -716,6 +716,9 @@ section {
 .MembersPage__member {
   cursor: pointer;
 }
+.MembersPage__photo {
+  margin-bottom: $padding;
+}
 .MembersPage__controls {
   padding: (2 * $padding) (6 * $padding);
   background-color: $bg-color-dark;

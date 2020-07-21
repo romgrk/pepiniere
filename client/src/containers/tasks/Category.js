@@ -13,9 +13,6 @@ import ColorPicker from '../../components/ColorPicker'
 import EditableLabel from '../../components/EditableLabel'
 import Gap from '../../components/Gap'
 import Input from '../../components/Input'
-import Label from '../../components/Label'
-import Text from '../../components/Text'
-import Title from '../../components/Title'
 
 import TaskComponent from './Task'
 
