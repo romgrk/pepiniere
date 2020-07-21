@@ -1,10 +1,10 @@
 import React from 'react'
+import Prop from 'prop-types'
 import pure from 'recompose/pure'
 import classname from 'classname'
 
 import Icon from './Icon'
 import Spinner from './Spinner'
-
 
 function Button(props) {
   const {
@@ -21,6 +21,7 @@ function Button(props) {
     small,
     large,
     // Styles:
+    variant,
     default: default_,
     normal,
     info,
@@ -45,6 +46,7 @@ function Button(props) {
     className,
     type,
     size,
+    variant,
     {
       'active': active,
       'flat': flat,
@@ -55,18 +57,8 @@ function Button(props) {
       'center': center,
       'small': small,
       'large': large,
-      // Styles:
-      'default': default_,
-      'normal': normal,
-      'info': info,
-      'success': success,
-      'warning': warning,
-      'error': error,
-      'muted': muted,
-      'subtle': subtle,
-      'highlight': highlight,
       'has-icon': icon !== undefined,
-    }
+    },
   )
 
   return (
@@ -90,5 +82,20 @@ function Button(props) {
     </button>
   )
 }
+
+Button.propTypes = {
+  variant: Prop.oneOf([
+    'default',
+    'normal',
+    'info',
+    'success',
+    'warning',
+    'error',
+    'muted',
+    'subtle',
+    'highlight',
+  ])
+}
+
 
 export default pure(Button)

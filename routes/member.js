@@ -18,6 +18,13 @@ router.get('/get/:id', (req, res, next) => {
   .catch(errorHandler(res))
 })
 
+/* POST create member */
+router.use('/create', (req, res, next) => {
+  Member.create(req.body)
+  .then(dataHandler(res))
+  .catch(errorHandler(res))
+})
+
 /* POST update member */
 router.use('/update/:id', (req, res, next) => {
   Member.update({ ...req.body, id: req.params.id })

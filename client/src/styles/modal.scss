@@ -46,11 +46,11 @@
   border-radius: 2px;
   display: flex;
 
-  width: 500px;
   height: -webkit-max-content;
   height:    -moz-max-content;
   height:         max-content;
   margin: 0 auto;
+  padding: 2*$padding 4*$padding;
 
   box-shadow: 1px 2px 20px 10px rgba(0, 0, 0, 0.3);
 
@@ -58,6 +58,17 @@
   transition: all .25s ease-in-out;
   transform: translateY(-20px);
 }
+@media (min-width: 0px) { .Modal__container {
+  width: calc(100vw - 10px);
+  max-width: 500px;
+}}
+@media (min-width: $breakpoint-sm) { .Modal__container {
+  width: calc(100vw - 20px);
+  max-width: 500px;
+}}
+@media (min-width: $breakpoint-md) { .Modal__container {
+  width: 500px;
+}}
 .Modal.open .Modal__container {
   transform: translateY(0);
 }

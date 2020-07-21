@@ -696,7 +696,15 @@ section {
  */
 
 .MembersPage {
-  padding: (4 * $padding) (6 * $padding);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding-bottom: (4 * $padding);
+}
+.MembersPage__listContainer {
+  overflow: auto;
+  padding: 0 (6 * $padding);
+  padding-top: (4 * $padding);
 }
 .MembersPage__list {
   display: grid;
@@ -711,6 +719,9 @@ section {
 }}
 .MembersPage__member {
   cursor: pointer;
+}
+.MembersPage__controls {
+  padding: 0 (6 * $padding);
 }
 
 

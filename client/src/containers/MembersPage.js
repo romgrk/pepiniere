@@ -6,17 +6,17 @@ import { sortBy, prop } from 'ramda'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import getUnicodeFlagIcon from 'country-flag-icons/unicode'
-
-import { fromLoadable } from '../helpers/to-loadable'
-import isColor from '../helpers/is-color'
-import uniq from '../helpers/uniq'
+import {
+  startOfDay,
+  endOfDay,
+} from 'date-fns'
 
 import Member from '../actions/members'
 
 import Button from '../components/Button'
 import Checkbox from '../components/Checkbox'
 import ColorPicker from '../components/ColorPicker'
-import Date from '../components/Date'
+import DateValue from '../components/Date'
 import EditableLabel from '../components/EditableLabel'
 import EditableList from '../components/EditableList'
 import Gap from '../components/Gap'
@@ -25,20 +25,12 @@ import Label from '../components/Label'
 import Text from '../components/Text'
 import Title from '../components/Title'
 
+import MemberEditor from './members/MemberEditor'
+
 
 const Group = styled.div`
   margin-bottom: 30px;
 `
-
-const EMPTY_MEMBER = {
-  firstName: '',
-  lastName: '',
-  country: '',
-  photo: '',
-  isPermanent: false,
-  startDate: null,
-  endDate: null,
-}
 
 class MembersPage extends React.Component {
 
@@ -50,33 +42,65 @@ class MembersPage extends React.Component {
     super(props)
 
     this.state = {
-      newMember: EMPTY_MEMBER,
+      memberFormMode: null,
+      member: null,
+      newMember: null,
+      showAll: false,
     }
   }
 
-  onDeleteMember = (member) => {
-    if (!window.confirm(`Are you sure you want to delete ${member.data.firstName}?`))
+  onDeleteMember = (id) => {
+    if (!window.confirm(`Are you sure you want to delete member ${id}?`))
       return
-    Member.delete(member.data.id)
+    Member.delete(id)
   }
 
   onCreateMember = (member) => {
-    Member.create(member)
+    return Member.create(member.data)
   }
 
   onUpdateMember = (member, key, value) => {
-    Member.update(member.data.id, set(member.data, [key], value))
+    return Member.update(member.data.id, set(member.data, [key], value))
+  }
+
+  onEditMemberDone = (member) => {
+    const { memberFormMode: mode } = this.state
+    const action = (mode === MemberEditor.MODE.CREATE) ?
+      this.onCreateMember(member) :
+      this.onUpdateMember(member)
+
+    action.then(() => {
+      this.closeMemberForm()
+    })
   }
 
   openCreateMemberForm = () => {
+    this.setState({
+      memberFormMode: MemberEditor.MODE.CREATE,
+      member: null,
+    })
   }
 
   openUpdateMemberForm = (member) => {
+    this.setState({
+      memberFormMode: MemberEditor.MODE.UPDATE,
+      member: member,
+    })
+  }
+
+  closeMemberForm = () => {
+    this.setState({
+      memberFormMode: null,
+    })
   }
 
   render() {
     const { members } = this.props
-    const { newMember } = this.state
+    const { memberFormMode, member, showAll } = this.state
+
+    const filteredMembers = showAll ? members :
+      members.filter(isVisibleToday)
+    const visibleMembers = sortBy(prop('id'), filteredMembers)
 
     return (
       <section className='MembersPage vbox'>
@@ -84,7 +108,7 @@ class MembersPage extends React.Component {
         <div className='MembersPage__listContainer fill'>
           <div className='MembersPage__list fill'>
             {
-              sortBy(prop('id'), members).map(member =>
+              visibleMembers.map(member =>
                 <div
                   key={member.data.id}
                   className='MembersPage__member vbox'
@@ -107,7 +131,7 @@ class MembersPage extends React.Component {
                   </div>
                   <div className='text-center'>
                     {!member.data.isPermanent &&
-                      <span><Date>{member.data.startDate}</Date> - <Date>{member.data.endDate}</Date></span>
+                      <span><DateValue>{member.data.startDate}</DateValue> - <DateValue>{member.data.endDate}</DateValue></span>
                     }
                     {Boolean(member.data.isPermanent) &&
                       <span>&nbsp;</span>
@@ -127,14 +151,22 @@ class MembersPage extends React.Component {
           </div>
         </div>
 
-        <div className='row no-padding flex'>
-          <Button className='fill' info onClick={this.openCreateMemberForm}>
+        <div className='MembersPage__controls row no-padding flex'>
+          <Button className='fill' variant='info' onClick={this.openCreateMemberForm}>
             Add Member
           </Button>
-          <Checkbox>
+          <Checkbox checked={showAll} onChange={showAll => this.setState({ showAll })}>
             Show All
           </Checkbox>
         </div>
+
+        <MemberEditor
+          open={memberFormMode !== null}
+          mode={memberFormMode}
+          member={member}
+          onDone={this.onEditMemberDone}
+          onCancel={this.closeMemberForm}
+        />
 
       </section>
     )
@@ -155,4 +187,16 @@ function abbreviate(name) {
     return ''
 
   return name.slice(0, 1) + '.'
+}
+
+function isVisibleToday(member) {
+  const { data: { isPermanent, startDate, endDate } } = member
+  if (isPermanent)
+    return true
+  const today = new Date()
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+  if (start < startOfDay(today) && end > endOfDay(today))
+    return true
+  return false
 }
