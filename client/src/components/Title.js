@@ -16,6 +16,7 @@ function Title(props) {
     muted,
     subtle,
     highlight,
+    center
   } = props
 
   const titleClassName = classname(
@@ -32,6 +33,7 @@ function Title(props) {
       'text-muted': muted,
       'text-subtle': subtle,
       'text-highlight': highlight,
+      'text-center': center,
     }
   )
 

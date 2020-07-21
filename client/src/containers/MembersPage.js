@@ -7,22 +7,14 @@ import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 
-import { isVisibleToday } from '../models'
+import { abbreviate, isVisibleToday } from '../models'
 
 import Member from '../actions/members'
 
 import Button from '../components/Button'
 import Checkbox from '../components/Checkbox'
-import ColorPicker from '../components/ColorPicker'
 import DateValue from '../components/Date'
-import EditableLabel from '../components/EditableLabel'
-import EditableList from '../components/EditableList'
-import Gap from '../components/Gap'
 import Icon from '../components/Icon'
-import Input from '../components/Input'
-import Label from '../components/Label'
-import Text from '../components/Text'
-import Title from '../components/Title'
 
 import MemberEditor from './members/MemberEditor'
 
@@ -195,10 +187,3 @@ const mapStateToProps = createStructuredSelector({
 })
 
 export default connect(mapStateToProps)(MembersPage)
-
-function abbreviate(name) {
-  if (!name)
-    return ''
-
-  return name.slice(0, 1) + '.'
-}

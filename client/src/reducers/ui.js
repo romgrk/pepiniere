@@ -4,7 +4,6 @@ import {
   SHOW_NOTIFICATION,
   UI
 } from '../constants/ActionTypes'
-import uniq from '../helpers/uniq'
 
 const initialState = {
   showFAQ: false,
@@ -30,7 +29,6 @@ export default function ui(state = initialState, action) {
         type: 'error',
         message: message,
         details: details,
-        // stack: getStack(action.payload),
       })
     }
   }
@@ -62,14 +60,4 @@ export default function ui(state = initialState, action) {
     default:
       return state
   }
-}
-
-function getStack(error) {
-  return (
-    error.stack === undefined ?
-      undefined :
-    Array.isArray(error.stack) ?
-      error.stack :
-      error.stack.split('\n')
-  )
 }

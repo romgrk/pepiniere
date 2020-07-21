@@ -16,16 +16,17 @@ import Navbar from './components/Navbar'
 import FAQContainer from './containers/FAQContainer'
 import IndexContainer from './containers/IndexContainer'
 import NotificationsContainer from './containers/NotificationsContainer'
-import SettingsContainer from './containers/SettingsContainer'
+import SettingsPage from './containers/SettingsPage'
 import MembersPage from './containers/MembersPage'
 import TasksPage from './containers/TasksPage'
+import SchedulePage from './containers/SchedulePage'
 import Title from './components/Title'
 
 const items = [
   { type: 'item', icon: 'cogs',        label: null,       path: '/settings' },
   { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members'},
-  { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks',     index: true   },
-  { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/grants'},
+  { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks' },
+  { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/schedule',     index: true },
   { type: 'item', icon: 'table',       label: 'Report',   path: '/reports' },
 ]
 const indexRoute = items.find(i => i.index).path
@@ -83,9 +84,10 @@ function Routes({ isLoggedIn, isLoggingIn }) {
           } }/>
 
           <Switch>
-            <Route path='/settings' component={SettingsContainer} />
+            <Route path='/settings' component={SettingsPage} />
             <Route path='/members'  component={MembersPage} />
             <Route path='/tasks'    component={TasksPage} />
+            <Route path='/schedule' component={SchedulePage} />
           </Switch>
         </div>
 

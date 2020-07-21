@@ -1,0 +1,646 @@
+@import './_variables.scss';
+@import './_mixins.scss';
+
+/*
+ * Selection
+ */
+
+::selection { background: $selection-color; }
+::-moz-selection { background: $selection-color; }
+::-moz-focus-inner { border: 0; }
+
+/*
+ * Placeholders
+ */
+
+::-webkit-input-placeholder { color: $text-color-subtle; }
+::-moz-placeholder { color: $text-color-subtle; }
+:-ms-input-placeholder { color: $text-color-subtle; }
+:-moz-placeholder { color: $text-color-subtle; }
+
+/*
+ * Scrollbar
+ */
+
+*::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 6px rgba(0,0,0,.2);
+}
+
+
+
+/*
+ * General
+ */
+
+
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  background-color: $hover-light-bg-color;
+}
+
+.focus {
+  box-shadow: 0 0 0 1px $focus-color;
+}
+.focus-inset {
+  box-shadow: inset 0 0 0 1px $focus-color;
+}
+
+.line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title {
+  font-family: $font-family-title;
+  font-size: 14px;
+  line-height: 30px;
+  font-weight: bold;
+  color: $text-color-highlight;
+  user-select: none;
+  text-transform: uppercase;
+}
+.title.keep-case {
+  text-transform: none;
+}
+.title.small {
+  font-size: 12px;
+}
+.title.large {
+  font-size: 18px;
+}
+.title.inline {
+  margin-right: $padding;
+}
+
+.label {
+  font-family: $font-family-text;
+  font-size: 12px;
+  line-height: 30px;
+  font-weight: bold;
+}
+.label.small {
+  font-size: 12px;
+  line-height: 20px;
+  height: 20px;
+}
+.label.medium {
+  font-size: 14px;
+}
+.label.large {
+  font-size: 16px;
+}
+
+.label.editable {
+  padding: 0 $padding;
+}
+.label.editable.fill {
+  width: 100%;
+}
+button.label.editable {
+  transition: all .25s;
+  text-transform: none;
+  text-align: left;
+  display: flex;
+  cursor: text;
+}
+button.label.editable.inline {
+  display: inline-flex;
+}
+button.label.editable:focus,
+button.label.editable:hover {
+  background-color: $hover-light-bg-color;
+}
+button.label.editable span {
+  flex: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+button.label.editable .Icon {
+  margin: $padding;
+  opacity: 0;
+  color: $text-color-muted;
+  transition: opacity .25s;
+  flex: 0 0;
+}
+button.label.editable:hover .Icon {
+  opacity: 1;
+}
+input.label.editable {
+  color: inherit;
+  background-color: transparent;
+  border: none;
+}
+input.label.editable:active,
+input.label.editable:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px $focus-color;
+  background-color: $input-bg-color;
+}
+
+.text {
+  --line-height: 20px;
+  font-family: $font-family-text;
+  line-height: $line-height;
+  font-weight: normal;
+}
+.text.small {
+  font-size: 12px;
+  line-height: 25px;
+}
+.text.medium {
+  font-size: 14px;
+}
+.text.large {
+  font-size: 16px;
+}
+.text.block {
+  margin-bottom: $padding;
+}
+
+.text.editable {
+  position: relative;
+  width: 100%;
+  height: calc(3 * var(--line-height));
+}
+div.text.editable {
+  transition: all .25s;
+  text-transform: none;
+  white-space: pre;
+  overflow: auto;
+  cursor: text;
+}
+div.text.editable:hover {
+  background-color: $hover-light-bg-color;
+}
+div.text.editable > div {
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: auto;
+  height: calc(3 * var(--line-height));
+}
+div.text.editable > .Icon {
+  position: absolute;
+  top: -1px;
+  right: $padding;
+  margin: $padding;
+  opacity: 0;
+  color: #ddd;
+  transition: opacity .25s;
+  flex: 0 0;
+}
+div.text.editable:hover > .Icon {
+  opacity: 1;
+}
+textarea.text.editable {
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  border-radius: 2px;
+  padding: 0 2px;
+  transition: box-shadow .25s;
+}
+textarea.text.editable:active,
+textarea.text.editable:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px $focus-color;
+}
+
+
+
+.list {
+  min-width: 200px;
+}
+.list > .group {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 30px;
+  padding: 0 2*$padding;
+  color: $color;
+  font-weight: bold;
+}
+.list > .item {
+  display: block;
+  color: $text-color-highlight;
+  padding: 0 2*$padding;
+}
+.list > a.item:not(.disabled) {
+  transition: all .25s;
+  cursor: pointer;
+}
+.list > a.item:not(.disabled):hover {
+  background-color: $hover-light-bg-color;
+}
+.list > .item.active:not(.disabled),
+.list > .item.active:not(.disabled):hover {
+  color: white;
+  background-color: $focus-color;
+}
+.list > .separator {
+  width: 100%;
+  height: 2*$padding;
+  margin-bottom: 2*$padding;
+  border-bottom: 1px solid $border-color-light;
+}
+
+code {
+  background-color: rgba(0, 0, 0, 0.03);
+  color: #676767;
+  padding: 0px 2px;
+  border-radius: 2px;
+  border: 1px solid #a7a7a7;
+  box-shadow: 0px 1px 0 #9e9e9e;
+}
+
+/*
+ * Icon
+ */
+
+.Icon {
+  width: 15px;
+  height: 15px;
+}
+
+
+.input-label {
+  position: relative;
+  padding-left: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.Checkbox {
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: inline-block;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-bottom: 0;
+  font-size: inherit;
+  border-radius: 3px;
+  background-color: $bg-color-dark;
+  box-shadow: 0 0 0 1px $checkbox-border-color;
+  transition: background-color 0.16s cubic-bezier(0.5, 0.15, 0.2, 1);
+}
+.Checkbox:focus {
+  outline: 0;
+}
+.Checkbox:active {
+  background-color: #0f82e6;
+}
+.Checkbox:before,
+.Checkbox:after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 6.4px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: white;
+  transform-origin: 0 0;
+  opacity: 0;
+  transition: transform 0.1s cubic-bezier(0.5, 0.15, 0.2, 1), opacity 0.1s cubic-bezier(0.5, 0.15, 0.2, 1);
+}
+.Checkbox:before {
+  width: 5.28px;
+  transform: translate3d(0, 0, 0) rotate(225deg) scale(0);
+}
+.Checkbox:after {
+  width: 10.56px;
+  margin: -1px;
+  transform: translate3d(0, 0, 0) rotate(-45deg) scale(0);
+  transition-delay: .05s;
+}
+.Checkbox:checked {
+  background-color: #568af2;
+  box-shadow: 0 0 0 1px $border-color;
+}
+.Checkbox:checked:active {
+  background-color: #3f444d;
+}
+.Checkbox:checked:before {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(225deg) scale(1);
+  transition-delay: .05s;
+}
+.Checkbox:checked:after {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(-45deg) scale(1);
+  transition-delay: 0;
+}
+.Checkbox:indeterminate {
+  background-color: #0f82e6;
+}
+.Checkbox:indeterminate:active {
+  background-color: #3f444d;
+}
+.Checkbox:indeterminate:after {
+  opacity: 1;
+  transform: translate3d(-2.24px, -4px, 0) rotate(0deg) scale(1);
+  transition-delay: 0;
+}
+.input-label .input-radio,
+.input-label .Checkbox,
+.input-label .input-toggle {
+  margin-top: -3px;
+  margin-right: 2 * $padding;
+  margin-bottom: 0;
+}
+
+
+
+
+.Image {
+  display: block;
+  border: 1px solid $border-color-light;
+  border-radius: 2px;
+}
+
+.Editor {
+  position: relative;
+  overflow: hidden;
+}
+.Editor > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+table {
+  font-size: inherit;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+tr, td, th {
+  padding: 0;
+  height: 25px;
+  line-height: 0
+}
+
+h1 {
+  padding: 0 calc(0 * $padding);
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 40px;
+  color: $light-color;
+}
+
+abbr {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(white, 0.2);
+}
+
+hr {
+  width: 100%;
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+a.link {
+  color: $link-color;
+  text-decoration: none;
+  border-bottom: 1px solid rgba($link-color, 0.5);
+  //transition: border-bottom .25s;
+}
+a.link:visited {
+  color: $link-color;
+}
+a.link:hover {
+  //border-bottom: 1px solid $link-color;
+}
+a.link.text-normal {
+  color: white;
+  border-bottom: 1px solid rgba(white, 0.5);
+}
+a.link.text-normal:visited {
+  color: white;
+}
+
+
+.table {
+  width: 100%;
+  background-color: $table-bg-color;
+}
+.table th,
+.table td {
+  padding: 0 $padding;
+  border: 1px solid $table-border-color;
+}
+.table th {
+  text-align: left;
+}
+.table .button-column {
+  width: 30px;
+}
+.table .empty td {
+  text-align: center;
+  font-weight: bold;
+  color: $text-color-muted;
+}
+.table td.input-cell {
+  padding: 0;
+  & input {
+    border: none;
+    border-radius: 0;
+  }
+}
+
+
+
+.bold { font-weight: bold; }
+.text-normal    { color: $color; }
+.text-highlight { color: $text-color-highlight; }
+.text-success   { color: $text-color-success; }
+.text-muted     { color: $text-color-muted; }
+.text-warning   { color: $text-color-warning; }
+.text-error     { color: $text-color-error; }
+.text-info      { color: $text-color-info; }
+.text-subtle    { color: $text-color-subtle; }
+
+.bg-dark { background-color: $bg-color-dark; }
+.border-left { border-left: 1px solid $border-color-dark; }
+.border-top { border-top: 1px solid $border-color-dark; }
+
+
+
+.EditableList__value {
+  color: $text-color-highlight;
+  min-width: 220px;
+  padding-right: 2 * $padding;
+}
+.EditableList__control {
+  padding-top: 2 * $padding;
+}
+
+
+.drop-zone {
+  position: relative;
+}
+.drop-zone::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  --border: 3px;
+  top: calc(-1 * $border);
+  left: calc(-1 * $border);
+  pointer-events: none;
+}
+.drop-zone.over-document::after {
+  border: var(--border) dashed $focus-color;
+}
+.drop-zone.over::after {
+  border: var(--border) dashed lighten($focus-color, 40%);
+}
+
+.Gap {
+  display: inline-block;
+}
+
+
+
+#root {
+  width: 100%;
+  height: 100%;
+  background-color: $bg-color-default;
+}
+
+.App {
+  width:  100%;
+  height: 100%;
+}
+.App__content {
+  width:  100%;
+  overflow: hidden;
+}
+.App__navbar {
+  flex-basis: auto;
+}
+.App__section {
+  padding: 0 2*$padding;
+}
+
+.HeaderBar {
+  height: 50px;
+  padding: 2*$padding;
+  background-color: $bg-color-dark;
+  border-left: 1px solid $border-color-dark;
+  border-bottom: 1px solid $border-color-dark;
+}
+.HeaderBar.no-border-bottom {
+  border-bottom: none;
+}
+.HeaderBar > .title:first-child {
+  margin-right: 2*$padding;
+}
+
+
+.Navbar {
+  position: relative;
+  background-color: $bg-color-dark;
+  &.vertical {
+    height: 100%;
+  }
+  &.horizontal {
+    width: 100%;
+  }
+}
+.Navbar:not(.visible) {
+  flex-basis: 0;
+  transform: translateX(calc(-1 * $sidebar-size));
+  overflow: hidden;
+  &.vertical {
+    width: 0;
+  }
+  &.horizontal {
+    height: 0;
+  }
+}
+.Navbar.visible {
+  flex-basis: $sidebar-size;
+  transform: translateX(0);
+  &.vertical {
+    width: $sidebar-size;
+  }
+  &.horizontal {
+    height: $sidebar-size;
+  }
+}
+.Navbar a {
+  color: inherit;
+  text-decoration: none;
+}
+.Navbar__title {
+  min-width:  $sidebar-size;
+  min-height: $sidebar-size;
+  padding: 0 2*$padding;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+.Navbar__items {
+  position: relative;
+}
+.Navbar__item {
+  min-width:  $sidebar-size;
+  min-height: $sidebar-size;
+  padding: 0 2*$padding;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all .25s;
+}
+.Navbar__item:hover, .Navbar__item.active:hover {
+  background-color: $hover-bg-color;
+}
+.Navbar__item.active {
+  position: relative;
+  background-color: $active-bg-color;
+}
+.Navbar__icon {
+  margin-right: $padding;
+}
+.Navbar__border {
+  position: absolute;
+  background-color: $accent-color;
+  transition: top .15s, left .15s, height .15s, width .15s;
+}
+.Navbar.vertical .Navbar__border {
+  width: 1px;
+  left: $sidebar-size - 1px;
+}
+.Navbar.horizontal .Navbar__border {
+  height: 1px;
+  top: $sidebar-size - 1px;
+}
+.Navbar__fill {
+  flex: 1 1;
+}
+
+section {
+  flex: 1 1;
+}
+
+
