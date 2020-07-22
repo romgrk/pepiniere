@@ -75,7 +75,6 @@ class SchedulePage extends React.Component {
       dragOffset: { x: dragPosition.x - element.x, y: dragPosition.y - element.y },
       dragMember: member,
     })
-    console.log('start', e)
 
     if (e.nativeEvent instanceof TouchEvent) {
       e.target.addEventListener('touchmove', this.onDragMove)
@@ -114,7 +113,6 @@ class SchedulePage extends React.Component {
   }
 
   onDragMove = nativeEvent => {
-    console.log('move', nativeEvent)
     this.setState({
       dragPosition: getEventPosition(nativeEvent),
     })
@@ -265,7 +263,6 @@ function formatDate(date) {
 function getEventPosition(e) {
   if (e instanceof TouchEvent) {
     const touch = e.targetTouches[0] || e.touches[0]
-    console.log(touch)
     const x = touch.pageX
     const y = touch.pageY
     return { x, y }
