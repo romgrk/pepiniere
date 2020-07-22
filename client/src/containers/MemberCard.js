@@ -11,7 +11,7 @@ import Text from '../components/Text'
 
 const IMAGE_SIZE = {
   small: 40,
-  medium: 60,
+  medium: 70,
   large: 80,
 }
 
