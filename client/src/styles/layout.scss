@@ -14,6 +14,9 @@
   flex-direction: row;
   align-items: center;
 }
+.box--align-center {
+  align-items: center;
+}
 .box--align-end {
   justify-content: flex-end;
 }

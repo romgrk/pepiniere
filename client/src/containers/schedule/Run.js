@@ -75,14 +75,27 @@ class RunComponent extends React.Component {
     Run.update(run.data.id, { notes })
   }
 
+  onDeleteMember = (memberId) => {
+    const { run } = this.props
+    const membersId = run.data.membersId.filter(id => id !== memberId)
+    Run.update(run.data.id, { membersId })
+  }
+
+  onDelete = () => {
+    const { tasks, run } = this.props
+    if (!window.confirm(`Are you sure you want to delete ${tasks[run.data.taskId].data.name}?`))
+      return
+    Run.delete(run.data.id)
+  }
+
   render() {
-    const { run, tasks, members } = this.props
+    const { run, tasks, members, ...rest } = this.props
     const { notes } = this.state
     const task = tasks[run.data.taskId]
     const runMembers = run.data.membersId.map(id => members[id] || id)
 
     return (
-      <div key={run.data.id} className='Run vbox'>
+      <div key={run.data.id} className='Run vbox' {...rest}>
         <div className='Run__title hbox'>
           <Title>{task.data.name}</Title>
           <div className='fill' />
@@ -95,16 +108,26 @@ class RunComponent extends React.Component {
           {
             runMembers.map(m =>
               <MemberCard
-                key={m}
+                key={m.data ? m.data.id : m}
                 className='SchedulePage__member'
                 size='small'
                 member={m}
+                onClick={() => this.onDeleteMember(m.data ? m.data.id : m)}
               />
             )
           }
+          {
+            runMembers.length === 0 &&
+              <MemberCard
+                empty
+                className='SchedulePage__member'
+                size='small'
+              />
+          }
         </div>
-        <div className='Run__notes'>
+        <div className='Run__notes row'>
           <Input
+            className='fill'
             value={notes}
             onChange={this.onChangeNotes}
             onBlur={this.onBlurNotes}

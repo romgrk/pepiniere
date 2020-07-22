@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { set } from 'object-path-immutable'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import {
@@ -9,11 +7,10 @@ import {
   startOfToday,
   addDays,
 } from 'date-fns'
+import cx from 'classname'
 
-import { abbreviate, isVisibleAtDate } from '../models'
+import { isVisibleAtDate } from '../models'
 
-import Category from '../actions/categories'
-import Task from '../actions/tasks'
 import Run from '../actions/runs'
 
 import Button from '../components/Button'
@@ -40,6 +37,10 @@ class SchedulePage extends React.Component {
   state = {
     date: startOfToday(),
     isAM: true,
+    isDragging: false,
+    dragPosition: { x: 0, y: 0 },
+    dragOffset: { x: 0, y: 0 },
+    dragMember: undefined,
   }
 
   setDate(date) {
@@ -51,18 +52,88 @@ class SchedulePage extends React.Component {
   }
 
   onAddNewTask = taskId => {
+    const { date, isAM } = this.state
+
+    Run.create({
+      taskId,
+      membersId: [],
+      date: format(date, 'yyyy-MM-dd'),
+      isAM,
+      notes: '',
+    })
   }
 
+  startDrag(e, member) {
+    e.preventDefault()
+
+    const isTouchEvent = e.nativeEvent instanceof TouchEvent
+
+    const element = e.target.getBoundingClientRect()
+    const dragPosition = getEventPosition(e.nativeEvent)
+
+    this.setState({
+      isDragging: true,
+      dragPosition,
+      dragOffset: { x: dragPosition.x - element.x, y: dragPosition.y - element.y },
+      dragMember: member,
+    })
+    console.log(e)
+
+    if (isTouchEvent)
+      e.target.addEventListener('touchmove', this.onDragMove)
+    else
+      e.target.addEventListener('mousemove', this.onDragMove)
+  }
+
+  stopDrag(e) {
+    const isTouchEvent = e.nativeEvent instanceof TouchEvent
+
+    this.setState({
+      isDragging: false,
+      dragPosition: { x: 0, y: 0 },
+      dragOffset: { x: 0, y: 0 },
+      dragMember: undefined,
+    })
+
+    if (isTouchEvent)
+      e.target.removeEventListener('touchmove', this.onDragMove)
+    else
+      e.target.removeEventListener('mousemove', this.onDragMove)
+
+    const { dragPosition, dragMember } = this.state
+    const { x, y } = dragPosition
+    const runId = getRunID(x, y)
+
+    if (!runId)
+      return
+
+    const run = this.props.runs.find(r => r.data.id === runId)
+    const membersId = run.data.membersId.concat(dragMember.data.id)
+    Run.update(runId, { membersId })
+  }
+
+  onDragMove = nativeEvent => {
+    this.setState({
+      dragPosition: getEventPosition(nativeEvent),
+    })
+  }
+
+
   render() {
-    const { date, isAM } = this.state
+    const { date, isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
     const { members, categories, tasks, runs } = this.props
     const dateString = format(date, 'yyyy-MM-dd')
 
-    const visibleMembers = members.filter(m => isVisibleAtDate(m, date))
     const visibleRuns = runs.filter(r => r.data.date === dateString && r.data.isAM === isAM)
+    const assignedTasksId = visibleRuns.reduce((acc, r) => acc.concat(r.data.taskId), [])
+    const assignedMembersId = visibleRuns.reduce((acc, r) => acc.concat(r.data.membersId), [])
+    const visibleMembers = members.filter(m =>
+      isVisibleAtDate(m, date) && !assignedMembersId.some(id => id === m.data.id))
+
+    const className = cx('SchedulePage vbox', { 'dragging': isDragging })
 
     return (
-      <section className='SchedulePage vbox'>
+      <section className={className}>
 
         <div className='SchedulePage__dateControls row'>
           <Button icon='chevron-left'  onClick={() => this.setDate(addDays(this.state.date, -1))} />
@@ -82,11 +153,21 @@ class SchedulePage extends React.Component {
               <MemberCard
                 key={m.data.id}
                 className='SchedulePage__member'
+                style={{ opacity: dragMember === m ? 0 : 1 }}
                 size='small'
                 member={m}
+                onMouseDown={ev => this.startDrag(ev, m)}
+                onMouseUp={ev => this.stopDrag(ev)}
+                onTouchStart={ev => this.startDrag(ev, m)}
+                onTouchEnd={ev => this.stopDrag(ev)}
               />
             )
           }
+        </div>
+
+        <div className='SchedulePage__amControls row'>
+          <Button className='fill' active={isAM}  onClick={() => this.setAM(true)}>AM</Button>
+          <Button className='fill' active={!isAM} onClick={() => this.setAM(false)}>PM</Button>
         </div>
 
         <div className='SchedulePage__container fill'>
@@ -96,6 +177,7 @@ class SchedulePage extends React.Component {
                 <RunComponent
                   key={r.data.taskId}
                   run={r}
+                  data-id={r.data.taskId}
                 />
               )
             }
@@ -115,14 +197,38 @@ class SchedulePage extends React.Component {
             onChange={this.onAddNewTask}
           >
             <option value='new-task'>Add New Task</option>
-            {
-              tasks.map(t =>
-                <option key={t.data.id} value={t.data.id}>
-                  {categories[t.data.categoryId].data.name} -- {t.data.name}
-                </option>
-              )
-            }
+            {categories.map(category =>
+              <optgroup label={category.data.name}>
+                {
+                  tasks
+                  .filter(t =>
+                    t.data.categoryId === category.data.id &&
+                    !assignedTasksId.includes(t.data.id))
+                  .map(t =>
+                    <option key={t.data.id} value={t.data.id}>
+                      {t.data.name}
+                    </option>
+                  )
+                }
+              </optgroup>
+            )}
           </Select>
+        </div>
+
+        <div
+          className='SchedulePage__dragIndicator'
+          style={{
+            display: isDragging ? undefined : 'none',
+            top:  dragPosition.y - dragOffset.y,
+            left: dragPosition.x - dragOffset.x,
+          }}
+        >
+          <MemberCard
+            size='small'
+            member={dragMember}
+            onTouchMove={this.onTouchMoveMember}
+            onTouchEnd={this.onTouchEndMember}
+          />
         </div>
       </section>
     )
@@ -132,7 +238,7 @@ class SchedulePage extends React.Component {
 const mapStateToProps = createStructuredSelector({
   settings: createSelector(state => state.settings, state => state),
   members: createSelector(state => Object.values(state.members.data), state => state),
-  categories: createSelector(state => state.categories.data, state => state),
+  categories: createSelector(state => Object.values(state.categories.data), state => state),
   tasks: createSelector(state => Object.values(state.tasks.data), state => state),
   runs: createSelector(state => Object.values(state.runs.data), state => state),
 })
@@ -144,4 +250,26 @@ function formatDate(date) {
   if (date.getFullYear() === new Date().getFullYear())
     return format(date, 'EEEE MMM d')
   return format(date, 'EEEE MMM d, yyyy')
+}
+
+function getEventPosition(e) {
+  if (e instanceof TouchEvent) {
+    const touch = e.targetTouches[0] || e.touches[0]
+    console.log(touch)
+    const x = touch.pageX
+    const y = touch.pageY
+    return { x, y }
+  }
+
+  const x = e.pageX
+  const y = e.pageY
+  return { x, y }
+}
+
+function getRunID(x, y) {
+  let target = document.elementFromPoint(x, y)
+  let runID
+  while (target !== null && (runID = target.getAttribute('data-id')) === null)
+    target = target.parentElement
+  return +runID
 }

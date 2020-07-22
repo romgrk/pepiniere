@@ -15,9 +15,25 @@ const IMAGE_SIZE = {
   large: 80,
 }
 
-function MemberCard({ className, size, member, detailed, ...rest }) {
+function MemberCard({ className, size, member, empty, detailed, ...rest }) {
   const isDeleted = typeof member === 'number'
   const imageSize = IMAGE_SIZE[size]
+  const iconSize = size === 'small' ? '3x' : '5x'
+
+  if (empty || member == undefined)
+    return (
+      <div className={cx('MemberCard vbox', className)}>
+        <div className='MemberCard__photo vbox box--align-center no-pointer-events'>
+          <div
+            className='MemberCard__photoEmpty'
+            style={{ height: imageSize, width: imageSize, opacity: 0.6 }}
+          />
+        </div>
+        <div className='text-bold text-center no-wrap no-pointer-events'>
+          <Text muted bold>Add user</Text>
+        </div>
+      </div>
+    )
 
   return (
     <div
@@ -25,12 +41,12 @@ function MemberCard({ className, size, member, detailed, ...rest }) {
       role='button'
       {...rest}
     >
-      <div className='MemberCard__photo text-center'>
+      <div className='MemberCard__photo vbox box--align-center no-pointer-events'>
         {
           isDeleted ?
             <Icon
               name='user-circle'
-              size={ size === 'small' ? '3x' : '5x' }
+              size={iconSize}
               style={{ height: imageSize, width: 'auto', opacity: 0.6 }}
             /> :
           member.data.photo ?
@@ -41,12 +57,12 @@ function MemberCard({ className, size, member, detailed, ...rest }) {
             /> :
             <Icon
               name='user-circle'
-              size={ size === 'small' ? '3x' : '5x' }
+              size={iconSize}
               style={{ height: imageSize, width: 'auto' }}
             />
         }
       </div>
-      <div className='text-bold text-center no-wrap'>
+      <div className='text-bold text-center no-wrap no-pointer-events'>
         {
           isDeleted ?
             <Text muted>[DELETED {member}]</Text> :

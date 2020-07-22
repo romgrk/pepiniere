@@ -32,6 +32,9 @@ h4 {
   white-space: nowrap;
 }
 
+.no-pointer-events {
+  pointer-events: none;
+}
 
 
 .text-left { text-align: left !important; }
