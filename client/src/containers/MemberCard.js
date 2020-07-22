@@ -15,7 +15,7 @@ const IMAGE_SIZE = {
   large: 80,
 }
 
-function MemberCard({ className, size, member, empty, detailed, ...rest }) {
+function MemberCard({ className, size, member, empty, label, detailed, ...rest }) {
   const isDeleted = typeof member === 'number'
   const imageSize = IMAGE_SIZE[size]
   const iconSize = size === 'small' ? '3x' : '5x'
@@ -30,7 +30,7 @@ function MemberCard({ className, size, member, empty, detailed, ...rest }) {
           />
         </div>
         <div className='text-bold text-center no-wrap no-pointer-events'>
-          <Text muted bold>Add user</Text>
+          <Text muted bold large>{ label || 'Add user' }</Text>
         </div>
       </div>
     )

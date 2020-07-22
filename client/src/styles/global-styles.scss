@@ -205,6 +205,9 @@ input, textarea, select, button {
   width: 800px;
   margin: 0 auto;
 }}
+.SchedulePage__emptyMessage {
+  margin: 0.5em 0;
+}
 .SchedulePage__controls {
   padding: (2 * $padding) (6 * $padding);
   background-color: $bg-color-dark;

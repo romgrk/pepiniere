@@ -154,7 +154,6 @@ input.label.editable:focus {
   --line-height: 20px;
   font-family: $font-family-text;
   line-height: $line-height;
-  font-weight: normal;
 }
 .text.small {
   font-size: 12px;
@@ -165,6 +164,13 @@ input.label.editable:focus {
 }
 .text.large {
   font-size: 16px;
+}
+.text.huge {
+  font-size: 50px;
+  line-height: 50px;
+  font-weight: 900;
+  opacity: 0.2;
+  text-transform: uppercase;
 }
 .text.block {
   margin-bottom: $padding;

@@ -63,10 +63,8 @@ class SchedulePage extends React.Component {
     })
   }
 
-  startDrag(e, member) {
+  startDrag = (e, member) => {
     e.preventDefault()
-
-    const isTouchEvent = e.nativeEvent instanceof TouchEvent
 
     const element = e.target.getBoundingClientRect()
     const dragPosition = getEventPosition(e.nativeEvent)
@@ -77,16 +75,27 @@ class SchedulePage extends React.Component {
       dragOffset: { x: dragPosition.x - element.x, y: dragPosition.y - element.y },
       dragMember: member,
     })
-    console.log(e)
+    console.log('start', e)
 
-    if (isTouchEvent)
+    if (e.nativeEvent instanceof TouchEvent) {
       e.target.addEventListener('touchmove', this.onDragMove)
-    else
-      e.target.addEventListener('mousemove', this.onDragMove)
+    }
+    else {
+      document.addEventListener('mousemove', this.onDragMove)
+      document.addEventListener('mouseup', this.stopDrag)
+    }
   }
 
-  stopDrag(e) {
-    const isTouchEvent = e.nativeEvent instanceof TouchEvent
+  stopDrag = (e) => {
+    const { dragPosition, dragMember } = this.state
+    const { x, y } = dragPosition
+    const runId = getRunID(x, y)
+
+    if (runId) {
+      const run = this.props.runs.find(r => r.data.id === runId)
+      const membersId = run.data.membersId.concat(dragMember.data.id)
+      Run.update(runId, { membersId })
+    }
 
     this.setState({
       isDragging: false,
@@ -95,24 +104,17 @@ class SchedulePage extends React.Component {
       dragMember: undefined,
     })
 
-    if (isTouchEvent)
+    if (e.nativeEvent instanceof TouchEvent) {
       e.target.removeEventListener('touchmove', this.onDragMove)
-    else
-      e.target.removeEventListener('mousemove', this.onDragMove)
-
-    const { dragPosition, dragMember } = this.state
-    const { x, y } = dragPosition
-    const runId = getRunID(x, y)
-
-    if (!runId)
-      return
-
-    const run = this.props.runs.find(r => r.data.id === runId)
-    const membersId = run.data.membersId.concat(dragMember.data.id)
-    Run.update(runId, { membersId })
+    }
+    else {
+      document.removeEventListener('mousemove', this.onDragMove)
+      document.removeEventListener('mouseup', this.stopDrag)
+    }
   }
 
   onDragMove = nativeEvent => {
+    console.log('move', nativeEvent)
     this.setState({
       dragPosition: getEventPosition(nativeEvent),
     })
@@ -157,11 +159,19 @@ class SchedulePage extends React.Component {
                 size='small'
                 member={m}
                 onMouseDown={ev => this.startDrag(ev, m)}
-                onMouseUp={ev => this.stopDrag(ev)}
                 onTouchStart={ev => this.startDrag(ev, m)}
                 onTouchEnd={ev => this.stopDrag(ev)}
               />
             )
+          }
+          {
+            visibleMembers.length === 0 &&
+              <MemberCard
+                className='SchedulePage__member'
+                size='small'
+                empty
+                label='All users assigned'
+              />
           }
         </div>
 
@@ -175,16 +185,16 @@ class SchedulePage extends React.Component {
             {
               visibleRuns.map(r =>
                 <RunComponent
-                  key={r.data.taskId}
+                  key={r.data.id}
                   run={r}
-                  data-id={r.data.taskId}
+                  data-id={r.data.id}
                 />
               )
             }
             {
               visibleRuns.length === 0 &&
-                <Text center large muted block>
-                  No runs yet
+                <Text center huge muted bold block className='SchedulePage__emptyMessage'>
+                  No tasks yet
                 </Text>
             }
           </div>
