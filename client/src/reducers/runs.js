@@ -16,7 +16,7 @@ const initialState = {
   data: {}
 }
 
-export default function members(state = initialState, action) {
+export default function runs(state = initialState, action) {
   switch (action.type) {
 
     case RUNS.FETCH.REQUEST:

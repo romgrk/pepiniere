@@ -18,6 +18,18 @@ input, textarea, select, button {
 
 
 /*
+ * MemberCard
+ */
+
+.MemberCard {
+  cursor: pointer;
+}
+.MemberCard__photo {
+  margin-bottom: $padding;
+}
+
+
+/*
  * Settings
  */
 
@@ -160,10 +172,7 @@ input, textarea, select, button {
   border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
 }
-.SchedulePage__listContainer {
-  overflow: auto;
-  padding: 0 (6 * $padding);
-  padding-top: (4 * $padding);
+.SchedulePage__container {
 }
 .SchedulePage__list {
 }
@@ -182,9 +191,21 @@ input, textarea, select, button {
 .SchedulePage__member {
   display: inline-block;
   width: 100px;
-  border: 1px solid grey;
   padding: $padding;
   padding-bottom: 0;
+}
+
+
+.Run {
+  padding: (2*$padding);
+  margin-bottom: (2*$padding)
+}
+.Run__title {
+  border: 1px solid $border-color-black;
+  border-radius: 2px;
+  background-color: $bg-color-black;
+  color: $text-color-white;
+  padding-left: $padding;
 }
 
 

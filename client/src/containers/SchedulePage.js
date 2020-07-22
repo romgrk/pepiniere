@@ -14,15 +14,19 @@ import { abbreviate, isVisibleAtDate } from '../models'
 
 import Category from '../actions/categories'
 import Task from '../actions/tasks'
+import Run from '../actions/runs'
 
 import Button from '../components/Button'
-import ColorPicker from '../components/ColorPicker'
 import Gap from '../components/Gap'
 import Icon from '../components/Icon'
 import Input from '../components/Input'
 import Label from '../components/Label'
+import Select from '../components/Select'
 import Text from '../components/Text'
 import Title from '../components/Title'
+
+import MemberCard from './MemberCard'
+import RunComponent from './schedule/Run'
 
 
 class SchedulePage extends React.Component {
@@ -35,17 +39,27 @@ class SchedulePage extends React.Component {
 
   state = {
     date: startOfToday(),
+    isAM: true,
   }
 
   setDate(date) {
     this.setState({ date })
   }
 
+  setAM(isAM) {
+    this.setState({ isAM })
+  }
+
+  onAddNewTask = taskId => {
+  }
+
   render() {
-    const { date } = this.state
-    const { members, categories, tasks } = this.props
+    const { date, isAM } = this.state
+    const { members, categories, tasks, runs } = this.props
+    const dateString = format(date, 'yyyy-MM-dd')
 
     const visibleMembers = members.filter(m => isVisibleAtDate(m, date))
+    const visibleRuns = runs.filter(r => r.data.date === dateString && r.data.isAM === isAM)
 
     return (
       <section className='SchedulePage vbox'>
@@ -65,30 +79,12 @@ class SchedulePage extends React.Component {
         <div className='SchedulePage__members hbox'>
           {
             visibleMembers.map(m =>
-              <div
+              <MemberCard
                 key={m.data.id}
-                className='SchedulePage__member vbox'
-                role='button'
-                onClick={() => this.openUpdateMemberForm(m)}
-              >
-                <div className='MembersPage__photo text-center'>
-                  {m.data.photo ?
-                    <img
-                      width="auto"
-                      height="50px"
-                      src={m.data.photo}
-                    /> :
-                    <Icon
-                      name='user-circle'
-                      size='5x'
-                      style={{ height: 50, width: 'auto' }}
-                    />
-                  }
-                </div>
-                <div className='text-bold text-center no-wrap'>
-                  {[m.data.firstName, abbreviate(m.data.lastName)].join(' ')}
-                </div>
-              </div>
+                className='SchedulePage__member'
+                size='small'
+                member={m}
+              />
             )
           }
         </div>
@@ -96,25 +92,37 @@ class SchedulePage extends React.Component {
         <div className='SchedulePage__container fill'>
           <div className='SchedulePage__list fill'>
             {
-              categories.length === 0 &&
-                <Text muted>
-                  No categories yet
+              visibleRuns.map(r =>
+                <RunComponent
+                  key={r.data.taskId}
+                  run={r}
+                />
+              )
+            }
+            {
+              visibleRuns.length === 0 &&
+                <Text center large muted block>
+                  No runs yet
                 </Text>
             }
           </div>
         </div>
 
         <div className='SchedulePage__controls row no-padding flex'>
-          <Gap h='10px' />
-          <Input
+          <Select
             className='fill'
-            value={this.state.newCategoryName}
-            onChange={newCategoryName => this.setState({ newCategoryName })}
-          />
-          <Gap h='10px' />
-          <Button variant='info' onClick={this.onAddCategory}>
-            Add
-          </Button>
+            value={'new-task'}
+            onChange={this.onAddNewTask}
+          >
+            <option value='new-task'>Add New Task</option>
+            {
+              tasks.map(t =>
+                <option key={t.data.id} value={t.data.id}>
+                  {categories[t.data.categoryId].data.name} -- {t.data.name}
+                </option>
+              )
+            }
+          </Select>
         </div>
       </section>
     )
@@ -124,8 +132,9 @@ class SchedulePage extends React.Component {
 const mapStateToProps = createStructuredSelector({
   settings: createSelector(state => state.settings, state => state),
   members: createSelector(state => Object.values(state.members.data), state => state),
-  categories: createSelector(state => Object.values(state.categories.data), state => state),
+  categories: createSelector(state => state.categories.data, state => state),
   tasks: createSelector(state => Object.values(state.tasks.data), state => state),
+  runs: createSelector(state => Object.values(state.runs.data), state => state),
 })
 
 export default connect(mapStateToProps)(SchedulePage)

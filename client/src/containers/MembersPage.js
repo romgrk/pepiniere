@@ -16,6 +16,7 @@ import Checkbox from '../components/Checkbox'
 import DateValue from '../components/Date'
 import Icon from '../components/Icon'
 
+import MemberCard from './MemberCard'
 import MemberEditor from './members/MemberEditor'
 
 
@@ -107,42 +108,13 @@ class MembersPage extends React.Component {
           <div className='MembersPage__list fill'>
             {
               visibleMembers.map(member =>
-                <div
+                <MemberCard
                   key={member.data.id}
-                  className='MembersPage__member vbox'
-                  role='button'
+                  detailed
+                  member={member}
+                  className='MembersPage__member'
                   onClick={() => this.openUpdateMemberForm(member)}
-                >
-                  <div className='MembersPage__photo text-center'>
-                    {member.data.photo ?
-                      <img
-                        width="auto"
-                        height="60px"
-                        src={member.data.photo}
-                      /> :
-                      <Icon
-                        name='user-circle'
-                        size='5x'
-                        style={{ height: 60, width: 'auto' }}
-                      />
-                    }
-                  </div>
-                  <div className='text-bold text-center'>
-                    {[
-                      getUnicodeFlagIcon(member.data.country),
-                      member.data.firstName,
-                      abbreviate(member.data.lastName)
-                    ].filter(Boolean).join(' ')}
-                  </div>
-                  <div className='text-center'>
-                    {!member.data.isPermanent &&
-                      <span><DateValue>{member.data.startDate}</DateValue> - <DateValue>{member.data.endDate}</DateValue></span>
-                    }
-                    {Boolean(member.data.isPermanent) &&
-                      <span>&nbsp;</span>
-                    }
-                  </div>
-                </div>
+                />
               )
             }
             {

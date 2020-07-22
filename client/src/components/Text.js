@@ -20,6 +20,7 @@ function Text(props) {
     muted,
     subtle,
     highlight,
+    center,
     tag,
     ...rest
   } = props
@@ -42,6 +43,7 @@ function Text(props) {
       'text-muted': muted,
       'text-subtle': subtle,
       'text-highlight': highlight,
+      'text-center': center,
     }
   )
 

@@ -36,12 +36,12 @@ CREATE TABLE tasks (
 );
 
 CREATE TABLE runs (
-    id       integer primary key autoincrement,
-    taskId   integer not null,
-    memberId integer not null,
-    date     integer not null,
-    isAM     integer default 1,
-    notes    text    default ''
+    id        integer primary key autoincrement,
+    taskId    integer not null,
+    membersId text    not null,
+    date      integer not null,
+    isAM      integer default 1,
+    notes     text    default ''
 );
 
 -- Bootstrap data
