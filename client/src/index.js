@@ -24,11 +24,9 @@ render(
 
 
 
-if (process.env.NODE_ENV === 'development') {
+if (false) {
   global.checkIsLoggedIn.receive(true)
   global.fetchAll()
-
-  window.requests = requests
 }
 else /* production */ {
   global.checkIsLoggedIn()

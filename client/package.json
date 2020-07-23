@@ -23,6 +23,7 @@
     "popmotion": "^8.3.3",
     "prop-types": "^15.6.2",
     "pts": "git+https://github.com/romgrk/pts.git#webpack-es5",
+    "qs": "^6.9.4",
     "rambda": "^5.9.0",
     "ramda": "^0.25.0",
     "react": "^16.2.0",

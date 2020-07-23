@@ -41,6 +41,7 @@
   clear: right;
   position: relative;
   width: 450px;
+  max-width: calc(100vw - #{(4*$padding)});
   padding-left: 30px;
   margin-bottom: 2px;
   max-height: 800px;

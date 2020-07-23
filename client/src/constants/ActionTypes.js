@@ -14,6 +14,9 @@ export const UI = createConstants('UI', [
 ])
 
 export const LOGGED_IN = createNetworkConstants('LOGGED_IN')
+export const LOG_IN = createNetworkConstants('LOG_IN')
+export const LOG_OUT = createNetworkConstants('LOG_OUT')
+
 // Notifications
 export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION'
 export const SHOW = {

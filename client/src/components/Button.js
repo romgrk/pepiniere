@@ -17,8 +17,6 @@ function Button(props) {
     round,
     square,
     center,
-    small,
-    large,
     // Styles:
     variant,
     default: default_,
@@ -58,8 +56,6 @@ function Button(props) {
       'square': square,
       'iconButton': iconButton,
       'center': center,
-      'small': small,
-      'large': large,
       'has-icon': icon !== undefined,
     },
   )

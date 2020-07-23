@@ -9,7 +9,11 @@ import queryString from './helpers/query-string'
 
 
 
-export const isLoggedIn = () => GET('/is-logged-in')
+export const auth = {
+  isLoggedIn: () => GET('/auth/is-logged-in'),
+  login: password => POST('/auth/login', { username: 'root', password }),
+  logout: () => POST('/auth/logout'),
+}
 
 export const settings = {
   list: () => GET('/settings/list'),

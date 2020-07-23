@@ -44,7 +44,14 @@ CREATE TABLE runs (
     notes     text    default ''
 );
 
+
 -- Bootstrap data
+
+INSERT INTO settings (key, value) VALUES
+    ('password', '$2b$10$9atLhFED4kZaWIl7/o89rON/gfqW3ElL4sSqOIOLW.PJ9L4Aoh4pW'); -- "secret"
+
+
+-- Mock data
 
 INSERT INTO members (firstName, lastName, country, isPermanent, startDate, endDate)
     VALUES ('Eric', 'Delorimier', 'CAN', 1, null, null);
@@ -71,17 +78,6 @@ INSERT INTO tasks (categoryId, name) VALUES (1, 'Weeding');
  *     'System',
  *     null,
  *     'Gr4nts'
- * ); */
-
-
--- Test data
-
-/* INSERT INTO users (id, "googleID", token, name, email) VALUES (
- *     nextval('users_id_seq'),
- *     '113897916442927912291',
- *     'ya2GlsZBV75c-JxuuzblrbS7WoUmuWpJDJtgOOdzUcwFOaFt_7ADAIRKpiOXA1A_TtFl1AkMoXAPcqus6_ia',
- *     'Rom Grk',
- *     'rom7011@gmail.com'
  * ); */
 
 -- vim:et

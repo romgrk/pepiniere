@@ -1,6 +1,8 @@
 import {
   UI,
   LOGGED_IN,
+  LOG_IN,
+  LOG_OUT,
   SHOW,
   SHOW_NOTIFICATION
 } from '../constants/ActionTypes'
@@ -40,78 +42,45 @@ export const fetchAll = createAsyncAction(() => (dispatch, getState) => {
   ])
 })
 
-export const checkIsLoggedIn = createFetchActions(LOGGED_IN, requests.isLoggedIn)
-export const logIn = createAsyncAction(() => (dispatch, getState) => {
+export const checkIsLoggedIn = createFetchActions(LOGGED_IN, requests.auth.isLoggedIn)
+export const login = createAsyncAction((password) => (dispatch, getState) => {
   const { ui: { loggedIn } } = getState()
 
-  if (loggedIn.value === true || window.isPopupOpen)
-    return Promise.reject(new Error('Already logged in or popup already opened'))
+  if (loggedIn.value === true)
+    return Promise.resolve()
 
-  const didAuth = new Promise((resolve, reject) => {
-    let popup
-    let interval
+  dispatch({ type: LOG_IN.REQUEST })
 
-    window.oauthDone = (success) => {
-      popup.close()
-      window.isPopupOpen = false
-      clearInterval(interval)
-      if (success)
-        resolve()
-      else
-        reject()
-    }
+  return requests.auth.login(password)
+    .then(isLoggedIn => {
+      if (!isLoggedIn)
+        return Promise.reject(new Error('Invalid password'))
 
-    window.isPopupOpen = true
-    popup = openCentered('/auth/google', 600, 600)
-    interval = setInterval(() => {
-      if (popup.closed) {
-        window.isPopupOpen = false
-        clearInterval(interval)
-        reject()
-      }
-    }, 200)
-  })
-
-  return didAuth
-    .then(() => checkIsLoggedIn())
-    .then(isLoggedIn => isLoggedIn ? fetchAll() : undefined)
-    .catch(() => showError('Authentication failed'))
+      dispatch({ type: LOG_IN.RECEIVE, payload: isLoggedIn })
+      return fetchAll()
+    })
+    .catch(error => {
+      dispatch({ type: LOG_IN.ERROR, isError: true, error })
+    })
 })
 
-export const logOut = createAsyncAction(() => (dispatch, getState) => {
+export const logout = createAsyncAction(() => (dispatch, getState) => {
   const { ui: { loggedIn } } = getState()
 
-  if (loggedIn.value === false || window.isPopupOpen)
-    return Promise.reject(new Error('Not logged in or popup already opened'))
+  if (loggedIn.value === false)
+    return Promise.resolve()
 
-  const didLogout = new Promise((resolve, reject) => {
-    let popup
-    let interval
+  dispatch({ type: LOG_OUT.REQUEST })
 
-    window.oauthDone = (success) => {
-      popup.close()
-      window.isPopupOpen = false
-      clearInterval(interval)
-      if (success)
-        resolve()
-      else
-        reject()
-    }
-
-    window.isPopupOpen = true
-    popup = openCentered('/auth/logout', 600, 600)
-    interval = setInterval(() => {
-      if (popup.closed) {
-        window.isPopupOpen = false
-        clearInterval(interval)
-        reject()
-      }
-    }, 200)
-  })
-
-  return didLogout
-  .then(() => checkIsLoggedIn())
-  .catch(() => showError('Logout failed'))
+  return requests.auth.logout()
+    .then(isLoggedOut => {
+      dispatch({ type: LOG_OUT.RECEIVE, payload: !isLoggedOut })
+      return isLoggedOut
+    })
+    .catch(error => {
+      dispatch({ type: LOG_OUT.ERROR, isError: true, error })
+      showError('Logout failed')
+    })
 })
 
 export default {
@@ -123,7 +92,7 @@ export default {
   showFAQ,
   closeFAQ,
   checkIsLoggedIn,
-  logIn,
-  logOut,
+  login,
+  logout,
   fetchAll,
 }

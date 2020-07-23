@@ -9,11 +9,13 @@ import Icon from './Icon'
 class Input extends React.Component {
   static propTypes = {
     status: Prop.oneOf(['info', 'warning', 'error', 'success']),
+    size: Prop.oneOf(['small', 'medium', 'large']),
     validate: Prop.func,
   }
 
   state = {
     value: '',
+    size: 'medium',
   }
 
   shouldComponentUpdate(nextProps) {
@@ -82,8 +84,7 @@ class Input extends React.Component {
     const {
       className,
       icon,
-      small,
-      large,
+      size,
       value,
       loading,
       status,
@@ -109,9 +110,8 @@ class Input extends React.Component {
       'Input',
       className,
       actualStatus,
+      size,
       {
-        small,
-        large,
         'has-icon': icon !== undefined,
         disabled,
       }

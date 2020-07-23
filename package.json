@@ -11,6 +11,7 @@
     "build": "rm -rf ./public && mkdir public && cd client && npm run build && cp -r ./build/* ../public"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "bluebird": "^3.5.1",
     "body-parser": "~1.17.1",
     "connect-flash": "^0.1.1",
@@ -26,6 +27,7 @@
     "nodemailer": "^4.4.0",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0",
     "serve-favicon": "~2.4.2",
     "sqlite3": "^5.0.0"
   },

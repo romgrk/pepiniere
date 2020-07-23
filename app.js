@@ -42,7 +42,7 @@ app.use(flash()) // use connect-flash for flash messages stored in session
 
 // API
 
-app.use('/api/is-logged-in',               require('./routes/is-logged-in'))
+app.use('/api/auth',                       require('./routes/auth'))
 app.use('/api/settings',     apiProtected, require('./routes/settings'))
 app.use('/api/member',       apiProtected, require('./routes/member'))
 app.use('/api/category',     apiProtected, require('./routes/category'))
@@ -55,8 +55,6 @@ app.use('/api', (req, res) => {
 })
 
 function apiProtected(req, res, next) {
-  return next()
-
   if (req.isAuthenticated())
     return next()
 
@@ -76,43 +74,14 @@ function apiProtected(req, res, next) {
     })
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    req.user = {
-      id: 2,
-      googleID: '113897916442927912291',
-      token: 'asldfhaosidhfaouifhnewofuiqnwerocfnq9wejfoqwuie',
-      name: 'Rom Grk',
-      email: 'rom7011@gmail.com',
-      password: null
-    }
-    return next()
-  }
+  /* if (process.env.NODE_ENV === 'development') {
+   *   req.user = { id: 0, name: 'root' }
+   *   return next()
+   * } */
 
   res.json({ ok: false, message: 'Not authenticated' })
   res.end()
 }
-
-
-
-// Authentication
-
-app.get('/auth/google', passport.authenticate('google', {
-  scope: ['profile', 'email'],
-  callbackURL: config.google.callbackURL,
-}))
-app.get('/auth/google/callback', passport.authenticate('google', {
-  successRedirect: '/auth/done',
-  failureRedirect: '/auth/done',
-}))
-app.get('/auth/logout', (req, res) => {
-  req.logout()
-  res.redirect('/auth/done')
-})
-app.get('/auth/done', (req, res) => {
-  res.render('oauth.ejs', {
-    user: req.user // get the user out of session and pass to template
-  })
-})
 
 
 
