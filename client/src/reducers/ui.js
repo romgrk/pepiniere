@@ -25,13 +25,19 @@ export default function ui(state = initialState, action) {
       + action.error.message
     const details = undefined
 
+    let update = {}
+
+    if (action.payload === 'Not authenticated')
+      update = { loggedIn: { isLoading: false, value: false } }
+
     return {
       ...state,
       notifications: state.notifications.concat({
         type: 'error',
         message: message,
         details: details,
-      })
+      }),
+      ...update,
     }
   }
 

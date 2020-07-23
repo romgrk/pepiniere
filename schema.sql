@@ -48,7 +48,7 @@ CREATE TABLE runs (
 -- Bootstrap data
 
 INSERT INTO settings (key, value) VALUES
-    ('password', '$2b$10$9atLhFED4kZaWIl7/o89rON/gfqW3ElL4sSqOIOLW.PJ9L4Aoh4pW'); -- "secret"
+    ('password', '"$2b$10$9atLhFED4kZaWIl7/o89rON/gfqW3ElL4sSqOIOLW.PJ9L4Aoh4pW"'); -- "secret"
 
 
 -- Mock data

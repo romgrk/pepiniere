@@ -18,6 +18,10 @@ export const auth = {
 export const settings = {
   list: () => GET('/settings/list'),
   update: (key, value) => POST(`/settings/update/${key}`, { value }),
+  changePassword: (password, newPassword) => {
+  debugger
+return POST(`/settings/change-password`, { password, newPassword })
+},
 }
 
 export const members = {

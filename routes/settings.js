@@ -20,7 +20,18 @@ router.get('/get/:key', (req, res, next) => {
 
 /* POST update setting */
 router.use('/update/:key', (req, res, next) => {
+  if (req.params.key === 'password')
+    return errorHandler(res)(new Error('use /settings/change-password'))
+
   Settings.update(req.params.key, req.body.value)
+  .then(dataHandler(res))
+  .catch(errorHandler(res))
+})
+
+/* POST change password */
+router.use('/change-password', (req, res, next) => {
+  Settings.validatePassword(req.body.password)
+  .then(() => Settings.changePassword(req.body.newPassword))
   .then(dataHandler(res))
   .catch(errorHandler(res))
 })

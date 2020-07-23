@@ -33,7 +33,7 @@ const items = [
 const indexRoute = items.find(i => i.index).path
 
 function getRedirectTo(search) {
-  const q = qs.parse(search)
+  const q = qs.parse(search.replace(/^\?/, ''))
   if (q.redirect_to)
     return q.redirect_to
   return indexRoute
@@ -43,16 +43,14 @@ function App({ isLoggedIn, isLoggingIn }) {
 
   // Redirect on certain conditions
   const checkLocation = (props) => {
-    if (isLoggedIn)
-      debugger
     if (!isLoggedIn && !isLoggingIn && props.location.pathname !== '/login')
       return <Redirect to={`/login?redirect_to=${props.location.pathname}`} />
 
-    if (isLoggedIn && props.location.pathname === '/')
-      return <Redirect to={indexRoute} />
-
     if (isLoggedIn && props.location.pathname === '/login')
       return <Redirect to={getRedirectTo(props.location.search)} />
+
+    if (isLoggedIn && props.location.pathname === '/')
+      return <Redirect to={indexRoute} />
 
     return null
   }

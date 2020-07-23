@@ -634,12 +634,12 @@ a.link.text-normal:visited {
   transition: top .15s, left .15s, height .15s, width .15s;
 }
 .Navbar.vertical .Navbar__border {
-  width: 1px;
-  left: $sidebar-size - 1px;
+  width: 2px;
+  left: $sidebar-size - 2px;
 }
 .Navbar.horizontal .Navbar__border {
-  height: 1px;
-  top: $sidebar-size - 1px;
+  height: 2px;
+  top: $sidebar-size - 2px;
 }
 .Navbar__fill {
   flex: 1 1;

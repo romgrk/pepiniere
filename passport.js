@@ -21,15 +21,12 @@ passport.deserializeUser((id, done) => {
 })
 
 passport.use(new LocalStrategy((username, password, done) => {
-  console.log({ username, password })
-  Settings.findByKey('password')
-  .then(hash => {
-    bcrypt.compare(password, hash, (err, success) => {
-      if (err)
-        done(err, undefined)
-      else
-        done(undefined, success ? ROOT_USER : null)
-    })
+  Settings.validatePassword(password)
+  .then(success => {
+    done(undefined, success ? ROOT_USER : null)
+  })
+  .catch(err => {
+    done(err, undefined)
   })
 }))
 
