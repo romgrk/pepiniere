@@ -23,3 +23,9 @@ export function formatISO(date) {
   d.setMinutes(d.getMinutes() + d.getTimezoneOffset())
   return format(new Date(+d + d.getTimezoneOffset()*60000), 'yyyy-MM-dd')
 }
+
+export function parseLocal(input) {
+  const date = new Date(input)
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
+  return date
+}

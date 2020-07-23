@@ -130,10 +130,11 @@ input, textarea, select, button {
 .Category__section {
   position: relative;
   overflow: hidden;
-  border: 1px solid $border-color;
   margin-bottom: 2 * $padding;
-  border-radius: 2px;
   padding-left: 4*$padding;
+  border: 1px solid $border-color-darker;
+  border-radius: 2px;
+  background-color: $bg-color-darker;
 }
 .Category__color {
   position: absolute;

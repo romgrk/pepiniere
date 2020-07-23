@@ -90,9 +90,11 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
 }
 
 MemberCard.propTypes = {
-  member: Prop.object.isRequired,
+  member: Prop.oneOfType([Prop.object, Prop.number]).isRequired,
   detailed: Prop.bool,
+  empty: Prop.bool,
   size: Prop.oneOf(['small', 'medium', 'large']),
+  className: Prop.string,
 }
 
 MemberCard.defaultProps = {

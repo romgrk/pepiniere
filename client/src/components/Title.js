@@ -16,7 +16,8 @@ function Title(props) {
     muted,
     subtle,
     highlight,
-    center
+    center,
+    ...rest
   } = props
 
   const titleClassName = classname(
@@ -38,7 +39,7 @@ function Title(props) {
   )
 
   return (
-    <div className={titleClassName}>
+    <div className={titleClassName} {...rest}>
       { children }
     </div>
   )

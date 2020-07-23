@@ -10,6 +10,7 @@ import {
 import cx from 'classname'
 
 import { isVisibleAtDate } from '../models'
+import { parseLocal } from '../helpers/time'
 
 import Run from '../actions/runs'
 
@@ -23,6 +24,7 @@ import Text from '../components/Text'
 import Title from '../components/Title'
 
 import MemberCard from './MemberCard'
+import DatePicker from './schedule/DatePicker'
 import RunComponent from './schedule/Run'
 
 
@@ -43,11 +45,11 @@ class SchedulePage extends React.Component {
     dragMember: undefined,
   }
 
-  setDate(date) {
-    this.setState({ date })
+  setDate = (date) => {
+    this.setState({ date: parseLocal(date) })
   }
 
-  setAM(isAM) {
+  setAM = (isAM) => {
     this.setState({ isAM })
   }
 
@@ -118,7 +120,6 @@ class SchedulePage extends React.Component {
     })
   }
 
-
   render() {
     const { date, isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
     const { members, categories, tasks, runs } = this.props
@@ -137,13 +138,11 @@ class SchedulePage extends React.Component {
 
         <div className='SchedulePage__dateControls row'>
           <Button icon='chevron-left'  onClick={() => this.setDate(addDays(this.state.date, -1))} />
-          <Title
-            large
-            center
+          <DatePicker
             className='inline fill'
-          >
-            {formatDate(date)}
-          </Title>
+            date={date}
+            setDate={this.setDate}
+          />
           <Button icon='chevron-right' onClick={() => this.setDate(addDays(this.state.date, 1))} />
         </div>
 
