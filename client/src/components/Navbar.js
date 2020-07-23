@@ -49,6 +49,11 @@ class Navbar extends React.Component {
 
   componentDidMount() {
     this.updateBorder()
+    window.addEventListener('resize', this.onResize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize)
   }
 
   componentWillReceiveProps() {
@@ -56,6 +61,10 @@ class Navbar extends React.Component {
   }
 
   componentDidUpdate() {
+    this.updateBorder()
+  }
+
+  onResize = () => {
     this.updateBorder()
   }
 
@@ -153,8 +162,11 @@ class Navbar extends React.Component {
                 >
                   { n.icon &&
                     <Icon large name={n.icon} className='Navbar__icon'/>
-                  } { n.label &&
-                    n.label
+                  }{' '}
+                  { n.label &&
+                    i !== index ?
+                      <span className='xs-hidden'>{n.label}</span> :
+                      <span>{n.label}</span>
                   }
                 </Link>
               </Tooltip>

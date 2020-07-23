@@ -27,39 +27,33 @@ const items = [
   { type: 'item', icon: 'cogs',        label: null,       path: '/settings' },
   { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members'},
   { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks' },
-  { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/schedule' },
-  { type: 'item', icon: 'table',       label: 'Report',   path: '/reports',     index: true },
+  { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/schedule',     index: true },
+  { type: 'item', icon: 'table',       label: 'Report',   path: '/reports' },
 ]
-const indexRoute = items.find(i => i.index).path
+const indexPath = items.find(i => i.index).path
 
-function getRedirectTo(search) {
-  const q = qs.parse(search.replace(/^\?/, ''))
-  if (q.redirect_to)
-    return q.redirect_to
-  return indexRoute
+/* Redirection logic */
+function checkRedirect(location, isLoggedIn, isLoggingIn) {
+  if (!isLoggedIn && !isLoggingIn && location.pathname !== '/login')
+    return <Redirect to={`/login?redirect_to=${location.pathname}`} />
+
+  if (isLoggedIn && location.pathname === '/login')
+    return <Redirect to={getRedirectTo(location.search)} />
+
+  if (isLoggedIn && location.pathname === '/')
+    return <Redirect to={indexPath} />
+
+  return null
 }
 
 function App({ isLoggedIn, isLoggingIn }) {
 
-  // Redirect on certain conditions
-  const checkLocation = (props) => {
-    if (!isLoggedIn && !isLoggingIn && props.location.pathname !== '/login')
-      return <Redirect to={`/login?redirect_to=${props.location.pathname}`} />
-
-    if (isLoggedIn && props.location.pathname === '/login')
-      return <Redirect to={getRedirectTo(props.location.search)} />
-
-    if (isLoggedIn && props.location.pathname === '/')
-      return <Redirect to={indexRoute} />
-
-    return null
-  }
-
   return (
     <Router>
-
       <>
-        <Route render={checkLocation}/>
+        <Route
+          render={props => checkRedirect(props.location, isLoggedIn, isLoggingIn)}
+        />
 
         <div className='App vbox'>
 
@@ -76,7 +70,7 @@ function App({ isLoggedIn, isLoggingIn }) {
                     Tree Nursery
                   </Title>
                 </Navbar.Title>
-                <Navbar.Button icon='sign-out'        title='Log Out' onClick={Global.logout} />
+                <Navbar.Button icon='sign-out' title='Logout' onClick={Global.logout} />
               </Navbar>
             }/>
           </div>
@@ -84,10 +78,8 @@ function App({ isLoggedIn, isLoggingIn }) {
           <div className='App__content vbox fill'>
 
             <Route render={(props) => {
-              /*
-              * Render document title
-              */
-              const activeItem = items.find(i => i.path === props.location.pathname)
+              /* Render document title */
+              const activeItem = items.find(i => props.location.pathname.startsWith(i.path))
 
               if (activeItem && activeItem.title !== undefined)
                 document.title = activeItem.title
@@ -122,3 +114,11 @@ const mapStateToProps = createStructuredSelector({
 })
 
 export default connect(mapStateToProps)(App)
+
+
+function getRedirectTo(search) {
+  const q = qs.parse(search.replace(/^\?/, ''))
+  if (q.redirect_to)
+    return q.redirect_to
+  return indexPath
+}
