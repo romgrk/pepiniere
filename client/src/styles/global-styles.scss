@@ -106,6 +106,7 @@ input, textarea, select, button {
 }}
 .MembersPage__member {
   cursor: pointer;
+  padding-bottom: $padding;
 }
 .MembersPage__photo {
   margin-bottom: $padding;
@@ -147,9 +148,9 @@ input, textarea, select, button {
   overflow: hidden;
   margin-bottom: 2 * $padding;
   padding-left: 4*$padding;
-  border: 1px solid $border-color-darker;
+  border: 1px solid $border-color-dark;
   border-radius: 2px;
-  background-color: $bg-color-darker;
+  background-color: $bg-color-dark;
 }
 .Category__color {
   position: absolute;
@@ -163,6 +164,7 @@ input, textarea, select, button {
 }
 .Category__name {
   padding: $padding;
+  margin-left: $padding;
 }
 .Category__tasks {
   padding-left: 4*$padding;

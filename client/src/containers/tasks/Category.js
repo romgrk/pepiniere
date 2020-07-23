@@ -60,13 +60,11 @@ class CategoryComponent extends React.Component {
             value={category.data.color}
             onChange={color => this.onUpdate('color', color)}
           />
-          <div className='Category__name'>
-            <EditableLabel
-              value={category.data.name}
-              onEnter={name => this.onUpdate('name', name)}
-            />
-          </div>
-          <div className='fill' />
+          <EditableLabel
+            className='Category__name fill'
+            value={category.data.name}
+            onEnter={name => this.onUpdate('name', name)}
+          />
           <Button
             icon='remove'
             onClick={this.onDelete}

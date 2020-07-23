@@ -229,6 +229,7 @@ class ColorPicker extends React.Component {
     return [
         simple &&
           <button
+            type='button'
             className={colorPickerClassName}
             style={{ backgroundColor: isColor(value) ? value : 'transparent' }}
             onClick={this.onClickColor}
@@ -241,6 +242,7 @@ class ColorPicker extends React.Component {
             ref={this.onRef}
           >
             <button
+              type='button'
               className='ColorPicker__color ColorPicker__color--main'
               style={{ backgroundColor: isColor(value) ? value : 'transparent' }}
               onClick={this.onClickColor}
@@ -277,6 +279,7 @@ class ColorPicker extends React.Component {
                       colors.map(color =>
                         <button
                           key={color}
+                          type='button'
                           className='ColorPicker__color ColorPicker__color--button'
                           style={{ backgroundColor: color }}
                           onClick={() => this.change(color)}

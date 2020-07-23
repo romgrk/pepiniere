@@ -10,6 +10,7 @@ import Task from '../actions/tasks'
 
 import Button from '../components/Button'
 import ColorPicker from '../components/ColorPicker'
+import Form from '../components/Form'
 import Gap from '../components/Gap'
 import Input from '../components/Input'
 import Label from '../components/Label'
@@ -32,6 +33,10 @@ class TasksPage extends React.Component {
 
   onAddCategory = () => {
     const { newCategoryName, newCategoryColor } = this.state
+
+    if (newCategoryName === '')
+      return
+
     const category = {
       name: newCategoryName,
       color: newCategoryColor,
@@ -70,7 +75,7 @@ class TasksPage extends React.Component {
           </div>
         </div>
 
-        <div className='TasksPage__controls row no-padding flex'>
+        <Form className='TasksPage__controls row no-padding flex' onSubmit={this.onAddCategory}>
           <ColorPicker
             simple
             position='top'
@@ -85,10 +90,10 @@ class TasksPage extends React.Component {
             onChange={newCategoryName => this.setState({ newCategoryName })}
           />
           <Gap h='10px' />
-          <Button variant='info' onClick={this.onAddCategory}>
+          <Button variant='info'>
             Add
           </Button>
-        </div>
+        </Form>
       </section>
     )
   }
