@@ -45,8 +45,7 @@ class ReportsPage extends React.Component {
     return (
       <section className={className}>
 
-        <div className='ReportPage__controls row no-padding flex'>
-        </div>
+        <div className='ReportPage__controls row no-padding flex' />
       </section>
     )
   }

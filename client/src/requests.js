@@ -18,10 +18,7 @@ export const auth = {
 export const settings = {
   list: () => GET('/settings/list'),
   update: (key, value) => POST(`/settings/update/${key}`, { value }),
-  changePassword: (password, newPassword) => {
-  debugger
-return POST(`/settings/change-password`, { password, newPassword })
-},
+  changePassword: (password, newPassword) => POST(`/settings/change-password`, { password, newPassword }),
 }
 
 export const members = {
@@ -60,10 +57,10 @@ export const runs = {
 
 
 function fetchAPI(url, params, options = {}) {
-  let { method = 'get', ...other } = options
+  const { method = 'get', ...other } = options
 
   let finalURL = process.env.PUBLIC_URL + '/api' + url
-  let data = undefined
+  let data
 
   if (method === 'post' && params)
     data = params
@@ -81,8 +78,7 @@ function fetchAPI(url, params, options = {}) {
   return axios(config).then(({ data }) => {
     if (data.ok)
       return Promise.resolve(data.data)
-    else
-      return Promise.reject(createError(data))
+    return Promise.reject(createError(data))
   })
 }
 

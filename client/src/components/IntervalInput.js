@@ -70,7 +70,7 @@ class IntervalInput extends React.Component {
 
     const inputClassName = classname('IntervalInput', className)
 
-    let inputValue = value ? value : defaultValue ? defaultValue : this.state.value
+    let inputValue = value || (defaultValue || this.state.value)
     let hasError = !Interval.isValid(inputValue)
 
     if (valueInProps && this.props.value === undefined) {

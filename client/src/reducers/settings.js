@@ -1,4 +1,4 @@
-import { get, set, lensPath } from 'ramda'
+import { set, lensPath } from 'ramda'
 import { SETTINGS } from '../constants/ActionTypes'
 
 import toLoadable from '../helpers/to-loadable'

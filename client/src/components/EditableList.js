@@ -83,8 +83,7 @@ class EditableList extends React.Component {
               <td className='EditableList__value empty'>
                 { this.props.emptyMessage }
               </td>
-              <td>
-              </td>
+              <td />
             </tr>
         }
         <tr className='EditableList__item'>

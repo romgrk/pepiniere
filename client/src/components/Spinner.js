@@ -3,7 +3,7 @@ import pure from 'recompose/pure'
 import classname from 'classname'
 
 function Spinner(props) {
-  let {
+  const {
     className,
     size = 'tiny',
     tiny,

@@ -84,12 +84,10 @@ class Step extends React.Component {
       this.props.history.push(`/samples/${this.props.sampleId}/${this.props.index}`)
     }
     // Step selection
-    else {
-      if (this.isSelected())
+    else if (this.isSelected())
         this.props.deselectStep(this.getIdentifier())
       else
         this.props.selectStep(this.getIdentifier())
-    }
   }
 
   onMouseMove = (ev) => {

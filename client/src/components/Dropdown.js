@@ -186,8 +186,7 @@ class Dropdown extends React.Component {
         }
       )
 
-    const children = recursiveMap(this.props.children, child => {
-      return child === null || (child.type !== Item && child.type !== SegmentedItem) ?
+    const children = recursiveMap(this.props.children, child => child === null || (child.type !== Item && child.type !== SegmentedItem) ?
         child :
         React.cloneElement(
           child,
@@ -201,8 +200,7 @@ class Dropdown extends React.Component {
               }
             }
           }
-        )
-    })
+        ))
 
     return (
       <div className={dropdownClassName}>

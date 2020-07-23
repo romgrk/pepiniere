@@ -104,11 +104,9 @@ class MemberEditor extends React.Component {
     return true
   }
 
-  onChange = (key) => {
-    return (value) => {
+  onChange = (key) => (value) => {
       this.setState({ member: set(lensPath(['data', key]), value, this.state.member) })
     }
-  }
 
   onChangeStart = start => {
     this.setState({ start })

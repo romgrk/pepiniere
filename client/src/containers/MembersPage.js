@@ -50,13 +50,9 @@ class MembersPage extends React.Component {
     })
   }
 
-  onCreateMember = (member) => {
-    return Member.create(member.data)
-  }
+  onCreateMember = (member) => Member.create(member.data)
 
-  onUpdateMember = (member, key, value) => {
-    return Member.update(member.data.id, set(member.data, [key], value))
-  }
+  onUpdateMember = (member, key, value) => Member.update(member.data.id, set(member.data, [key], value))
 
   onEditMemberDone = (member) => {
     const { memberFormMode: mode } = this.state

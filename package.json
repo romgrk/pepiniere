@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "cd client && npm install",
-    "setup": "mkdir -p data && sqlite3 ./data/db.sqlite < ./schema.sql",
+    "postinstall": "npm run setup",
+    "setup": "if [ ! -f ./data/db.sqlite ]; then mkdir -p data && sqlite3 ./data/db.sqlite < ./schema.sql; fi",
     "start": "node ./bin/www",
     "start:dev": "NODE_ENV=development nodemon --ignore 'client/*' ./bin/www",
     "start:client": "cd client && npm start",

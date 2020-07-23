@@ -1,21 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { set } from 'object-path-immutable'
-import { connect } from 'react-redux'
-import { createStructuredSelector, createSelector } from 'reselect'
 
 import Task from '../../actions/tasks'
 
 import Button from '../../components/Button'
-import Checkbox from '../../components/Checkbox'
-import ColorPicker from '../../components/ColorPicker'
 import EditableLabel from '../../components/EditableLabel'
 import Gap from '../../components/Gap'
-import Input from '../../components/Input'
-import Label from '../../components/Label'
-import Text from '../../components/Text'
-import Title from '../../components/Title'
 
 
 class TaskComponent extends React.Component {

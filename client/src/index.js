@@ -8,11 +8,9 @@ import './helpers/platform-detect.js'
 import store from './store'
 import App from './App'
 import registerServiceWorker from './helpers/registerServiceWorker'
-import isLocalhost from './helpers/is-localhost.js'
 
 import './styles/index.css'
 
-import * as requests from './requests.js'
 import global from './actions/global'
 
 render(
@@ -24,11 +22,11 @@ render(
 
 
 
-if (false) {
+if (false /* process.env.NODE_ENV === 'development' */) {
   global.checkIsLoggedIn.receive(true)
   global.fetchAll()
 }
-else /* production */ {
+else {
   global.checkIsLoggedIn()
   .then(isLoggedIn => {
     if (isLoggedIn)
@@ -45,7 +43,6 @@ setInterval(() => {
 
 
 // Register service worker
-
 registerServiceWorker()
 
 
