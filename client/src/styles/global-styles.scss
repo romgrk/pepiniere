@@ -263,15 +263,22 @@ input, textarea, select, button {
 
 
 /*
- * Color
+ * ReportsPage
  */
 
-.color {
-  content: ' ';
-  display: inline-block;
-  border-radius: 50%;
-  width: 1em;
-  height: 1em;
-  margin-right: 1em;
-  opacity: 0.9;
+.ReportsPage {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  // padding: (4 * $padding) (6 * $padding) 0;
+}
+.ReportsPage__list {
+}
+@media (min-width: $breakpoint-sm) { .ReportsPage__list {
+}}
+@media (min-width: $breakpoint-md) { .ReportsPage__list {
+}}
+.ReportsPage__controls {
+  padding: (2 * $padding) (6 * $padding);
+  background-color: $bg-color-dark;
 }

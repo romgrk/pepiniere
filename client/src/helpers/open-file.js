@@ -1,3 +1,8 @@
+/*
+ * open-file.js
+ */
+
+
 export default function openFile(options = {}) {
   return new Promise((resolve, reject) => {
     const input = document.createElement('input')

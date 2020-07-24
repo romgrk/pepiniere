@@ -39,6 +39,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "sheetjs-style": "^0.15.6",
+    "spreadsheet-column": "^1.1.1",
     "styled-components": "^2.0.0"
   },
   "devDependencies": {

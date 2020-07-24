@@ -141,3 +141,18 @@ $width-simple: 20px;
   border: 1px solid $border-color-dark;
   border-radius: 4px;
 }
+
+
+/*
+ * Color
+ */
+
+.color {
+  content: ' ';
+  display: inline-block;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  margin-right: 1em;
+  opacity: 0.9;
+}
