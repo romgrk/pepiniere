@@ -165,11 +165,21 @@ class MemberEditor extends React.Component {
 
 
         <div className='MemberEditor__top'>
-          <Title className='MemberEditor__title'>{mode === MemberEditor.MODE.CREATE ? 'Add Member' : 'Update Member'}</Title>
+          <Title className='MemberEditor__title'>
+            {mode === MemberEditor.MODE.CREATE ? 'Add Member' : 'Update Member'}
+          </Title>
         </div>
         <div className='MemberEditor__inner vbox'>
           <table className='MemberEditor__table'>
           <tbody>
+            {mode === MemberEditor.MODE.UPDATE &&
+              <tr>
+                <td><Label>ID:</Label></td>
+                <td>
+                  {member.data.id}
+                </td>
+              </tr>
+            }
             <tr>
               <td><Label>First Name:</Label></td>
               <td>
@@ -235,6 +245,7 @@ class MemberEditor extends React.Component {
               <td>
                 <Input
                   className='fill-width'
+                  type='date'
                   value={member.data.startDate}
                   onChange={this.onChange('startDate')}
                 />
@@ -245,6 +256,7 @@ class MemberEditor extends React.Component {
               <td>
                 <Input
                   className='fill-width'
+                  type='date'
                   value={member.data.endDate}
                   onChange={this.onChange('endDate')}
                 />
