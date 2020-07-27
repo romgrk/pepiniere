@@ -14,6 +14,7 @@ import Gap from '../components/Gap'
 import Input from '../components/Input'
 import Label from '../components/Label'
 import Select from '../components/Select'
+import Spinner from '../components/Spinner'
 import Text from '../components/Text'
 import Title from '../components/Title'
 
@@ -23,11 +24,16 @@ class SettingsPage extends React.Component {
   static propTypes = {
   }
 
-  state = {
-    password: '',
-    newPassword: '',
+  constructor(props) {
+    super(props)
 
-    defaultTasks: [],
+    this.state = {
+      password: '',
+      newPassword: '',
+
+      defaultTasks: props.settings.defaultTasks ?
+        (props.settings.defaultTasks.data || []) : [],
+    }
   }
 
   onChangePassword = ev => {
@@ -42,13 +48,13 @@ class SettingsPage extends React.Component {
   }
 
   onAddDefaultTask = taskId => {
-    const defaultTasks = this.state.defaultTasks.concat(taskId)
+    const defaultTasks = this.state.defaultTasks.concat(+taskId)
     Settings.update('defaultTasks', defaultTasks)
     this.setState({ defaultTasks })
   }
 
   onDeleteDefaultTask = taskId => {
-    const defaultTasks = this.state.defaultTasks.filter(id => id !== taskId)
+    const defaultTasks = this.state.defaultTasks.filter(id => id !== +taskId)
     Settings.update('defaultTasks', defaultTasks)
     this.setState({ defaultTasks })
   }
@@ -101,11 +107,18 @@ class SettingsPage extends React.Component {
             <Select value={'new-task'} onChange={this.onAddDefaultTask}>
               <option value='new-task'>-- Add New Task --</option>
               {Object.values(tasks).map(task =>
-                <option value={task.data.id}>
+                <option key={task.data.id} value={task.data.id}>
                   {categories[task.data.categoryId].data.name}: {task.data.name}
                 </option>
               )}
             </Select>
+            {this.props.settings.defaultTasks &&
+             this.props.settings.defaultTasks.isLoading &&
+              <>
+                <Gap h='10px' />
+                <Spinner />
+              </>
+            }
           </Form>
 
           <Form className='Settings__section' onSubmit={this.onChangePassword}>

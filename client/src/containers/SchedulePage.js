@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import {
   format,
-  startOfToday,
+  isSunday,
   addDays,
 } from 'date-fns'
 import cx from 'classname'
@@ -145,7 +145,7 @@ class SchedulePage extends React.Component {
 
   render() {
     const { isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
-    const { currentDate, members, categories, tasks, runs } = this.props
+    const { isCreating, defaultTasks, currentDate, members, tasks, runs } = this.props
 
     const visibleRuns = getRunsFor(runs, currentDate, isAM)
     const assignedTasksId = visibleRuns.reduce((acc, r) => acc.concat(r.data.taskId), [])
@@ -154,6 +154,13 @@ class SchedulePage extends React.Component {
       isVisibleAtDate(m, currentDate) && !assignedMembersId.some(id => id === m.data.id))
 
     const unassignedTasks = tasks.filter(t => !assignedTasksId.includes(t.data.id))
+
+    const missingDefaultTasks = defaultTasks.filter(taskId =>
+      visibleRuns.find(r => r.data.taskId === taskId) === undefined)
+
+    if (!isCreating && !isSunday(currentDate) && missingDefaultTasks.length > 0) {
+      this.onAddTasks(missingDefaultTasks)
+    }
 
     const className = cx('SchedulePage vbox', { 'dragging': isDragging })
 
@@ -260,6 +267,8 @@ const mapStateToProps = createStructuredSelector({
   categories: createSelector(state => Object.values(state.categories.data), state => state),
   tasks: createSelector(state => Object.values(state.tasks.data), state => state),
   runs: createSelector(state => Object.values(state.runs.data), state => state),
+  defaultTasks: createSelector(state =>
+    state.settings.data.defaultTasks ? state.settings.data.defaultTasks.data : [], state => state),
 })
 
 export default connect(mapStateToProps)(SchedulePage)

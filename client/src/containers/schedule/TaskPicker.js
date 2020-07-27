@@ -76,7 +76,7 @@ class TaskPicker extends React.Component {
           onClose={this.close}
         >
           {Object.entries(tasksByCategoryId).map(([categoryId, tasks]) =>
-            <div className='ScheduleTaskPicker__category'>
+            <div key={categoryId} className='ScheduleTaskPicker__category'>
               <div className='ScheduleTaskPicker__category__name'>
                 {categories[categoryId].data.name}
               </div>
