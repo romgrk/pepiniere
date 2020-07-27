@@ -166,7 +166,7 @@ class SchedulePage extends React.Component {
       visibleRuns.find(r => r.data.taskId === taskId) === undefined)
 
     if (!isLoading && !isSunday(currentDate) && missingDefaultTasks.length > 0) {
-      this.onAddTasks(missingDefaultTasks)
+      // this.onAddTasks(missingDefaultTasks)
     }
 
     const className = cx('SchedulePage vbox', { 'dragging': isDragging })

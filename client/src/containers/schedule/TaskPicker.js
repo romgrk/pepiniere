@@ -60,7 +60,6 @@ class TaskPicker extends React.Component {
 
     const sortedRuns = sort(compareRun, runs).reverse()
     const orderedTasks = getMRUTasksId(sortedRuns, tasks, tasksByID)
-    console.log(orderedTasks)
 
     return (
       <>
