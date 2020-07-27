@@ -16,6 +16,8 @@ import Run from '../actions/runs'
 import UI from '../actions/ui'
 
 import Button from '../components/Button'
+import Gap from '../components/Gap'
+import Switch from '../components/Switch'
 import Text from '../components/Text'
 
 import MemberCard from './MemberCard'
@@ -39,6 +41,24 @@ class SchedulePage extends React.Component {
     dragOffset: { x: 0, y: 0 },
     dragMember: undefined,
     lastCreatedDate: undefined,
+  }
+
+  nextPeriod = () => {
+    const { currentDate } = this.props
+    const { isAM } = this.state
+    if (isAM)
+      return this.setState({ isAM: false })
+    this.setDate(addDays(currentDate, +1))
+    this.setState({ isAM: true })
+  }
+
+  previousPeriod = () => {
+    const { currentDate } = this.props
+    const { isAM } = this.state
+    if (!isAM)
+      return this.setState({ isAM: true })
+    this.setDate(addDays(currentDate, -1))
+    this.setState({ isAM: false })
   }
 
   setDate = (date) => {
@@ -187,13 +207,20 @@ class SchedulePage extends React.Component {
       <section className={className}>
 
         <div className='SchedulePage__dateControls row'>
-          <Button icon='chevron-left'  onClick={() => this.setDate(addDays(currentDate, -1))} />
+          <Button icon='chevron-left'  onClick={this.previousPeriod} />
+          <div className='fill' />
           <DatePicker
-            className='inline fill'
             date={currentDate}
             setDate={this.setDate}
           />
-          <Button icon='chevron-right' onClick={() => this.setDate(addDays(currentDate, 1))} />
+          <Gap h='10px' />
+          <Switch
+            label={['AM', 'PM']}
+            value={isAM}
+            onChange={this.setAM}
+          />
+          <div className='fill' />
+          <Button icon='chevron-right' onClick={this.nextPeriod} />
         </div>
 
         <div className='SchedulePage__members hbox'>
@@ -220,11 +247,6 @@ class SchedulePage extends React.Component {
                 label='All users assigned'
               />
           }
-        </div>
-
-        <div className='SchedulePage__amControls row'>
-          <Button className='fill' active={isAM}  onClick={() => this.setAM(true)}>AM</Button>
-          <Button className='fill' active={!isAM} onClick={() => this.setAM(false)}>PM</Button>
         </div>
 
         <div className='SchedulePage__container fill'>
