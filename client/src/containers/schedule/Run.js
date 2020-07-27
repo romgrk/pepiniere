@@ -89,14 +89,20 @@ class RunComponent extends React.Component {
   }
 
   render() {
-    const { run, tasks, members, ...rest } = this.props
+    const { run, categories, tasks, members, ...rest } = this.props
     const { notes } = this.state
     const task = tasks[run.data.taskId]
+    const category = categories[task.data.categoryId]
     const runMembers = run.data.membersId.map(id => members[id] || id)
 
     return (
       <div key={run.data.id} className='Run vbox' {...rest}>
-        <div className='Run__title hbox'>
+        <div
+          className='Run__title hbox'
+        >
+          <div className='Run__title__color'
+            style={{ backgroundColor: category.data.color }}
+          />
           <Title>{task.data.name}</Title>
           <div className='fill' />
           <Button
@@ -128,6 +134,7 @@ class RunComponent extends React.Component {
         <div className='Run__notes row'>
           <Input
             className='fill'
+            placeholder='Notes...'
             value={notes}
             onChange={this.onChangeNotes}
             onBlur={this.onBlurNotes}
@@ -141,6 +148,7 @@ class RunComponent extends React.Component {
 const mapStateToProps = createStructuredSelector({
   members: createSelector(state => state.members.data, state => state),
   tasks: createSelector(state => state.tasks.data, state => state),
+  categories: createSelector(state => state.categories.data, state => state),
 })
 
 export default connect(mapStateToProps)(RunComponent)
