@@ -30,7 +30,7 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
           />
         </div>
         <div className='text-bold text-center no-wrap no-pointer-events'>
-          <Text muted bold large>{ label || 'Add user' }</Text>
+          <Text muted bold>{ label || 'Add user' }</Text>
         </div>
       </div>
     )
