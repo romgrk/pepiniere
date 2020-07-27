@@ -2,8 +2,9 @@ import React from 'react'
 import pure from 'recompose/pure'
 import classname from 'classname'
 
-import { humanReadableDate } from '../helpers/human-readable-time'
+import { isValidDate, humanReadableDate } from '../helpers/human-readable-time'
 import Tooltip from './Tooltip'
+import Text from './Text'
 
 function Date(props) {
   const {
@@ -41,9 +42,13 @@ function Date(props) {
 
   return (
     <Tooltip content={children} offset='15px 0'>
-      <abbr className={timeClassName} { ...rest }>
-        { humanReadableDate(children) }
-      </abbr>
+      {
+        isValidDate(children) ?
+          <abbr className={timeClassName} { ...rest }>
+            { humanReadableDate(children) }
+          </abbr> :
+          <Text muted small>[Invalid date]</Text>
+      }
     </Tooltip>
   )
 }
