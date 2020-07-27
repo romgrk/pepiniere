@@ -8,12 +8,14 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 
-const config = require('./config.js')
-const passport = require('./passport.js')
+const config = require('./config')
+const backup = require('./helpers/backup')
+const passport = require('./passport')
 const k = require('./constants')
 // const User = require('./models/user.js')
 
-
+// Start backups
+backup.start()
 
 // Setup application
 const app = express()
