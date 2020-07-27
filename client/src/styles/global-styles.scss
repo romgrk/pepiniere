@@ -124,6 +124,9 @@ input, textarea, select, button {
 @media (min-width: $breakpoint-md) { .MembersPage__list {
   grid-template-columns: 18% 18% 18% 18% 18%;
 }}
+@media (min-width: $breakpoint-lg) { .MembersPage__list {
+  grid-template-columns: 14% 14% 14% 14% 14% 14%;
+}}
 .MembersPage__member {
   cursor: pointer;
   padding-bottom: $padding;
