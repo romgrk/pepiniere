@@ -21,7 +21,7 @@ class TaskPicker extends React.Component {
   }
 
   state = {
-    open: true,
+    open: false,
     selectedTasks: new Set(),
   }
 
