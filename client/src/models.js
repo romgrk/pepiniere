@@ -38,3 +38,25 @@ export function isVisibleToday(member) {
     return true
   return false
 }
+
+
+export function compareRun(a, b) {
+  const da = new Date(a.data.date)
+  const db = new Date(b.data.date)
+  const ia = a.data.isAM
+  const ib = b.data.isAM
+
+  if (da < db)
+    return -1
+
+  if (da > db)
+    return +1
+
+  if (ia && !ib)
+    return -1
+
+  if (!ia && ib)
+    return +1
+
+  return 0
+}

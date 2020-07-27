@@ -282,6 +282,25 @@ code {
 }
 
 
+/*
+ * Tag
+ */
+
+.Tag {
+  font-size: 0.8;
+  border: 1px solid $border-color;
+  border-radius: 25%;
+}
+.Tag--info { background-color: $bg-color-info; }
+.Tag--success { background-color: $bg-color-success; }
+.Tag--warning { background-color: $bg-color-warning; }
+.Tag--error { background-color: $bg-color-error; }
+
+
+/*
+ * Checkbox
+ */
+
 .input-label {
   position: relative;
   padding-left: 5px;

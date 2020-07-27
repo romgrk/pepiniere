@@ -145,7 +145,14 @@ class SchedulePage extends React.Component {
 
   render() {
     const { isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
-    const { isCreating, defaultTasks, currentDate, members, tasks, runs } = this.props
+    const {
+      isLoading,
+      defaultTasks,
+      currentDate,
+      members,
+      tasks,
+      runs
+    } = this.props
 
     const visibleRuns = getRunsFor(runs, currentDate, isAM)
     const assignedTasksId = visibleRuns.reduce((acc, r) => acc.concat(r.data.taskId), [])
@@ -158,7 +165,7 @@ class SchedulePage extends React.Component {
     const missingDefaultTasks = defaultTasks.filter(taskId =>
       visibleRuns.find(r => r.data.taskId === taskId) === undefined)
 
-    if (!isCreating && !isSunday(currentDate) && missingDefaultTasks.length > 0) {
+    if (!isLoading && !isSunday(currentDate) && missingDefaultTasks.length > 0) {
       this.onAddTasks(missingDefaultTasks)
     }
 
@@ -259,8 +266,7 @@ class SchedulePage extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  isLoading: createSelector(state => state.runs.isLoading, state => state),
-  isCreating: createSelector(state => state.runs.isCreating, state => state),
+  isLoading: createSelector(state => state.runs.isLoading || state.runs.isCreating, state => state),
   currentDate: createSelector(state => state.ui.currentDate, state => state),
   settings: createSelector(state => state.settings, state => state),
   members: createSelector(state => Object.values(state.members.data), state => state),

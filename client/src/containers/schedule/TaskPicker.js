@@ -3,8 +3,10 @@ import Prop from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import { format } from 'date-fns'
-import { filter, groupBy } from 'rambda'
+import { path, sort } from 'rambda'
 import cx from 'classname'
+
+import { compareRun } from '../../models'
 
 import Button from '../../components/Button'
 import Icon from '../../components/Icon'
@@ -53,12 +55,12 @@ class TaskPicker extends React.Component {
 
   render() {
     const { open, selectedTasks } = this.state
-    const { isCreating, isLoading, tasks, categories } = this.props
+    const { isCreating, isLoading, tasks, tasksByID, categories, runs } = this.props
     const loading = isCreating || isLoading
 
-    const tasksByCategoryId =
-      filter((key, tasks) => tasks.length > 0,
-        groupBy(t => t.data.categoryId, tasks))
+    const sortedRuns = sort(compareRun, runs).reverse()
+    const orderedTasks = getMRUTasksId(sortedRuns, tasks, tasksByID)
+    console.log(orderedTasks)
 
     return (
       <>
@@ -75,31 +77,28 @@ class TaskPicker extends React.Component {
           open={open}
           onClose={this.close}
         >
-          {Object.entries(tasksByCategoryId).map(([categoryId, tasks]) =>
-            <div key={categoryId} className='ScheduleTaskPicker__category'>
-              <div className='ScheduleTaskPicker__category__name'>
-                {categories[categoryId].data.name}
-              </div>
-              <div className='ScheduleTaskPicker__category__tasks vbox'>
-              {tasks.map(t =>
+          <div className='ScheduleTaskPicker__tasks vbox'>
+            {orderedTasks.map(t =>
+              <div
+                key={t.data.id}
+                className='ScheduleTaskPicker__task hbox'
+                role='button'
+                onClick={() => this.toggleSelectedTask(t.data.id)}
+              >
                 <div
-                  key={t.data.id}
-                  className='ScheduleTaskPicker__task hbox'
-                  role='button'
-                  onClick={() => this.toggleSelectedTask(t.data.id)}
-                >
-                  <div className='ScheduleTaskPicker__task__name fill'>{t.data.name}</div>
-                  <div className='ScheduleTaskPicker__task__icon'>
-                    <Icon
-                      size='1x'
-                      name={selectedTasks.has(t.data.id) ? 'check' : 'circle-o'}
-                    />
-                  </div>
+                  className='ScheduleTaskPicker__task__color'
+                  style={{ backgroundColor: path([t.data.categoryId, 'data', 'color'], categories) }}
+                />
+                <div className='ScheduleTaskPicker__task__name fill'>{t.data.name}</div>
+                <div className='ScheduleTaskPicker__task__icon'>
+                  <Icon
+                    size='1x'
+                    name={selectedTasks.has(t.data.id) ? 'check' : 'circle-o'}
+                  />
                 </div>
-              )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
           <div className='ScheduleTaskPicker__actions row'>
             <Button onClick={this.close}>
               Cancel
@@ -119,6 +118,8 @@ const mapStateToProps = createStructuredSelector({
   isLoading: createSelector(state => state.runs.isLoading, state => state),
   isCreating: createSelector(state => state.runs.isCreating, state => state),
   categories: createSelector(state => state.categories.data, state => state),
+  runs: createSelector(state => Object.values(state.runs.data), state => state),
+  tasksByID: createSelector(state => state.tasks.data, state => state),
 })
 
 export default connect(mapStateToProps)(TaskPicker)
@@ -132,4 +133,28 @@ function formatReadableDate(date) {
   if (date.getFullYear() === new Date().getFullYear())
     return format(date, 'EEEE MMM d')
   return format(date, 'EEEE MMM d, yyyy')
+}
+
+function getMRUTasksId(runs, tasks, tasksByID) {
+  const tasksId = []
+  const visibleTasksId = new Set(tasks.map(t => t.data.id))
+  const usedTasksId = new Set()
+
+  runs.forEach(r => {
+    const { taskId } = r.data
+    if (!visibleTasksId.has(taskId))
+      return
+    if (usedTasksId.has(taskId))
+      return
+    usedTasksId.add(taskId)
+    tasksId.push(taskId)
+  })
+
+  tasks.forEach(t => {
+    if (usedTasksId.has(t.data.id))
+      return
+    tasksId.push(t.data.id)
+  })
+
+  return tasksId.map(id => tasksByID[id])
 }

@@ -308,11 +308,23 @@ input, textarea, select, button {
   padding: $padding (4 * $padding);
 }
 .ScheduleTaskPicker__task {
+  position: relative;
   font-size: 18px !important;
   font-weight: normal !important;
   border: none;
-  border-bottom: 1px solid $border-color-subtle;
   padding: (2 * $padding) (4 * $padding);
+  border-bottom: 1px solid $border-color-subtle;
+  &:first-child {
+    border-top: 1px solid $border-color-subtle;
+  }
+}
+.ScheduleTaskPicker__task__color {
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100%;
 }
 .ScheduleTaskPicker__task__name {
   overflow: hidden;
