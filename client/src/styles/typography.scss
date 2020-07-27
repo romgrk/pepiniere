@@ -2,6 +2,8 @@
  * Typography
  */
 
+@import './_variables.scss';
+@import './_mixins.scss';
 
 h1, h2, h3 {
   margin: 0 0 1em;
