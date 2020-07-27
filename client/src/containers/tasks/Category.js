@@ -38,6 +38,9 @@ class CategoryComponent extends React.Component {
     const { category } = this.props
     const { newTask } = this.state
 
+    if (newTask.trim() === '')
+      return
+
     Task.create({ categoryId: category.data.id, name: newTask })
     .then(() => {
       this.setState({ newTask: '' })
@@ -65,10 +68,12 @@ class CategoryComponent extends React.Component {
             value={category.data.name}
             onEnter={name => this.onUpdate('name', name)}
           />
-          <Button
-            icon='remove'
-            onClick={this.onDelete}
-          />
+          {window.ALLOW_DELETION &&
+            <Button
+              icon='remove'
+              onClick={this.onDelete}
+            />
+          }
         </div>
         <div className='Category__tasks'>
           {

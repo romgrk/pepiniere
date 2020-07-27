@@ -285,7 +285,7 @@ class MemberEditor extends React.Component {
               Cancel
             </Button>
             <div className='fill' />
-            {mode === MemberEditor.MODE.UPDATE &&
+            {mode === MemberEditor.MODE.UPDATE && window.ALLOW_DELETION &&
               <Button
                 variant='error'
                 onClick={() => this.props.onDelete(member)}

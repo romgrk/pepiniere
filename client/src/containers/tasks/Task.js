@@ -34,11 +34,15 @@ class TaskComponent extends React.Component {
             onEnter={name => this.onUpdate('name', name)}
           />
         </div>
-        <Gap h='10px' />
-        <Button
-          icon='remove'
-          onClick={this.onDelete}
-        />
+        {window.ALLOW_DELETION &&
+          <>
+            <Gap h='10px' />
+            <Button
+              icon='remove'
+              onClick={this.onDelete}
+            />
+          </>
+        }
       </div>
     )
   }

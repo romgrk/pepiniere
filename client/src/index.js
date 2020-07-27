@@ -13,6 +13,8 @@ import './styles/index.css'
 
 import global from './actions/global'
 
+window.ALLOW_DELETION = false
+
 render(
   <Provider store={store}>
     <App />
