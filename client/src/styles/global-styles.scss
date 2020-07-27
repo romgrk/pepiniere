@@ -77,24 +77,25 @@ input, textarea, select, button {
 .Settings__content {
   padding: (4 * $padding) (6 * $padding);
 }
+.Settings__section {
+  margin-bottom: (6 * $padding);
+}
+.Settings__defaultTasks {
+  border: 1px solid $border-color;
+  margin-bottom: (2 * $padding);
+}
+.Settings__defaultTasks__task {
+  padding-left: (2 * $padding);
+  line-height: 30px;
 
-.Settings__table td {
-  padding: 0;
+  &:not(:last-child) {
+    border-bottom: 1px solid $border-color;
+  }
 }
-.Settings__table td:first-child {
-  width: 200px;
-}
-.Settings__table td .editable.label {
-  width: 100%;
-}
-.Settings__table__first td:first-child {
-  width: 100%;
-}
-
-
-.FilterCategories__input {
-  height: 40px !important;
-  align-items: normal !important;
+.Settings__defaultTasks__task__name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

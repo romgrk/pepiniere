@@ -8,9 +8,10 @@ CREATE TABLE settings (
     key    varchar(100) primary key,
     value  text         not null
 );
-INSERT INTO settings VALUES
-    ('whitelist',  '["rom7011@gmail.com"]') -- users allowed to login/signup
-;
+INSERT INTO settings (key, value) VALUES
+    ('password', '"$2b$10$9atLhFED4kZaWIl7/o89rON/gfqW3ElL4sSqOIOLW.PJ9L4Aoh4pW"'); -- "secret"
+INSERT INTO settings (key, value) VALUES
+    ('defaultTasks', '[]');
 
 CREATE TABLE members (
     id          integer     primary key autoincrement,
@@ -46,9 +47,6 @@ CREATE TABLE runs (
 
 
 -- Bootstrap data
-
-INSERT INTO settings (key, value) VALUES
-    ('password', '"$2b$10$9atLhFED4kZaWIl7/o89rON/gfqW3ElL4sSqOIOLW.PJ9L4Aoh4pW"'); -- "secret"
 
 
 -- Mock data
