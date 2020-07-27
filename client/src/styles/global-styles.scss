@@ -290,6 +290,34 @@ input, textarea, select, button {
 }
 
 
+.ScheduleTaskPicker__modal .Modal__header {
+  padding: 0;
+}
+.ScheduleTaskPicker__modal .Modal__container {
+  padding-left: 0;
+  padding-right: 0;
+}
+.ScheduleTaskPicker__category__name,
+.ScheduleTaskPicker__task {
+}
+.ScheduleTaskPicker__category__name {
+  background-color: $bg-color-dark;
+  padding: $padding (4 * $padding);
+}
+.ScheduleTaskPicker__task {
+  font-size: 18px !important;
+  font-weight: normal !important;
+  border: none;
+  border-bottom: 1px solid $border-color-subtle;
+  padding: (2 * $padding) (4 * $padding);
+}
+.ScheduleTaskPicker__task__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 /*
  * ReportsPage
  */

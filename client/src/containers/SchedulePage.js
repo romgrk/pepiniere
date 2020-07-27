@@ -16,12 +16,12 @@ import Run from '../actions/runs'
 import UI from '../actions/ui'
 
 import Button from '../components/Button'
-import Select from '../components/Select'
 import Text from '../components/Text'
 
 import MemberCard from './MemberCard'
 import DatePicker from './schedule/DatePicker'
 import RunComponent from './schedule/Run'
+import TaskPicker from './schedule/TaskPicker'
 
 
 class SchedulePage extends React.Component {
@@ -48,16 +48,18 @@ class SchedulePage extends React.Component {
     this.setState({ isAM })
   }
 
-  onAddNewTask = taskId => {
+  onAddTasks = tasksId => {
     const { isAM } = this.state
     const { currentDate } = this.props
 
-    Run.create({
-      taskId,
-      membersId: [],
-      date: format(currentDate, 'yyyy-MM-dd'),
-      isAM,
-      notes: '',
+    tasksId.forEach(taskId => {
+      Run.create({
+        taskId,
+        membersId: [],
+        date: format(currentDate, 'yyyy-MM-dd'),
+        isAM,
+        notes: '',
+      })
     })
   }
 
@@ -127,6 +129,8 @@ class SchedulePage extends React.Component {
     const visibleMembers = members.filter(m =>
       isVisibleAtDate(m, currentDate) && !assignedMembersId.some(id => id === m.data.id))
 
+    const unassignedTasks = tasks.filter(t => !assignedTasksId.includes(t.data.id))
+
     const className = cx('SchedulePage vbox', { 'dragging': isDragging })
 
     return (
@@ -194,28 +198,10 @@ class SchedulePage extends React.Component {
         </div>
 
         <div className='SchedulePage__controls row no-padding flex'>
-          <Select
-            className='fill'
-            value={'new-task'}
-            onChange={this.onAddNewTask}
-          >
-            <option value='new-task'>Add New Task</option>
-            {categories.map(category =>
-              <optgroup label={category.data.name}>
-                {
-                  tasks
-                  .filter(t =>
-                    t.data.categoryId === category.data.id &&
-                    !assignedTasksId.includes(t.data.id))
-                  .map(t =>
-                    <option key={t.data.id} value={t.data.id}>
-                      {t.data.name}
-                    </option>
-                  )
-                }
-              </optgroup>
-            )}
-          </Select>
+          <TaskPicker
+            tasks={unassignedTasks}
+            onDone={this.onAddTasks}
+          />
         </div>
 
         <div
