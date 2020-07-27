@@ -565,9 +565,11 @@ a.link.text-normal:visited {
   background-color: $bg-color-dark;
   &.vertical {
     height: 100%;
+    border-right: 1px solid $border-color;
   }
   &.horizontal {
     width: 100%;
+    border-bottom: 1px solid $border-color;
   }
 }
 .Navbar:not(.visible) {
@@ -635,11 +637,11 @@ a.link.text-normal:visited {
 }
 .Navbar.vertical .Navbar__border {
   width: 2px;
-  left: $sidebar-size - 2px;
+  left: $sidebar-size - 1px;
 }
 .Navbar.horizontal .Navbar__border {
   height: 2px;
-  top: $sidebar-size - 2px;
+  top: $sidebar-size - 1px;
 }
 .Navbar__fill {
   flex: 1 1;

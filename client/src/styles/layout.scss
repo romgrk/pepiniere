@@ -89,6 +89,8 @@
 }
 .row > * {
   flex: 0 0 auto;
+}
+.row > *:not(:last-child) {
   margin-right: $padding;
 }
 .fill {

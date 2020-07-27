@@ -198,6 +198,9 @@ class SchedulePage extends React.Component {
         </div>
 
         <div className='SchedulePage__controls row no-padding flex'>
+          <Button disabled={isAM} onClick={this.copyAM}>
+            Copy AM
+          </Button>
           <TaskPicker
             tasks={unassignedTasks}
             onDone={this.onAddTasks}

@@ -133,6 +133,7 @@ input, textarea, select, button {
 .MembersPage__controls {
   padding: (2 * $padding) (6 * $padding);
   background-color: $bg-color-dark;
+  border-top: 1px solid $border-color;
 }
 
 
@@ -159,6 +160,7 @@ input, textarea, select, button {
 .TasksPage__controls {
   padding: (2 * $padding) (6 * $padding);
   background-color: $bg-color-dark;
+  border-top: 1px solid $border-color;
 }
 
 
@@ -225,7 +227,6 @@ input, textarea, select, button {
 }
 .SchedulePage__dateControls {
   background-color: $bg-color-dark;
-  border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
 }
 .SchedulePage__amControls {
@@ -246,8 +247,9 @@ input, textarea, select, button {
   margin: 0.5em 0;
 }
 .SchedulePage__controls {
-  padding: (2 * $padding) (6 * $padding);
+  padding: (2 * $padding) (2 * $padding);
   background-color: $bg-color-dark;
+  border-top: 1px solid $border-color;
 }
 .SchedulePage__members {
   overflow-x: scroll;
@@ -337,4 +339,5 @@ input, textarea, select, button {
 .ReportsPage__controls {
   padding: (2 * $padding) (6 * $padding);
   background-color: $bg-color-dark;
+  border-top: 1px solid $border-color;
 }
