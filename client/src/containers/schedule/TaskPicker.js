@@ -21,7 +21,7 @@ class TaskPicker extends React.Component {
   }
 
   state = {
-    open: false,
+    open: true,
     selectedTasks: new Set(),
   }
 
@@ -74,10 +74,12 @@ class TaskPicker extends React.Component {
         </Button>
         <Modal
           className='ScheduleTaskPicker__modal'
+          scrollable
+          showHeader={false}
           open={open}
           onClose={this.close}
         >
-          <div className='ScheduleTaskPicker__tasks vbox'>
+          <div className='ScheduleTaskPicker__tasks fill vbox'>
             {orderedTasks.map(t =>
               <div
                 key={t.data.id}

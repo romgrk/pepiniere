@@ -39,6 +39,7 @@ class Modal extends React.Component {
     title: prop.string,
     open: prop.bool.isRequired,
     onClose: prop.func.isRequired,
+    scrollable: prop.boolean,
     small: prop.boolean,
     large: prop.boolean,
     width: prop.number,
@@ -123,6 +124,7 @@ class Modal extends React.Component {
       showHeader = true,
       showClose = true,
       minimal = false,
+      scrollable = false,
     } = this.props
 
     const modalClassName = classname(
@@ -133,6 +135,7 @@ class Modal extends React.Component {
         small: small,
         large: large,
         minimal: minimal,
+        scrollable: scrollable,
       })
 
     const style = {

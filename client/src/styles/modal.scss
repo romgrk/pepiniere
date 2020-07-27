@@ -35,7 +35,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  padding-top: 10%;
+  padding: 10% 0;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -115,5 +115,20 @@
   & .Modal__header {
     background: transparent;
     border-bottom: none;
+  }
+}
+
+.Modal.scrollable {
+  width: 100%;
+  height: 100%;
+
+  & .Modal__scrollArea {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  & .Modal__container {
+    height: 100%;
+    overflow: hidden;
   }
 }

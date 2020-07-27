@@ -297,8 +297,12 @@ input, textarea, select, button {
   padding: 0;
 }
 .ScheduleTaskPicker__modal .Modal__container {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
+}
+.ScheduleTaskPicker__tasks {
+  overflow: auto;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
 }
 .ScheduleTaskPicker__category__name,
 .ScheduleTaskPicker__task {
