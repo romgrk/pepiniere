@@ -71,7 +71,6 @@ class SettingsPage extends React.Component {
     const { isLoading, tasks, categories } = this.props
     const { password, newPassword, defaultTasks, } = this.state
 
-    console.log(defaultTasks)
     return (
       <section className='Settings vbox'>
 
