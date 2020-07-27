@@ -48,8 +48,29 @@ class SchedulePage extends React.Component {
     this.setState({ isAM })
   }
 
-  copyAM = () => {
+  copyLast = () => {
+    const { currentDate, runs } = this.props
+    const currentIsAM = this.state.isAM
 
+    const date = currentIsAM ? addDays(currentDate, -1) : currentDate
+    const isAM = !currentIsAM
+
+    const lastRuns = getRunsFor(runs, date, isAM)
+    const currentRuns = getRunsFor(runs, currentDate, currentIsAM)
+    const assignedTasksId = currentRuns.reduce((acc, r) => acc.concat(r.data.taskId), [])
+    const assignedMembersId = currentRuns.reduce((acc, r) => acc.concat(r.data.membersId), [])
+
+    lastRuns.forEach(run => {
+      if (assignedTasksId.includes(run.data.taskId))
+        return
+
+      const newRun = { ...run.data }
+      delete newRun.id
+      newRun.date = format(currentDate, 'yyyy-MM-dd')
+      newRun.isAM = currentIsAM
+      newRun.membersId = newRun.membersId.filter(id => !assignedMembersId.includes(id))
+      Run.create(newRun)
+    })
   }
 
   onAddTasks = tasksId => {
@@ -125,9 +146,8 @@ class SchedulePage extends React.Component {
   render() {
     const { isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
     const { currentDate, members, categories, tasks, runs } = this.props
-    const dateString = format(currentDate, 'yyyy-MM-dd')
 
-    const visibleRuns = runs.filter(r => r.data.date === dateString && r.data.isAM === isAM)
+    const visibleRuns = getRunsFor(runs, currentDate, isAM)
     const assignedTasksId = visibleRuns.reduce((acc, r) => acc.concat(r.data.taskId), [])
     const assignedMembersId = visibleRuns.reduce((acc, r) => acc.concat(r.data.membersId), [])
     const visibleMembers = members.filter(m =>
@@ -202,8 +222,8 @@ class SchedulePage extends React.Component {
         </div>
 
         <div className='SchedulePage__controls row no-padding flex'>
-          <Button disabled={isAM} onClick={this.copyAM}>
-            Copy AM
+          <Button onClick={this.copyLast}>
+            Copy Last
           </Button>
           <TaskPicker
             tasks={unassignedTasks}
@@ -232,6 +252,8 @@ class SchedulePage extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
+  isLoading: createSelector(state => state.runs.isLoading, state => state),
+  isCreating: createSelector(state => state.runs.isCreating, state => state),
   currentDate: createSelector(state => state.ui.currentDate, state => state),
   settings: createSelector(state => state.settings, state => state),
   members: createSelector(state => Object.values(state.members.data), state => state),
@@ -262,4 +284,9 @@ function getRunID(x, y) {
   while (target !== null && (runID = target.getAttribute('data-id')) === null)
     target = target.parentElement
   return +runID
+}
+
+function getRunsFor(runs, date, isAM) {
+  const dateString = format(date, 'yyyy-MM-dd')
+  return runs.filter(r => r.data.date === dateString && r.data.isAM === isAM)
 }

@@ -53,7 +53,8 @@ class TaskPicker extends React.Component {
 
   render() {
     const { open, selectedTasks } = this.state
-    const { tasks, categories } = this.props
+    const { isCreating, isLoading, tasks, categories } = this.props
+    const loading = isCreating || isLoading
 
     const tasksByCategoryId =
       filter((key, tasks) => tasks.length > 0,
@@ -64,6 +65,7 @@ class TaskPicker extends React.Component {
         <Button
           className='ScheduleTaskPicker__button fill'
           variant='info'
+          loading={loading}
           onClick={this.open}
         >
           Add Tasks
@@ -114,6 +116,8 @@ class TaskPicker extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
+  isLoading: createSelector(state => state.runs.isLoading, state => state),
+  isCreating: createSelector(state => state.runs.isCreating, state => state),
   categories: createSelector(state => state.categories.data, state => state),
 })
 

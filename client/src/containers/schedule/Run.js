@@ -89,7 +89,7 @@ class RunComponent extends React.Component {
   }
 
   render() {
-    const { run, categories, tasks, members, ...rest } = this.props
+    const { run, categories, tasks, members, dispatch, ...rest } = this.props
     const { notes } = this.state
     const task = tasks[run.data.taskId]
     const category = categories[task.data.categoryId]
