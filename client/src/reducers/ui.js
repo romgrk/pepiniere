@@ -1,3 +1,4 @@
+import { startOfToday, addDays } from 'date-fns'
 import {
   LOGGED_IN,
   LOG_IN,
@@ -8,7 +9,7 @@ import {
 } from '../constants/ActionTypes'
 
 const initialState = {
-  showFAQ: false,
+  currentDate: addDays(startOfToday(), 1),
   loggedIn: {
     isLoading: false,
     value: false,
@@ -63,10 +64,8 @@ export default function ui(state = initialState, action) {
     case LOG_OUT.ERROR:
       return { ...state, loggedIn: { ...state.loggedIn, isLoading: false } }
 
-    case UI.SHOW_FAQ:
-      return { ...state, showFAQ: true }
-    case UI.CLOSE_FAQ:
-      return { ...state, showFAQ: false }
+    case UI.SET_CURRENT_DATE:
+      return { ...state, currentDate: action.payload }
 
     case SHOW_NOTIFICATION:
       return { ...state, notifications: state.notifications.concat(action.payload) }

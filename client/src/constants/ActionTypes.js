@@ -6,8 +6,7 @@ import {
 
 // UI
 export const UI = createConstants('UI', [
-  'SHOW_FAQ',
-  'CLOSE_FAQ',
+  'SET_CURRENT_DATE',
   'ADD_FILTERING_CATEGORY',
   'DELETE_FILTERING_CATEGORY',
   'SET_FILTERING_CATEGORIES',

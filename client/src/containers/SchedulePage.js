@@ -13,15 +13,11 @@ import { isVisibleAtDate } from '../models'
 import { parseLocal } from '../helpers/time'
 
 import Run from '../actions/runs'
+import UI from '../actions/ui'
 
 import Button from '../components/Button'
-import Gap from '../components/Gap'
-import Icon from '../components/Icon'
-import Input from '../components/Input'
-import Label from '../components/Label'
 import Select from '../components/Select'
 import Text from '../components/Text'
-import Title from '../components/Title'
 
 import MemberCard from './MemberCard'
 import DatePicker from './schedule/DatePicker'
@@ -37,7 +33,6 @@ class SchedulePage extends React.Component {
   }
 
   state = {
-    date: startOfToday(),
     isAM: true,
     isDragging: false,
     dragPosition: { x: 0, y: 0 },
@@ -46,7 +41,7 @@ class SchedulePage extends React.Component {
   }
 
   setDate = (date) => {
-    this.setState({ date: parseLocal(date) })
+    UI.setCurrentDate(parseLocal(date))
   }
 
   setAM = (isAM) => {
@@ -54,12 +49,13 @@ class SchedulePage extends React.Component {
   }
 
   onAddNewTask = taskId => {
-    const { date, isAM } = this.state
+    const { isAM } = this.state
+    const { currentDate } = this.props
 
     Run.create({
       taskId,
       membersId: [],
-      date: format(date, 'yyyy-MM-dd'),
+      date: format(currentDate, 'yyyy-MM-dd'),
       isAM,
       notes: '',
     })
@@ -121,15 +117,15 @@ class SchedulePage extends React.Component {
   }
 
   render() {
-    const { date, isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
-    const { members, categories, tasks, runs } = this.props
-    const dateString = format(date, 'yyyy-MM-dd')
+    const { isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
+    const { currentDate, members, categories, tasks, runs } = this.props
+    const dateString = format(currentDate, 'yyyy-MM-dd')
 
     const visibleRuns = runs.filter(r => r.data.date === dateString && r.data.isAM === isAM)
     const assignedTasksId = visibleRuns.reduce((acc, r) => acc.concat(r.data.taskId), [])
     const assignedMembersId = visibleRuns.reduce((acc, r) => acc.concat(r.data.membersId), [])
     const visibleMembers = members.filter(m =>
-      isVisibleAtDate(m, date) && !assignedMembersId.some(id => id === m.data.id))
+      isVisibleAtDate(m, currentDate) && !assignedMembersId.some(id => id === m.data.id))
 
     const className = cx('SchedulePage vbox', { 'dragging': isDragging })
 
@@ -137,13 +133,13 @@ class SchedulePage extends React.Component {
       <section className={className}>
 
         <div className='SchedulePage__dateControls row'>
-          <Button icon='chevron-left'  onClick={() => this.setDate(addDays(this.state.date, -1))} />
+          <Button icon='chevron-left'  onClick={() => this.setDate(addDays(currentDate, -1))} />
           <DatePicker
             className='inline fill'
-            date={date}
+            date={currentDate}
             setDate={this.setDate}
           />
-          <Button icon='chevron-right' onClick={() => this.setDate(addDays(this.state.date, 1))} />
+          <Button icon='chevron-right' onClick={() => this.setDate(addDays(currentDate, 1))} />
         </div>
 
         <div className='SchedulePage__members hbox'>
@@ -243,6 +239,7 @@ class SchedulePage extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
+  currentDate: createSelector(state => state.ui.currentDate, state => state),
   settings: createSelector(state => state.settings, state => state),
   members: createSelector(state => Object.values(state.members.data), state => state),
   categories: createSelector(state => Object.values(state.categories.data), state => state),
@@ -252,12 +249,6 @@ const mapStateToProps = createStructuredSelector({
 
 export default connect(mapStateToProps)(SchedulePage)
 
-
-function formatDate(date) {
-  if (date.getFullYear() === new Date().getFullYear())
-    return format(date, 'EEEE MMM d')
-  return format(date, 'EEEE MMM d, yyyy')
-}
 
 function getEventPosition(e) {
   if (e instanceof TouchEvent) {

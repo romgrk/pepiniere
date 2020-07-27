@@ -24,9 +24,6 @@ export const showSuccess      = createAction(SHOW.SUCCESS, createPayload)
 export const showWarning      = createAction(SHOW.WARNING, createPayload)
 export const showError        = createAction(SHOW.ERROR, createPayload)
 
-export const showFAQ  = createAction(UI.SHOW_FAQ)
-export const closeFAQ = createAction(UI.CLOSE_FAQ)
-
 export const fetchAll = createAsyncAction(() => (dispatch, getState) => {
   const { ui: { loggedIn } } = getState()
 
@@ -89,8 +86,6 @@ export default {
   showSuccess,
   showWarning,
   showError,
-  showFAQ,
-  closeFAQ,
   checkIsLoggedIn,
   login,
   logout,
