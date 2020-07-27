@@ -48,6 +48,10 @@ class SchedulePage extends React.Component {
     this.setState({ isAM })
   }
 
+  copyAM = () => {
+
+  }
+
   onAddTasks = tasksId => {
     const { isAM } = this.state
     const { currentDate } = this.props
