@@ -204,6 +204,9 @@ input, textarea, select, button {
   border-radius: 2px;
   padding-left: $padding;
 }
+.Task__name {
+  overflow: hidden;
+}
 
 
 
