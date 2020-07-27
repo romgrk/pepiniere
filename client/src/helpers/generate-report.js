@@ -18,8 +18,6 @@ import {
 
 const spreadsheetCoords = new SpreadsheetColumn({ zero: true })
 
-const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
 
 const parseYear  = r => +r.date.slice(0, 4)
 const parseMonth = r => +r.date.slice(5, 7) - 1
@@ -36,7 +34,6 @@ export default function generateReport(year, runs, members, categories, tasks) {
   const sheet = xlsx.utils.json_to_sheet([])
 
   const runsForYear = filter(r => parseYear(r) === year, runs)
-  debugger
 
   const runsByMonth = groupByMonth(runsForYear)
   const runsByTask = groupBy(r => r.taskId, runs)
@@ -50,8 +47,9 @@ export default function generateReport(year, runs, members, categories, tasks) {
   const tasksIdInOrder = flatten(map(categoryId => tasksIdByCategory[categoryId], categoriesId))
   const columnByTaskId = {}
 
-  const TASKS_START = 4
-  const DATA_START  = 2
+  const DATA_START_COLUMN = 4
+  const DATA_END_COLUMN = DATA_START_COLUMN + tasksIdInOrder.length
+  const DATA_START_ROW  = 2
   const VOLUNTEER_COLUMN = 3
 
   let row
@@ -67,7 +65,7 @@ export default function generateReport(year, runs, members, categories, tasks) {
 
     categoriesId.forEach(categoryId => {
       const category = categories[categoryId]
-      sheet[p(row, TASKS_START + previousTasks)] = {
+      sheet[p(row, DATA_START_COLUMN + previousTasks)] = {
         t: 's',
         v: category.name,
         s: {
@@ -79,8 +77,8 @@ export default function generateReport(year, runs, members, categories, tasks) {
 
       mergeCells(
         sheet,
-        c(0, TASKS_START + previousTasks),
-        c(0, TASKS_START + previousTasks + length - 1)
+        c(0, DATA_START_COLUMN + previousTasks),
+        c(0, DATA_START_COLUMN + previousTasks + length - 1)
       )
 
       previousTasks += length
@@ -101,7 +99,7 @@ export default function generateReport(year, runs, members, categories, tasks) {
 
       tasksId.forEach(taskId => {
         const task = tasks[taskId]
-        const column = TASKS_START + previousTasks
+        const column = DATA_START_COLUMN + previousTasks
         columnByTaskId[taskId] = column
 
         sheet[p(row, column)] = {
@@ -166,24 +164,116 @@ export default function generateReport(year, runs, members, categories, tasks) {
     }
     mergeCells(sheet, c(monthStartRow, 0), c(row - 1, 0))
   })
-
-  const DATA_END = row
+  const DATA_END_ROW = row
 
   // Total hours row
   row += 1
   sheet[p(row, 0)] = { t: 's', v: 'TOTAL HOURS', s: { font: { bold: true } } }
   mergeCells(sheet, c(row, 0), c(row, 2))
   tasksIdInOrder.forEach((_, i) => {
-    const column = TASKS_START + i
+    const column = DATA_START_COLUMN + i
     sheet[p(row, column)] = {
       t: 'n',
-      f: `=SUM(${p(DATA_START, column)}:${p(DATA_END, column)})`,
+      f: `=SUM(${p(DATA_START_ROW, column)}:${p(DATA_END_ROW, column)})`,
       s: {
         font: { bold: true },
         alignment: { vertical: 'center' },
       }
     }
   })
+  const TOTAL_HOURS_ROW = row
+
+  // Task/category percentage row
+  row += 1
+  sheet[p(row, 0)] = { t: 's', v: '% TASK/CATEGORY', s: { font: { bold: true } } }
+  mergeCells(sheet, c(row, 0), c(row, 2))
+  {
+    let previousTasks = 0
+
+    categoriesId.forEach(categoryId => {
+      const tasks = tasksIdByCategory[categoryId]
+
+      const startColumn = DATA_START_COLUMN + previousTasks
+      const endColumn = startColumn + tasks.length - 1
+
+      tasks.forEach((_, index) => {
+        const column = startColumn + index
+        sheet[p(row, column)] = {
+          t: 'n',
+          f: `=${p(row - 1, column)}/SUM(${p(row - 1, startColumn)}:${p(row - 1, endColumn)})`,
+          s: {
+            font: { bold: true },
+          }
+        }
+      })
+
+      previousTasks += tasks.length
+    })
+  }
+
+  // Total percentage row
+  row += 1
+  sheet[p(row, 0)] = { t: 's', v: '% TASK/TOTAL', s: { font: { bold: true } } }
+  mergeCells(sheet, c(row, 0), c(row, 2))
+  {
+    let previousTasks = 0
+
+    categoriesId.forEach(categoryId => {
+      const tasks = tasksIdByCategory[categoryId]
+
+      const totalRow = row + 3
+      const totalColumn = VOLUNTEER_COLUMN
+
+      tasks.forEach((_, index) => {
+        const column = DATA_START_COLUMN + previousTasks + index
+        sheet[p(row, column)] = {
+          t: 'n',
+          f: `=${p(row - 2, column)}/${p(totalRow, totalColumn)}`,
+          s: {
+            font: { bold: true },
+          }
+        }
+      })
+
+      previousTasks += tasks.length
+    })
+  }
+
+  // Category/total percentage row
+  row += 1
+  sheet[p(row, 0)] = { t: 's', v: '% CATEGORY/TOTAL', s: { font: { bold: true } } }
+  mergeCells(sheet, c(row, 0), c(row, 2))
+  {
+    const hoursRow = row - 3
+
+    let previousTasks = 0
+
+    categoriesId.forEach(categoryId => {
+      const tasks = tasksIdByCategory[categoryId]
+
+      const totalRow = row + 2
+      const totalColumn = VOLUNTEER_COLUMN
+
+      const startColumn = DATA_START_COLUMN + previousTasks
+      const endColumn   = startColumn + tasks.length - 1
+
+      sheet[p(row, startColumn)] = {
+        t: 'n',
+        f: `=SUM(${p(hoursRow, startColumn)}:${p(hoursRow, endColumn)})/${p(totalRow, totalColumn)}`,
+        s: {
+          font: { bold: true },
+          alignment: { horizontal: 'center' },
+        }
+      }
+      mergeCells(
+        sheet,
+        c(row, startColumn),
+        c(row, endColumn)
+      )
+
+      previousTasks += tasks.length
+    })
+  }
 
   // Total volunteer days row
   row += 1
@@ -193,7 +283,7 @@ export default function generateReport(year, runs, members, categories, tasks) {
     const column = VOLUNTEER_COLUMN
     sheet[p(row, column)] = {
       t: 'n',
-      f: `=SUM(${p(DATA_START, column)}:${p(DATA_END, column)})`,
+      f: `=SUM(${p(DATA_START_ROW, column)}:${p(DATA_END_ROW, column)})`,
       s: {
         font: { bold: true },
         alignment: { vertical: 'center' },
@@ -201,6 +291,21 @@ export default function generateReport(year, runs, members, categories, tasks) {
     }
   }
 
+  // Total hours all row
+  row += 1
+  sheet[p(row, 0)] = { t: 's', v: 'TOTAL HOURS (ALL)', s: { font: { bold: true } } }
+  mergeCells(sheet, c(row, 0), c(row, 2))
+  {
+    const column = VOLUNTEER_COLUMN
+    sheet[p(row, column)] = {
+      t: 'n',
+      f: `=SUM(${p(TOTAL_HOURS_ROW, DATA_START_COLUMN)}:${p(TOTAL_HOURS_ROW, DATA_END_COLUMN)})`,
+      s: {
+        font: { bold: true },
+        alignment: { vertical: 'center' },
+      }
+    }
+  }
 
   // Finalize & append sheet
   sheet['!cols'] = [
