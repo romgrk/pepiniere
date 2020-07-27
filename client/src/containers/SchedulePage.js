@@ -38,6 +38,7 @@ class SchedulePage extends React.Component {
     dragPosition: { x: 0, y: 0 },
     dragOffset: { x: 0, y: 0 },
     dragMember: undefined,
+    lastCreatedDate: undefined,
   }
 
   setDate = (date) => {
@@ -71,6 +72,17 @@ class SchedulePage extends React.Component {
       newRun.membersId = newRun.membersId.filter(id => !assignedMembersId.includes(id))
       Run.create(newRun)
     })
+  }
+
+  addMissingTasks = tasksId => {
+    if (this.state.lastCreatedDate === this.props.currentDate)
+      return
+
+    this.setState({
+      lastCreatedDate: this.props.currentDate,
+    })
+
+    this.onAddTasks(tasksId)
   }
 
   onAddTasks = tasksId => {
@@ -166,7 +178,7 @@ class SchedulePage extends React.Component {
       visibleRuns.find(r => r.data.taskId === taskId) === undefined)
 
     if (!isLoading && !isSunday(currentDate) && missingDefaultTasks.length > 0) {
-      // this.onAddTasks(missingDefaultTasks)
+      this.addMissingTasks(missingDefaultTasks)
     }
 
     const className = cx('SchedulePage vbox', { 'dragging': isDragging })
