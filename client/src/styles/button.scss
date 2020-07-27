@@ -29,12 +29,8 @@
 .activable {
   transition: all .15s;
 }
-.Button:not([disabled]).active,
-.Button:not([disabled]):active,
 .Button:not([disabled]):focus,
 .Dropdown.input-like > .Button:focus,
-.activable:not([disabled]).active,
-.activable:not([disabled]):active,
 .activable:not([disabled]):focus {
   outline: none;
   border-color: $focus-color;
