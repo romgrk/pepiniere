@@ -51,6 +51,7 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
             /> :
           member.data.photo ?
             <img
+              className='MemberCard__photo__img'
               width="auto"
               height={imageSize + 'px'}
               src={member.data.photo}

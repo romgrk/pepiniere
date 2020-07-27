@@ -2,15 +2,19 @@ import React from 'react'
 import Prop from 'prop-types'
 import pure from 'recompose/pure'
 import { lensPath, set } from 'ramda'
+import { StyledDropZone as DropZone } from 'react-drop-zone'
+import 'react-drop-zone/dist/styles.css'
 import cx from 'classname'
 
 import Member from '../../actions/members'
 
+import resizeImage from '../../helpers/resize-image'
 import {formatISO} from '../../helpers/time'
 
 import Button from '../../components/Button'
 import Checkbox from '../../components/Checkbox'
 import Dropdown from '../../components/Dropdown'
+import Icon from '../../components/Icon'
 import Input from '../../components/Input'
 import Label from '../../components/Label'
 import Modal from '../../components/Modal'
@@ -130,6 +134,13 @@ class MemberEditor extends React.Component {
     this.setState({ member: set(lensPath(['data', 'endDate']), date.toISOString(), this.state.member) })
   }
 
+  onDropFile = file => {
+    resizeImage(file, 100)
+    .then(dataUrl => {
+      this.setState({ member: set(lensPath(['data', 'photo']), dataUrl, this.state.member) })
+    })
+  }
+
   onDone = () => {
     if (!this.validate())
       return
@@ -139,13 +150,6 @@ class MemberEditor extends React.Component {
 
   onCancel = () => {
     this.props.onCancel()
-  }
-
-  onCreateApplicant = name => {
-    /* Applicant.create({ name })
-     * .then(applicant => {
-     *   this.onSelectApplicant(applicant.id)
-     * }) */
   }
 
   render() {
@@ -172,6 +176,31 @@ class MemberEditor extends React.Component {
         <div className='MemberEditor__inner vbox'>
           <table className='MemberEditor__table'>
           <tbody>
+            <tr>
+              <td colSpan='2'>
+                <DropZone
+                  dontRead
+                  accept='image/*'
+                  className='MemberEditor__photo'
+                  onDrop={this.onDropFile}
+                >
+                  {member.data.photo ?
+                    <img
+                      className='MemberEditor__photo__img'
+                      width='auto'
+                      height='auto'
+                      style={{ maxWidth: 100, maxHeight: 100 }}
+                      src={member.data.photo}
+                    /> :
+                    <Icon
+                      name='user-circle'
+                      size='5x'
+                      style={{ height: 'auto', width: '100%', opacity: 0.6 }}
+                    />
+                  }
+                </DropZone>
+              </td>
+            </tr>
             {mode === MemberEditor.MODE.UPDATE &&
               <tr>
                 <td><Label>ID:</Label></td>
