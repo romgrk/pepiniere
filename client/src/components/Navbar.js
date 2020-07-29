@@ -123,7 +123,7 @@ class Navbar extends React.Component {
       children,
     } = this.props
 
-    const navClassName = cx('Navbar', {
+    const navClassName = cx('Navbar', `Navbar--${direction}`, {
       visible,
       [direction]: true,
       'vbox': direction === 'vertical',
