@@ -305,6 +305,9 @@ input, textarea, select, button {
   left: 0;
 }
 .Run__members {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 
