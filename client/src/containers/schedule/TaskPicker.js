@@ -66,7 +66,6 @@ class TaskPicker extends React.Component {
         <Button
           className='ScheduleTaskPicker__button fill'
           variant='info'
-          loading={loading}
           onClick={this.open}
         >
           Add Tasks
