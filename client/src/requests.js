@@ -50,6 +50,8 @@ export const runs = {
   get: (id) => GET(`/run/get/${id}`),
   create: (data) => POST(`/run/create`, data),
   update: (id, data) => POST(`/run/update/${id}`, data),
+  addMember: (id, memberId) => POST(`/run/add-member/${id}/${memberId}`),
+  removeMember: (id, memberId) => POST(`/run/remove-member/${id}/${memberId}`),
   delete: (id) => POST(`/run/delete/${id}`),
 }
 

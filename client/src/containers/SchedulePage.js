@@ -79,7 +79,11 @@ class SchedulePage extends React.Component {
     const lastRuns = getRunsFor(runs, date, isAM)
     const currentRuns = getRunsFor(runs, currentDate, currentIsAM)
     const assignedTasksId = currentRuns.reduce((acc, r) => acc.concat(r.data.taskId), [])
-    const assignedMembersId = currentRuns.reduce((acc, r) => acc.concat(r.data.membersId), [])
+    const assignedMembersId = currentRuns.reduce((acc, r) =>
+      acc.concat(
+        r.data.membersId.map(mId =>
+          typeof mId === 'object' ? mId.id : mId)),
+      [])
 
     lastRuns.forEach(run => {
       if (assignedTasksId.includes(run.data.taskId))
@@ -148,9 +152,7 @@ class SchedulePage extends React.Component {
     const runId = getRunID(x, y)
 
     if (runId) {
-      const run = this.props.runs.find(r => r.data.id === runId)
-      const membersId = run.data.membersId.concat(dragMember.data.id)
-      Run.update(runId, { membersId })
+      Run.addMember(runId, dragMember.data.id)
     }
 
     this.setState({
@@ -188,7 +190,11 @@ class SchedulePage extends React.Component {
 
     const visibleRuns = getRunsFor(runs, currentDate, isAM)
     const assignedTasksId = visibleRuns.reduce((acc, r) => acc.concat(r.data.taskId), [])
-    const assignedMembersId = visibleRuns.reduce((acc, r) => acc.concat(r.data.membersId), [])
+    const assignedMembersId = visibleRuns.reduce((acc, r) =>
+      acc.concat(
+        r.data.membersId.map(mId =>
+          typeof mId === 'object' ? mId.id : mId)),
+      [])
     const visibleMembers = members.filter(m =>
       isVisibleAtDate(m, currentDate) && !assignedMembersId.some(id => id === m.data.id))
 

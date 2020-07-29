@@ -8,6 +8,8 @@ module.exports = {
   findAll,
   findById,
   update,
+  addMember,
+  removeMember,
   create,
 }
 
@@ -27,6 +29,28 @@ function update(run) {
      WHERE id = @id
     `, serialize(run))
     .then(() => findById(run.id))
+}
+
+function addMember(id, memberId) {
+  return findById(id)
+  .then(run =>
+    db.run(`
+      UPDATE runs
+        SET membersId = @membersId
+      WHERE id = @id
+    `, serialize({ id, membersId: run.membersId.concat(memberId) }))
+  )
+}
+
+function removeMember(id, memberId) {
+  return findById(id)
+  .then(run =>
+    db.run(`
+      UPDATE runs
+        SET membersId = @membersId
+      WHERE id = @id
+    `, serialize({ id, membersId: run.membersId.filter(id => id !== memberId) }))
+  )
 }
 
 function create(run) {

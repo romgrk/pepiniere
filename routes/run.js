@@ -25,9 +25,23 @@ router.use('/create', (req, res, next) => {
   .catch(errorHandler(res))
 })
 
-/* POST update member */
+/* POST update run */
 router.use('/update/:id', (req, res, next) => {
   Run.update({ ...req.body, id: req.params.id })
+  .then(dataHandler(res))
+  .catch(errorHandler(res))
+})
+
+/* POST add member */
+router.use('/add-member/:id/:memberId', (req, res, next) => {
+  Run.addMember(req.params.id, +req.params.memberId)
+  .then(dataHandler(res))
+  .catch(errorHandler(res))
+})
+
+/* POST remove member */
+router.use('/remove-member/:id/:memberId', (req, res, next) => {
+  Run.removeMember(req.params.id, +req.params.memberId)
   .then(dataHandler(res))
   .catch(errorHandler(res))
 })

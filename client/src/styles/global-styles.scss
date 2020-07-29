@@ -22,7 +22,11 @@ input, textarea, select, button {
  */
 
 .MemberCard {
+  position: relative;
   cursor: pointer;
+}
+.MemberCard--loading .MemberCard__content {
+  opacity: 0.4;
 }
 .MemberCard__photo {
   margin-bottom: $padding;
@@ -36,6 +40,12 @@ input, textarea, select, button {
   height: 100%;
   border: 6px dashed rgba(black, 0.4);
   border-radius: 50%;
+}
+.MemberCard__spinner {
+  position: absolute;
+  top:  calc(50%);
+  left: calc(50% - 4px);
+  transform: translate(-50%, -50%);
 }
 
 

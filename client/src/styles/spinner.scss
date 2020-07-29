@@ -66,7 +66,7 @@
   width:  1em;
   height: 1em;
   font-size: 32px;
-  background: radial-gradient(#599eff 0.1em, transparent 0.11em);
+  // background: radial-gradient(#599eff 0.1em, transparent 0.11em);
 }
 .loading-spinner-small::before,
 .loading-spinner-small::after {
@@ -78,7 +78,7 @@
   width: inherit;
   height: inherit;
   border-radius: 1em;
-  border: 2px solid;
+  border: 3px solid;
   animation: spinner-animation 1.2s infinite;
   animation-fill-mode: backwards;
 }
@@ -98,7 +98,7 @@
   width: 1em;
   height: 1em;
   font-size: 48px;
-  background: radial-gradient(#599eff 0.1em, transparent 0.11em);
+  // background: radial-gradient(#599eff 0.1em, transparent 0.11em);
 }
 .loading-spinner-medium::before,
 .loading-spinner-medium::after {
@@ -110,7 +110,7 @@
   width: inherit;
   height: inherit;
   border-radius: 1em;
-  border: 2px solid;
+  border: 3px solid;
   animation: spinner-animation 1.2s infinite;
   animation-fill-mode: backwards;
 }
@@ -130,7 +130,7 @@
   width: 1em;
   height: 1em;
   font-size: 64px;
-  background: radial-gradient(#599eff 0.1em, transparent 0.11em);
+  // background: radial-gradient(#599eff 0.1em, transparent 0.11em);
 }
 .loading-spinner-large::before,
 .loading-spinner-large::after {
@@ -142,7 +142,7 @@
   width: inherit;
   height: inherit;
   border-radius: 1em;
-  border: 2px solid;
+  border: 3px solid;
   animation: spinner-animation 1.2s infinite;
   animation-fill-mode: backwards;
 }

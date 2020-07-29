@@ -1,11 +1,10 @@
 import {
-  set,
-  lensPath,
   indexBy,
   prop,
   assoc,
   dissoc
 } from 'ramda'
+import { set, merge } from 'object-path-immutable'
 import { RUNS } from '../constants/ActionTypes'
 
 import toLoadable from '../helpers/to-loadable'
@@ -35,18 +34,72 @@ export default function runs(state = initialState, action) {
       return { ...state, isCreating: false }
 
     case RUNS.UPDATE.REQUEST:
-      return set(lensPath(['data', action.payload.id, 'isLoading']), true, state)
+      return set(state, ['data', action.payload.id, 'isLoading'], true)
     case RUNS.UPDATE.RECEIVE:
-      return set(lensPath(['data', action.meta.id]), { isLoading: false, data: action.payload }, state)
+      return set(state, ['data', action.meta.id], { isLoading: false, data: action.payload })
     case RUNS.UPDATE.ERROR:
-      return set(lensPath(['data', action.meta.id, 'isLoading']), false, state)
+      return set(state, ['data', action.meta.id, 'isLoading'], false)
+
+    case RUNS.ADD_MEMBER.REQUEST:
+      return merge(state, ['data', action.payload.id], {
+        isLoading: true,
+        data: {
+          membersId:
+            state.data[action.payload.id].data.membersId.concat({
+              isLoading: true,
+              id: action.payload.memberId,
+            })
+        }
+      })
+    case RUNS.ADD_MEMBER.RECEIVE:
+      return merge(state, ['data', action.meta.id], {
+        isLoading: true,
+        data: {
+          membersId:
+            state.data[action.meta.id].data.membersId.map(mId =>
+              mId.id === action.meta.memberId ? mId.id : mId)
+        }
+      })
+    case RUNS.ADD_MEMBER.ERROR:
+      return merge(state, ['data', action.meta.id], {
+        isLoading: false,
+        data: {
+          membersId:
+            state.data[action.meta.id].data.membersId.filter(mId =>
+              typeof mId === 'number' ?
+                mId !== action.meta.memberId :
+                mId.id !== action.meta.memberId)
+        }
+      })
+
+    case RUNS.REMOVE_MEMBER.REQUEST:
+      return merge(state, ['data', action.payload.id], {
+        isLoading: true,
+        data: {
+          membersId:
+            state.data[action.payload.id].data.membersId.filter(mId =>
+              typeof mId === 'number' ?
+                mId !== action.payload.memberId :
+                mId.id !== action.payload.memberId)
+        }
+      })
+    case RUNS.REMOVE_MEMBER.RECEIVE:
+      return set(state, ['data', action.meta.id, 'isLoading'], false)
+    case RUNS.REMOVE_MEMBER.ERROR:
+      return merge(state, ['data', action.payload.id], {
+        isLoading: false,
+        data: {
+          membersId:
+            state.data[action.meta.id].data.membersId.concat(action.meta.memberId)
+        }
+      })
 
     case RUNS.DELETE.REQUEST:
-      return set(lensPath(['data', action.payload.id, 'isLoading']), true, state)
+      return set(state, ['data', action.payload.id, 'isLoading'], true)
     case RUNS.DELETE.RECEIVE:
       return { ...state, data: dissoc(action.meta.id, state.data) }
     case RUNS.DELETE.ERROR:
-      return set(lensPath(['data', action.meta.id, 'isLoading']), true, state)
+      return set(state, ['data', action.meta.id, 'isLoading'], true)
 
     default:
       return state

@@ -1,27 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { set } from 'object-path-immutable'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
-import {
-  format,
-  startOfToday,
-  addDays,
-} from 'date-fns'
 
-import { abbreviate } from '../../models'
 
-import Category from '../../actions/categories'
-import Task from '../../actions/tasks'
 import Run from '../../actions/runs'
 
 import Button from '../../components/Button'
-import Gap from '../../components/Gap'
-import Icon from '../../components/Icon'
 import Input from '../../components/Input'
-import Label from '../../components/Label'
-import Select from '../../components/Select'
-import Text from '../../components/Text'
 import Title from '../../components/Title'
 
 import MemberCard from '../MemberCard'
@@ -77,8 +63,7 @@ class RunComponent extends React.Component {
 
   onDeleteMember = (memberId) => {
     const { run } = this.props
-    const membersId = run.data.membersId.filter(id => id !== memberId)
-    Run.update(run.data.id, { membersId })
+    Run.removeMember(run.data.id, memberId)
   }
 
   onDelete = () => {
@@ -93,7 +78,13 @@ class RunComponent extends React.Component {
     const { notes } = this.state
     const task = tasks[run.data.taskId] || { isLoading: true, data: { name: 'Loading' } }
     const category = categories[task.data.categoryId] || { isLoading: true, data: { name: 'Loading' } }
-    const runMembers = run.data.membersId.map(id => members[id] || id)
+    const runMembers = run.data.membersId.map(id => {
+      if (typeof id === 'number')
+        return members[id] || id
+      const member = members[id.id]
+      const loadingMember = { isLoading: true, data: member.data }
+      return loadingMember
+    })
 
     return (
       <div key={run.data.id} className='Run vbox' {...rest}>
