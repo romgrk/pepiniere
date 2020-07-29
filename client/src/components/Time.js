@@ -39,11 +39,17 @@ function Time(props) {
     }
   )
 
+  const content =
+    <abbr className={timeClassName} { ...rest }>
+      { humanReadableTime(children) }
+    </abbr>
+
+  if (window.isMobile)
+    return content
+
   return (
     <Tooltip content={humanDetailedTime(children)} offset='15px 0'>
-      <abbr className={timeClassName} { ...rest }>
-        { humanReadableTime(children) }
-      </abbr>
+      {content}
     </Tooltip>
   )
 }

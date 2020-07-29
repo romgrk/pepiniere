@@ -40,15 +40,19 @@ function Date(props) {
     }
   )
 
+  const content =
+    isValidDate(children) ?
+      <abbr className={timeClassName} { ...rest }>
+        { humanReadableDate(children) }
+      </abbr> :
+      <Text muted small>[Invalid date]</Text>
+
+  if (window.isMobile)
+    return content
+
   return (
     <Tooltip content={children} offset='15px 0'>
-      {
-        isValidDate(children) ?
-          <abbr className={timeClassName} { ...rest }>
-            { humanReadableDate(children) }
-          </abbr> :
-          <Text muted small>[Invalid date]</Text>
-      }
+      {content}
     </Tooltip>
   )
 }
