@@ -56,7 +56,6 @@ class TaskPicker extends React.Component {
   render() {
     const { open, selectedTasks } = this.state
     const { isCreating, isLoading, tasks, tasksByID, categories, runs } = this.props
-    const loading = isCreating || isLoading
 
     const sortedRuns = sort(compareRun, runs).reverse()
     const orderedTasks = getMRUTasksId(sortedRuns, tasks, tasksByID)
