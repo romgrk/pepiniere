@@ -171,10 +171,10 @@ input, textarea, select, button {
 }}
 @media (min-width: $breakpoint-md) { .TasksPage__list {
 }}
-.TasksPage__controls {
-  padding: (2 * $padding) (6 * $padding);
-  background-color: $bg-color-dark;
-  border-top: 1px solid $border-color;
+.TasksPage__run__notes {
+}
+.TasksPage__run__date {
+  align-self: flex-start;
 }
 
 

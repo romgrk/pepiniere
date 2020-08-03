@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { set } from 'object-path-immutable'
 
 import Task from '../../actions/tasks'
@@ -6,6 +7,7 @@ import Task from '../../actions/tasks'
 import Button from '../../components/Button'
 import EditableLabel from '../../components/EditableLabel'
 import Gap from '../../components/Gap'
+import Icon from '../../components/Icon'
 
 
 class TaskComponent extends React.Component {
@@ -34,6 +36,9 @@ class TaskComponent extends React.Component {
             onEnter={name => this.onUpdate('name', name)}
           />
         </div>
+        <Link to={`/tasks/${task.data.id}`} className='Button iconButton has-icon'>
+          <Icon name='arrow-right' />
+        </Link>
         {window.ALLOW_DELETION &&
           <>
             <Gap h='10px' />

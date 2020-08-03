@@ -10,6 +10,7 @@
   color: inherit;
   border: 1px solid $border-color-medium;
   border-radius: 2px;
+  text-decoration: none;
   transition: all .15s;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -22,6 +23,7 @@
 .Button:not([disabled]):hover {
   color: $hover-color;
   background-color: $hover-bg-color;
+  text-decoration: none;
 }
 .Button[disabled] {
   cursor: not-allowed;
