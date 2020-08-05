@@ -108,6 +108,8 @@ function App({ isLoggedIn, isLoggingIn }) {
 
 App.propTypes = {
   location: prop.object.isRequired,
+  isLoggedIn: prop.bool.isRequired,
+  isLoggingIn: prop.bool.isRequired,
 }
 
 const mapStateToProps = createStructuredSelector({
