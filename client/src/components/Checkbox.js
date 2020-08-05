@@ -5,7 +5,8 @@ import classname from 'classname'
 class Checkbox extends React.Component {
 
   onChange = (ev) => {
-    this.props.onChange && this.props.onChange(ev.target.checked, ev)
+    if (this.props.onChange)
+      this.props.onChange(ev.target.checked, ev)
   }
 
   render() {
