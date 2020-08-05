@@ -39,6 +39,16 @@ export function isVisibleToday(member) {
   return false
 }
 
+export function isVisibleAfterToday(member) {
+  const { data: { isPermanent, startDate } } = member
+  if (isPermanent)
+    return false
+  const start = new Date(startDate)
+  if (start > startOfToday())
+    return true
+  return false
+}
+
 
 export function compareRun(a, b) {
   const da = new Date(a.data.date)

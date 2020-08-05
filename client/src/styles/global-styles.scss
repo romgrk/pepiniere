@@ -118,6 +118,11 @@ input, textarea, select, button {
   height: 100%;
   overflow: hidden;
 }
+.MembersPage__link {
+  display: flex;
+  flex-direction: row;
+  padding: (2 * $padding) (2 * $padding) 0;
+}
 .MembersPage__listContainer {
   overflow: auto;
   padding: 0 (6 * $padding);

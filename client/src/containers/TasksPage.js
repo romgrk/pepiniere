@@ -153,7 +153,7 @@ class TasksPage extends React.Component {
           <CSSTransition
             key={location.key}
             in={true}
-            timeout={{ enter: 20000, exit: 20000 }}
+            timeout={{ enter: 5000, exit: 5000 }}
             classNames={'transition'}
           >
             <Switch location={location}>

@@ -442,8 +442,6 @@ hr {
 a.link {
   color: $link-color;
   text-decoration: none;
-  border-bottom: 1px solid rgba($link-color, 0.5);
-  //transition: border-bottom .25s;
 }
 a.link:visited {
   color: $link-color;
