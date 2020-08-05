@@ -128,7 +128,7 @@ class SchedulePage extends React.Component {
     e.preventDefault()
 
     const element = e.target.getBoundingClientRect()
-    const dragPosition = getEventPosition(e.nativeEvent)
+    const dragPosition = getEventPosition(e)
 
     this.setState({
       isDragging: true,
@@ -137,7 +137,7 @@ class SchedulePage extends React.Component {
       dragMember: member,
     })
 
-    if (e.nativeEvent instanceof TouchEvent) {
+    if (e instanceof TouchEvent) {
       e.target.addEventListener('touchmove', this.onDragMove)
     }
     else {
@@ -162,7 +162,7 @@ class SchedulePage extends React.Component {
       dragMember: undefined,
     })
 
-    if (e.nativeEvent instanceof TouchEvent) {
+    if (e instanceof TouchEvent) {
       e.target.removeEventListener('touchmove', this.onDragMove)
     }
     else {
@@ -171,9 +171,9 @@ class SchedulePage extends React.Component {
     }
   }
 
-  onDragMove = nativeEvent => {
+  onDragMove = e => {
     this.setState({
-      dragPosition: getEventPosition(nativeEvent),
+      dragPosition: getEventPosition(e),
     })
   }
 

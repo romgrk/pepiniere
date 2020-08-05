@@ -1,5 +1,4 @@
 import {
-  UI,
   LOGGED_IN,
   LOG_IN,
   LOG_OUT,
@@ -9,7 +8,6 @@ import {
 import { createAction, createAsyncAction, createFetchActions } from '../helpers/create-actions'
 import * as requests from '../requests'
 
-import openCentered from '../helpers/open-centered'
 import settings from './settings.js'
 import members from './members.js'
 import categories from './categories.js'
