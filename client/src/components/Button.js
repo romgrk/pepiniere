@@ -19,15 +19,6 @@ function Button(props) {
     center,
     // Styles:
     variant,
-    default: default_,
-    normal,
-    info,
-    success,
-    warning,
-    error,
-    muted,
-    subtle,
-    highlight,
     // Other:
     loading,
     disabled,
@@ -93,7 +84,23 @@ Button.propTypes = {
     'muted',
     'subtle',
     'highlight',
-  ])
+  ]),
+  className: Prop.string,
+  type: Prop.string,
+  size: Prop.oneOf(['small', 'medium', 'large']),
+  active: Prop.bool,
+  loading: Prop.bool,
+  disabled: Prop.bool,
+  icon: Prop.string,
+  iconAfter: Prop.string,
+  iconButton: Prop.bool,
+  basic: Prop.bool,
+  flat: Prop.bool,
+  square: Prop.bool,
+  round: Prop.bool,
+  center: Prop.bool,
+  children: Prop.node,
+  onClick: Prop.func,
 }
 
 
