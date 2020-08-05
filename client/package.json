@@ -42,6 +42,7 @@
     "immutable": "^3.8.2",
     "inferno": "^7.4.2",
     "inferno-compat": "^7.4.2",
+    "inferno-devtools": "^7.4.2",
     "is-object": "^1.0.1",
     "jest": "22.1.2",
     "match-sorter": "^2.2.0",

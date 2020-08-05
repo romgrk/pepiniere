@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
+import { initDevTools } from 'inferno-devtools';
 import 'font-awesome/css/font-awesome.min.css'
 
 import './helpers/platform-detect.js'
@@ -13,6 +14,12 @@ import './styles/index.css'
 
 import global from './actions/global'
 
+
+if (process.env.NODE_ENV === 'development') {
+  initDevTools()
+}
+
+
 window.ALLOW_DELETION = false
 
 render(
@@ -21,7 +28,6 @@ render(
   </Provider>,
   document.getElementById('root')
 )
-
 
 
 if (false /* process.env.NODE_ENV === 'development' */) {
