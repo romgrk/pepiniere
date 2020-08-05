@@ -164,9 +164,7 @@ class Navbar extends React.Component {
                     <Icon large name={n.icon} className='Navbar__icon'/>
                   }{' '}
                   { n.label &&
-                    i !== index ?
-                      <span className='xs-hidden'>{n.label}</span> :
-                      <span>{n.label}</span>
+                    <span className='Navbar__label'>{n.label}</span>
                   }
                 </Link>
               </Tooltip>
@@ -184,7 +182,7 @@ class Navbar extends React.Component {
   }
 }
 
-Navbar.Button = function Button({ className, icon, title, direction, onClick, ...rest }) {
+Navbar.Button = function Button({ className, icon, title, direction, children, onClick, ...rest }) {
   const element = (
     <button
       className={cx('Navbar__item', className)}
@@ -192,6 +190,7 @@ Navbar.Button = function Button({ className, icon, title, direction, onClick, ..
       {...rest}
     >
       <Icon large name={icon} />
+      <span className='Navbar__label'>{children}</span>
     </button>
   )
 

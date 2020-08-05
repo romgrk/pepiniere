@@ -24,7 +24,7 @@ import ReportsPage from './containers/ReportsPage'
 import Title from './components/Title'
 
 const items = [
-  { type: 'item', icon: 'cogs',        label: null,       path: '/settings' },
+  { type: 'item', icon: 'cogs',        label: 'Settings', path: '/settings' },
   { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members'},
   { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks' },
   { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/schedule',     index: true },
@@ -70,7 +70,9 @@ function App({ isLoggedIn, isLoggingIn }) {
                     Tree Nursery
                   </Title>
                 </Navbar.Title>
-                <Navbar.Button icon='sign-out' title='Logout' onClick={Global.logout} />
+                <Navbar.Button icon='sign-out' title='Logout' onClick={Global.logout}>
+                  Logout
+                </Navbar.Button>
               </Navbar>
             }/>
           </div>
