@@ -38,7 +38,7 @@ function Button(props) {
     className,
     type,
     size,
-    variant,
+    variant === 'danger' ? 'error' : variant,
     {
       'active': active,
       'flat': flat,
