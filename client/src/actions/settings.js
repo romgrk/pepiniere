@@ -13,6 +13,10 @@ const settings = {
     (password, newPassword) => ({ password, newPassword }),
     (res, password, newPassword) => ({ password, newPassword }),
     (err, password, newPassword) => ({ password, newPassword })),
+  restoreBackup: createFetchActions(SETTINGS.RESTORE_BACKUP, requests.settings.restoreBackup,
+    (file) => ({ file }),
+    (res, file) => ({ file }),
+    (err, file) => ({ file })),
 }
 
 export default settings

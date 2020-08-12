@@ -19,6 +19,7 @@ export const settings = {
   list: () => GET('/settings/list'),
   update: (key, value) => POST(`/settings/update/${key}`, { value }),
   changePassword: (password, newPassword) => POST(`/settings/change-password`, { password, newPassword }),
+  restoreBackup: (file) => POST(`/settings/restore-backup`, form({ file })),
 }
 
 export const members = {
@@ -94,3 +95,13 @@ function createError(data) {
   e.fromServer = true
   return e
 }
+
+function form(params) {
+  const formData = new FormData()
+  Object.keys(params).forEach(key => {
+    const value = params[key]
+    formData.append(key, value)
+  })
+  return formData
+}
+

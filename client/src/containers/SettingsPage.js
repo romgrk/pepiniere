@@ -1,9 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
-import styled from 'styled-components'
-import { sortBy, prop } from 'ramda'
 
 import Global from '../actions/global'
 import Settings from '../actions/settings'
@@ -21,9 +18,6 @@ import Title from '../components/Title'
 
 class SettingsPage extends React.Component {
 
-  static propTypes = {
-  }
-
   constructor(props) {
     super(props)
 
@@ -33,6 +27,17 @@ class SettingsPage extends React.Component {
 
       defaultTasks: props.settings.defaultTasks ?
         (props.settings.defaultTasks.data || []) : [],
+
+      backupKey: 'initial',
+      backup: undefined,
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.settings.defaultTasks !== this.props.settings.defaultTasks) {
+      this.setState({
+        defaultTasks: props.settings.defaultTasks.data || [],
+      })
     }
   }
 
@@ -59,22 +64,37 @@ class SettingsPage extends React.Component {
     this.setState({ defaultTasks })
   }
 
-  componentWillReceiveProps(props) {
-    if (props.settings.defaultTasks !== this.props.settings.defaultTasks) {
-      this.setState({
-        defaultTasks: props.settings.defaultTasks.data || [],
-      })
-    }
+  onChangeBackup = ev => {
+    const file = ev.target.files[0]
+    if (!file)
+      return
+    this.setState({
+      backupKey: file.name,
+      backup: file
+    })
+  }
+
+  onRestoreBackup = () => {
+    const { backup } = this.state
+    if (!backup)
+      return
+
+    Settings.restoreBackup(backup)
+    .then(() => Global.fetchAll())
+    .then(() => {
+      this.setState({ backupKey: 'initial', backup: undefined })
+    })
   }
 
   render() {
     const { isLoading, tasks, categories } = this.props
-    const { password, newPassword, defaultTasks, } = this.state
+    const { password, newPassword, backup, backupKey, defaultTasks, } = this.state
 
     return (
       <section className='Settings vbox'>
 
         <div className='Settings__content vbox'>
+
           <Form className='Settings__section'>
             <Title>Default Tasks</Title>
             <Text block muted>
@@ -144,6 +164,25 @@ class SettingsPage extends React.Component {
               Change
             </Button>
           </Form>
+
+          <Form className='Settings__section' onSubmit={this.onRestoreBackup}>
+            <Title>Restore Backup</Title>
+            <Text block muted>
+              Restore a previous backup.
+            </Text>
+            <Form.Field>
+              <Label>Backup file:</Label>{' '}
+              <input
+                key={backupKey}
+                type='file'
+                onChange={this.onChangeBackup}
+              />
+            </Form.Field>
+            <Button variant='danger' loading={isLoading} disabled={!backup}>
+              Restore Backup
+            </Button>
+          </Form>
+
         </div>
 
       </section>

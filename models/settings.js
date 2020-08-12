@@ -3,6 +3,7 @@
  */
 
 
+const fs = require('fs')
 const bcrypt = require('bcrypt')
 const db = require('../database.js')
 const config = require('../config')
@@ -13,6 +14,7 @@ module.exports = {
   update,
   validatePassword,
   changePassword,
+  restoreBackup,
 }
 
 
@@ -64,7 +66,18 @@ function changePassword(newPassword) {
     })
   })
   .then(hash => {
-  console.log({ newPassword, hash })
-return update('password', hash)
-})
+    return update('password', hash)
+  })
+}
+
+function restoreBackup(file) {
+  // Make it all sync, not common enough to make this async
+  try {
+    fs.copyFileSync(file.path, config.paths.database)
+    db.reload()
+  } catch (err) {
+    return Promise.reject(err)
+  }
+
+  return Promise.resolve(true)
 }

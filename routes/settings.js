@@ -36,5 +36,11 @@ router.use('/change-password', (req, res, next) => {
   .catch(errorHandler(res))
 })
 
+/* POST restore backup */
+router.use('/restore-backup', (req, res, next) => {
+  Settings.restoreBackup(req.files.file)
+  .then(dataHandler(res))
+  .catch(errorHandler(res))
+})
 
 module.exports = router

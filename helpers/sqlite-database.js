@@ -11,12 +11,17 @@ const chalk = require('chalk')
 
 class SqliteDatabase {
   constructor(path, structurePath = null) {
-    const exists = fs.existsSync(path)
-
     this.path = path
-    this.instance = new sqlite3.Database(path)
+    this.structurePath = structurePath
+    this.reload()
+  }
 
-    if (structurePath && !exists) {
+  reload() {
+    const exists = fs.existsSync(this.path)
+
+    this.instance = new sqlite3.Database(this.path)
+
+    if (this.structurePath && !exists) {
       this.setup(structurePath)
     }
     else {

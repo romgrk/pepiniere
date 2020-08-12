@@ -24,7 +24,10 @@ export const SHOW = {
   WARNING: 'SHOW.WARNING',
   ERROR:   'SHOW.ERROR',
 }
-export const SETTINGS = createModelConstants('SETTINGS', ['CHANGE_PASSWORD'])
+export const SETTINGS = createModelConstants('SETTINGS', [
+  'CHANGE_PASSWORD',
+  'RESTORE_BACKUP',
+])
 export const MEMBERS = createModelConstants('MEMBERS')
 export const CATEGORIES = createModelConstants('CATEGORIES')
 export const TASKS = createModelConstants('TASKS')
