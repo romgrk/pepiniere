@@ -5,15 +5,16 @@
 export default function resizeImage(file, maxSize){
   return new Promise((resolve, reject) => {
     if (!file.type.match(/image.*/)) {
-      return reject(new Error('Not an image'))
+      reject(new Error('Not an image'))
+      return
     }
 
     // Load the image
     const reader = new FileReader()
-    reader.onload = function (readerEvent) {
+    reader.onload = (readerEvent) => {
 
       const image = new Image()
-      image.onload = function (imageEvent) {
+      image.onload = (imageEvent) => {
 
         // Resize the image
         const canvas = document.createElement('canvas')
