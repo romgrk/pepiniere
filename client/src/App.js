@@ -27,10 +27,12 @@ const items = [
   { type: 'item', icon: 'cogs',        label: 'Settings', path: '/settings' },
   { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members'},
   { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks' },
-  { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/schedule',     index: true },
+  { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/schedule' },
   { type: 'item', icon: 'table',       label: 'Report',   path: '/reports' },
 ]
-const indexPath = items.find(i => i.index).path
+
+const indexPath = '/schedule'
+
 
 /* Redirection logic */
 function checkRedirect(location, isLoggedIn, isLoggingIn) {
@@ -96,7 +98,7 @@ function App({ isLoggedIn, isLoggingIn }) {
               <Route path='/tasks'    component={TasksPage} />
               <Route path='/schedule' component={SchedulePage} />
               <Route path='/reports'  component={ReportsPage} />
-              <Route path='/'         render={() => <Redirect to='/schedule' />} />
+              <Route path='/'         render={() => <Redirect to={indexPath} />} />
             </Switch>
           </div>
 
