@@ -84,7 +84,8 @@ input, textarea, select, button {
  * Settings
  */
 
-.Settings__content {
+.Settings {
+  overflow: auto;
   padding: (4 * $padding) (6 * $padding);
 }
 .Settings__section {

@@ -91,99 +91,95 @@ class SettingsPage extends React.Component {
     const { password, newPassword, backup, backupKey, defaultTasks, } = this.state
 
     return (
-      <section className='Settings vbox'>
+      <section className='Settings'>
 
-        <div className='Settings__content vbox'>
+        <Form className='Settings__section'>
+          <Title>Default Tasks</Title>
+          <Text block muted>
+            Tasks in this list will be added by default whenever you visit a date.
+          </Text>
+          <div className='Settings__defaultTasks'>
+            {defaultTasks.map(taskId => {
+              const task = tasks[taskId] || { data: { name: 'Loading' } }
+              const category = categories[task.data.categoryId] || { data: { name: 'Loading' } }
 
-          <Form className='Settings__section'>
-            <Title>Default Tasks</Title>
-            <Text block muted>
-              Tasks in this list will be added by default whenever you visit a date.
-            </Text>
-            <div className='Settings__defaultTasks'>
-              {defaultTasks.map(taskId => {
-                const task = tasks[taskId] || { data: { name: 'Loading' } }
-                const category = categories[task.data.categoryId] || { data: { name: 'Loading' } }
-
-                return (
-                  <div key={taskId} className='Settings__defaultTasks__task hbox'>
-                    <div className='Settings__defaultTasks__task__name fill'>
-                      {category.data.name}: {task.data.name}
-                    </div>
-                    <Button
-                      icon='close'
-                      onClick={() => this.onDeleteDefaultTask(taskId)}
-                    />
+              return (
+                <div key={taskId} className='Settings__defaultTasks__task hbox'>
+                  <div className='Settings__defaultTasks__task__name fill'>
+                    {category.data.name}: {task.data.name}
                   </div>
-                )
-              })}
-              {defaultTasks.length === 0 &&
-                <div className='Settings__defaultTasks__task text-muted'>
-                  No task selected
+                  <Button
+                    icon='close'
+                    onClick={() => this.onDeleteDefaultTask(taskId)}
+                  />
                 </div>
-              }
-            </div>
-            <Select value={'new-task'} onChange={this.onAddDefaultTask}>
-              <option value='new-task'>-- Add New Task --</option>
-              {Object.values(tasks).map(task =>
-                <option key={task.data.id} value={task.data.id}>
-                  {categories[task.data.categoryId].data.name}: {task.data.name}
-                </option>
-              )}
-            </Select>
-            {this.props.settings.defaultTasks &&
-             this.props.settings.defaultTasks.isLoading &&
-              <>
-                <Gap h='10px' />
-                <Spinner />
-              </>
+              )
+            })}
+            {defaultTasks.length === 0 &&
+              <div className='Settings__defaultTasks__task text-muted'>
+                No task selected
+              </div>
             }
-          </Form>
+          </div>
+          <Select value={'new-task'} onChange={this.onAddDefaultTask}>
+            <option value='new-task'>-- Add New Task --</option>
+            {Object.values(tasks).map(task =>
+              <option key={task.data.id} value={task.data.id}>
+                {categories[task.data.categoryId].data.name}: {task.data.name}
+              </option>
+            )}
+          </Select>
+          {this.props.settings.defaultTasks &&
+            this.props.settings.defaultTasks.isLoading &&
+            <>
+              <Gap h='10px' />
+              <Spinner />
+            </>
+          }
+        </Form>
 
-          <Form className='Settings__section' onSubmit={this.onChangePassword}>
-            <Title>Change Password</Title>
-            <Text block muted>
-              Change the application password here.<br/>
-            </Text>
-            <Form.Field>
-              <Label>Current password:</Label>{' '}
-              <Input
-                type='password'
-                value={password}
-                onChange={password => this.setState({ password })}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Label>New password:</Label>{' '}
-              <Input
-                value={newPassword}
-                onChange={newPassword => this.setState({ newPassword })}
-              />
-            </Form.Field>
-            <Button variant='info' loading={isLoading}>
-              Change
-            </Button>
-          </Form>
+        <Form className='Settings__section' onSubmit={this.onChangePassword}>
+          <Title>Change Password</Title>
+          <Text block muted>
+            Change the application password here.<br/>
+          </Text>
+          <Form.Field>
+            <Label>Current password:</Label>{' '}
+            <Input
+              type='password'
+              value={password}
+              onChange={password => this.setState({ password })}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Label>New password:</Label>{' '}
+            <Input
+              value={newPassword}
+              onChange={newPassword => this.setState({ newPassword })}
+            />
+          </Form.Field>
+          <Button variant='info' loading={isLoading}>
+            Change
+          </Button>
+        </Form>
 
-          <Form className='Settings__section' onSubmit={this.onRestoreBackup}>
-            <Title>Restore Backup</Title>
-            <Text block muted>
-              Restore a previous backup.
-            </Text>
-            <Form.Field>
-              <Label>Backup file:</Label>{' '}
-              <input
-                key={backupKey}
-                type='file'
-                onChange={this.onChangeBackup}
-              />
-            </Form.Field>
-            <Button variant='danger' loading={isLoading} disabled={!backup}>
-              Restore Backup
-            </Button>
-          </Form>
-
-        </div>
+        <Form className='Settings__section' onSubmit={this.onRestoreBackup}>
+          <Title>Restore Backup</Title>
+          <Text block muted>
+            Restore a previous backup.
+          </Text>
+          <Form.Field>
+            <Label>Backup file:</Label>{' '}
+            <input
+              key={backupKey}
+              type='file'
+              onChange={this.onChangeBackup}
+            />
+          </Form.Field>
+          <Button variant='danger' loading={isLoading} disabled={!backup}>
+            Restore Backup
+          </Button>
+        </Form>
 
       </section>
     )
