@@ -96,6 +96,7 @@ function App({ isLoggedIn, isLoggingIn }) {
               <Route path='/tasks'    component={TasksPage} />
               <Route path='/schedule' component={SchedulePage} />
               <Route path='/reports'  component={ReportsPage} />
+              <Route path='/'         render={() => <Redirect to='/schedule' />} />
             </Switch>
           </div>
 
