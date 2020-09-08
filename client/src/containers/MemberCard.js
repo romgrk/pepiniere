@@ -70,7 +70,7 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
             isDeleted ?
               <Text muted>[DELETED {member}]</Text> :
               [
-                getUnicodeFlagIcon(member.data.country),
+                member.data.country ? getUnicodeFlagIcon(member.data.country) : undefined,
                 member.data.firstName,
                 abbreviate(member.data.lastName)
               ].filter(Boolean).join(' ')
