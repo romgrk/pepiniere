@@ -6,6 +6,7 @@ import { set } from 'object-path-immutable'
 import { sort } from 'ramda'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
+import qs from 'qs'
 
 import { isVisibleToday, isVisibleAfterToday } from '../models'
 
@@ -29,11 +30,23 @@ class MembersPage extends React.Component {
     super(props)
 
     this.state = {
-      memberFormMode: null,
-      member: null,
-      newMember: null,
       showAll: false,
+      location: null,
     }
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    // There is a weird CSS transition artifact if the key
+    // passed to CSSTransition changes but the component stays
+    // the same. We store the previous location if only the query
+    // params change because that doesn't cause a page slide.
+    const previousLocation = state.location
+    const nextLocation = props.location
+    if (!previousLocation)
+      return console.log('derive', nextLocation) || { location: nextLocation }
+    if (previousLocation.pathname !== nextLocation.pathname)
+      return console.log('derive', previousLocation) || { location: nextLocation }
+    return null
   }
 
   onDeleteMember = (member) => {
@@ -61,23 +74,15 @@ class MembersPage extends React.Component {
   }
 
   openCreateMemberForm = () => {
-    this.setState({
-      memberFormMode: MemberEditor.MODE.CREATE,
-      member: null,
-    })
+    this.props.history.push('/members?id=create')
   }
 
   openUpdateMemberForm = (member) => {
-    this.setState({
-      memberFormMode: MemberEditor.MODE.UPDATE,
-      member: member,
-    })
+    this.props.history.push(`/members?id=${member.data.id}`)
   }
 
   closeMemberForm = () => {
-    this.setState({
-      memberFormMode: null,
-    })
+    this.props.history.push(this.props.location.pathname)
   }
 
   renderMain = () => {
@@ -182,20 +187,29 @@ class MembersPage extends React.Component {
   }
 
   render() {
-    const { location } = this.props
-    const { memberFormMode, member } = this.state
+    const { members } = this.props
+    const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+    const memberId = query.id
+    const memberFormMode =
+      memberId === undefined ? undefined :
+      memberId === 'create'  ? MemberEditor.MODE.CREATE :
+                               MemberEditor.MODE.UPDATE
+    const member =
+      memberFormMode === MemberEditor.MODE.UPDATE ?
+        members.find(m => m.data.id === +memberId) : undefined
 
+    console.log('location', this.state.location)
     return (
       <section className='MembersPage Page vbox'>
 
         <TransitionGroup component={null}>
           <CSSTransition
-            key={location.key}
+            key={this.state.location.key}
             in={true}
             timeout={{ enter: 5000, exit: 5000 }}
             classNames={'transition'}
           >
-            <Switch location={location}>
+            <Switch location={this.state.location}>
               <Route exact path='/members'        render={this.renderMain} />
               <Route exact path='/members/future' render={this.renderFutureSection} />
             </Switch>
@@ -203,7 +217,7 @@ class MembersPage extends React.Component {
         </TransitionGroup>
 
         <MemberEditor
-          open={memberFormMode !== null}
+          open={memberFormMode !== null && member}
           mode={memberFormMode}
           member={member}
           onDelete={this.onDeleteMember}
