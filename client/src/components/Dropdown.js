@@ -1,7 +1,6 @@
 import React from 'react'
 import Prop from 'prop-types'
 import { createPortal, findDOMNode } from 'react-dom'
-import pure from 'recompose/pure'
 import classname from 'classname'
 
 import Button from './Button'
@@ -32,10 +31,7 @@ class Dropdown extends React.Component {
     this.state = {
       open: false,
       close: false,
-      position: {
-        top: 0,
-        left: 0
-      },
+      position: undefined,
     }
   }
 
@@ -55,9 +51,13 @@ class Dropdown extends React.Component {
   }
 
   componentDidUpdate() {
+    if (!this.state.open)
+      return
+
     const position = this.getPosition()
 
-    if (position.left !== this.state.position.left
+    if (!this.state.position
+      || position.left !== this.state.position.left
       || position.top !== this.state.position.top)
       this.setState({ position })
   }
@@ -92,28 +92,35 @@ class Dropdown extends React.Component {
 
     const element = this.element.getBoundingClientRect()
     const inner   = this.inner.getBoundingClientRect()
+    const body    = document.body.getBoundingClientRect()
 
     let style
 
-    if (this.props.position === 'bottom left')
+    if (this.props.position === 'bottom left') {
       style = {
         top:  element.top  + element.height,
         left: element.left - (inner.width - element.width),
       }
-    else if (this.props.position === 'right')
+    }
+    else if (this.props.position === 'right') {
       style = {
         top:  element.top,
         left: element.right,
       }
-    else
+    }
+    else {
       style = {
         top:  element.top + element.height,
         left: element.left,
       }
+    }
 
     style.left += this.props.offset ? (this.props.offset.left || 0) : 0
     style.top  += this.props.offset ? (this.props.offset.top || 0) : 0
     style.width = element.width
+
+    const maxHeight = body.height - style.top - 5
+    style.height = Math.min(maxHeight, inner.height)
 
     return style
   }
@@ -147,6 +154,7 @@ class Dropdown extends React.Component {
       inline,
       trigger = <Button default iconAfter='chevron-down'>{ this.props.label }</Button>,
       closeOnClick = true,
+      ...rest
     } = this.props
 
     const isControlled = 'open' in this.props
@@ -202,18 +210,21 @@ class Dropdown extends React.Component {
           }
         ))
 
+    const menuPosition = open ? (this.state.position || this.getPosition()) : undefined
+
     return (
       <div className={dropdownClassName}>
         { button }
         {
           createPortal(
             <div className={menuClassName}
-                style={this.state.position}
+                style={menuPosition}
                 ref={ref => ref && (this.menu = findDOMNode(ref))}
             >
               <div
-                className='Dropdown__inner'
-                style={{ width: this.state.position.width }}
+                className='Dropdown__inner vbox'
+                style={menuPosition ?
+                  { width: menuPosition.width, height: menuPosition.height } : undefined}
                 ref={ref => ref && (this.inner = findDOMNode(ref))}
               >
                 { children }
@@ -317,7 +328,7 @@ function recursiveMap(children, fn) {
 }
 
 
-const defaultExport = pure(Dropdown)
+const defaultExport = Dropdown
 export default defaultExport
 
 defaultExport.Item          = Item

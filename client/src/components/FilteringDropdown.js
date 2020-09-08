@@ -18,7 +18,9 @@ import Text from './Text'
 class FilteringDropdown extends React.Component {
   static propTypes = {
     items: Prop.arrayOf(Prop.object).isRequired,
-    selectedItems: Prop.arrayOf(Prop.any).isRequired,
+    value: Prop.any,
+    multiple: Prop.boolean,
+    selectedItems: Prop.arrayOf(Prop.any),
     setItems: Prop.func.isRequired,
     selectItem: Prop.func.isRequired,
     deselectItem: Prop.func.isRequired,
@@ -28,6 +30,10 @@ class FilteringDropdown extends React.Component {
     getItemText: Prop.func,
     onCreate: Prop.func,
     clearInputOnSelect: Prop.boolean,
+  }
+
+  static defaultProps = {
+    onChange: () => {},
   }
 
   static defaultProps = {
@@ -57,17 +63,43 @@ class FilteringDropdown extends React.Component {
   }
 
   onClickItem = (item) => {
-    if (!this.props.selectedItems.includes(item))
-      this.props.setItems(this.props.selectedItems.concat(item))
-    else
-      this.props.setItems(this.props.selectedItems.filter(i => i !== item))
+    if (this.props.multiple) {
+      if (!this.props.selectedItems.includes(item))
+        this.props.setItems(this.props.selectedItems.concat(item))
+      else
+        this.props.setItems(this.props.selectedItems.filter(i => i !== item))
+    }
+    else {
+      this.props.onChange(item)
+      this.dropdown.close()
+    }
 
     if (this.props.clearInputOnSelect)
       this.clearValue()
   }
 
+  onOpen = () => {
+    this.clearValue()
+    this.input && this.input.focus()
+  }
+
+  onEscapeInput = () => {
+    setTimeout(() => {
+      this.dropdown.close()
+    }, 50)
+  }
+
   render() {
-    const { items, selectedItems, renderItem, getItemText, label, className, ...rest } = this.props
+    const {
+      multiple,
+      items,
+      selectedItems,
+      renderItem,
+      getItemText,
+      label,
+      className,
+      ...rest
+    } = this.props
     const { value } = this.state
 
     const visibleItems = matchSorter(
@@ -78,33 +110,39 @@ class FilteringDropdown extends React.Component {
 
     return (
       <Dropdown
+        ref={ref => this.dropdown = ref}
         className={className}
         closeOnClick={false}
-        label={label === undefined ?
-          (selectedItems.join(', ') || <span>&nbsp;</span>) :
-          (label || <span>&nbsp;</span>)}
-        onOpen={this.clearValue}
-        {...rest}
+        label={label !== undefined ?
+          (label || <span>&nbsp;</span>) :
+          multiple ?
+            (selectedItems.join(', ') || <span>&nbsp;</span>) :
+            value}
+        onOpen={this.onOpen}
       >
         <Dropdown.Content className='FilteringDropdown__input'>
           <Input
+            ref={ref => this.input = ref}
             showClearButton
             className='fill-width'
             value={value}
             onChange={value => this.setState({ value })}
             onEnter={this.onEnter}
+            onEscape={this.onEscapeInput}
           />
         </Dropdown.Content>
-        <Dropdown.Item
-          onClick={this.clearItems}
-          disabled={selectedItems.length === 0}
-        >
-          <Icon
-            muted
-            name='times-circle'
-            marginRight={10}
-          /> <Text bold>Clear all</Text>
-        </Dropdown.Item>
+        {multiple &&
+          <Dropdown.Item
+            onClick={this.clearItems}
+            disabled={selectedItems.length === 0}
+          >
+            <Icon
+              muted
+              name='times-circle'
+              marginRight={10}
+            /> <Text bold>Clear all</Text>
+          </Dropdown.Item>
+        }
         {
           visibleItems.length === 0 &&
             <Dropdown.Content>
@@ -118,10 +156,15 @@ class FilteringDropdown extends React.Component {
             <Dropdown.Item key={item}
               onClick={() => this.onClickItem(item)}
             >
-              <Icon
-                name={selectedItems.includes(item) ? 'check-square-o' : 'square-o'}
-                marginRight={10}
-              /> {
+              {multiple &&
+                <>
+                  <Icon
+                    name={selectedItems.includes(item) ? 'check-square-o' : 'square-o'}
+                    marginRight={10}
+                  />{' '}
+                </>
+              }
+              {
                 renderItem ?
                   renderItem(item, value) :
                 getItemText ?

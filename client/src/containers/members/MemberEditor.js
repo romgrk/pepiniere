@@ -4,23 +4,21 @@ import pure from 'recompose/pure'
 import { lensPath, set } from 'ramda'
 import { StyledDropZone as DropZone } from 'react-drop-zone'
 import 'react-drop-zone/dist/styles.css'
-import cx from 'classname'
-
-import Member from '../../actions/members'
+import getUnicodeFlagIcon from 'country-flag-icons/unicode'
+import { countries, getEmojiFlag } from 'countries-list'
 
 import resizeImage from '../../helpers/resize-image'
 import {formatISO} from '../../helpers/time'
 
 import Button from '../../components/Button'
-import Checkbox from '../../components/Checkbox'
-import Dropdown from '../../components/Dropdown'
+import Switch from '../../components/Switch'
 import Icon from '../../components/Icon'
 import Input from '../../components/Input'
 import Label from '../../components/Label'
 import Modal from '../../components/Modal'
-import Text from '../../components/Text'
 import Title from '../../components/Title'
 
+import CountryDropdown from './CountryDropdown'
 
 
 
@@ -202,70 +200,50 @@ class MemberEditor extends React.Component {
               </td>
             </tr>
             <tr>
-              <td><Label>First Name:</Label></td>
+              <td><Label>First Name</Label></td>
               <td>
                 <Input
-                  className='fill-width'
+                  className='full-width'
                   value={member.data.firstName}
                   onChange={this.onChange('firstName')}
                 />
               </td>
             </tr>
             <tr>
-              <td><Label>Last Name:</Label></td>
+              <td><Label>Last Name</Label></td>
               <td>
                 <Input
-                  className='fill-width'
+                  className='full-width'
                   value={member.data.lastName}
                   onChange={this.onChange('lastName')}
                 />
               </td>
             </tr>
             <tr>
-              <td><Label>Country:</Label></td>
+              <td><Label>Country</Label></td>
               <td>
-                <Input
-                  className='fill-width'
+                <CountryDropdown
+                  className='full-width input-like'
                   value={member.data.country}
                   onChange={this.onChange('country')}
                 />
-                {/*
-                <Dropdown
-                  className='full-width input-like'
-                  label={
-                    <span className={!category ? 'text-muted' : ''}>
-                      {category ? category.data.name : 'Empty'}
-                    </span>
-                  }
-                >
-                  {
-                    [].map(category =>
-                      <Dropdown.Item onClick={() => this.onChangeCategory(category)}>
-                         <span
-                           className='color'
-                           style={{ backgroundColor: category.data.color }}
-                         /> { category.data.name }
-                      </Dropdown.Item>
-                    )
-                  }
-                </Dropdown>
-                */}
               </td>
             </tr>
             <tr>
-              <td><Label>Permanent:</Label></td>
+              <td><Label>Permanent</Label></td>
               <td>
-                <Checkbox
-                  checked={Boolean(member.data.isPermanent)}
+                <Switch
+                  label={['yes', 'no']}
+                  value={Boolean(member.data.isPermanent)}
                   onChange={this.onChange('isPermanent')}
                 />
               </td>
             </tr>
             <tr>
-              <td><Label>Start:</Label></td>
+              <td><Label>Start</Label></td>
               <td>
                 <Input
-                  className='fill-width'
+                  className='full-width'
                   type='date'
                   value={member.data.startDate}
                   onChange={this.onChange('startDate')}
@@ -273,10 +251,10 @@ class MemberEditor extends React.Component {
               </td>
             </tr>
             <tr>
-              <td><Label>End:</Label></td>
+              <td><Label>End</Label></td>
               <td>
                 <Input
-                  className='fill-width'
+                  className='full-width'
                   type='date'
                   value={member.data.endDate}
                   onChange={this.onChange('endDate')}
@@ -336,3 +314,10 @@ const klass = pure(MemberEditor)
 klass.MODE = MemberEditor.MODE
 
 export default klass
+
+
+// Helpers
+
+function isCountry(c) {
+  return typeof c === 'string' && c.length >= 2
+}

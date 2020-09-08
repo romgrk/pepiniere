@@ -1,9 +1,9 @@
 import React from 'react'
 import Prop from 'prop-types'
-import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 import cx from 'classname'
 
 import { abbreviate } from '../models'
+import getCountryFlag from '../helpers/get-country-flag'
 
 import DateValue from '../components/Date'
 import Icon from '../components/Icon'
@@ -70,7 +70,7 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
             isDeleted ?
               <Text muted>[DELETED {member}]</Text> :
               [
-                member.data.country ? getUnicodeFlagIcon(member.data.country) : undefined,
+                member.data.country ? getCountryFlag(member.data.country) : undefined,
                 member.data.firstName,
                 abbreviate(member.data.lastName)
               ].filter(Boolean).join(' ')
