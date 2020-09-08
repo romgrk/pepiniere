@@ -43,9 +43,9 @@ class MembersPage extends React.Component {
     const previousLocation = state.location
     const nextLocation = props.location
     if (!previousLocation)
-      return console.log('derive', nextLocation) || { location: nextLocation }
+      return { location: nextLocation }
     if (previousLocation.pathname !== nextLocation.pathname)
-      return console.log('derive', previousLocation) || { location: nextLocation }
+      return { location: nextLocation }
     return null
   }
 
@@ -204,7 +204,6 @@ class MembersPage extends React.Component {
       memberFormMode === MemberEditor.MODE.UPDATE ?
         members.find(m => m.data.id === +memberId) : undefined
 
-    console.log('location', this.state.location)
     return (
       <section className='MembersPage Page vbox'>
 
