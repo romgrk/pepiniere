@@ -19,6 +19,7 @@ import Icon from '../components/Icon'
 import MemberCard from './MemberCard'
 import MemberEditor from './members/MemberEditor'
 
+const { MODE } = MemberEditor
 
 class MembersPage extends React.Component {
 
@@ -64,7 +65,7 @@ class MembersPage extends React.Component {
 
   onEditMemberDone = (member) => {
     const { memberFormMode: mode } = this.state
-    const action = (mode === MemberEditor.MODE.CREATE) ?
+    const action = (mode === MODE.CREATE) ?
       this.onCreateMember(member) :
       this.onUpdateMember(member)
 
@@ -198,10 +199,10 @@ class MembersPage extends React.Component {
     const memberId = query.id
     const memberFormMode =
       memberId === undefined ? undefined :
-      memberId === 'create'  ? MemberEditor.MODE.CREATE :
-                               MemberEditor.MODE.UPDATE
+      memberId === 'create'  ? MODE.CREATE :
+                               MODE.UPDATE
     const member =
-      memberFormMode === MemberEditor.MODE.UPDATE ?
+      memberFormMode === MODE.UPDATE ?
         members.find(m => m.data.id === +memberId) : undefined
 
     return (
@@ -222,7 +223,7 @@ class MembersPage extends React.Component {
         </TransitionGroup>
 
         <MemberEditor
-          open={memberFormMode !== null && member}
+          open={(memberFormMode === MODE.UPDATE && member) || memberFormMode === MODE.CREATE}
           mode={memberFormMode}
           member={member}
           onDelete={this.onDeleteMember}

@@ -21,6 +21,10 @@ import Title from '../../components/Title'
 import CountryDropdown from './CountryDropdown'
 
 
+const MODE = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+}
 
 const EMPTY_MEMBER = {
   isLoading: false,
@@ -37,10 +41,7 @@ const EMPTY_MEMBER = {
 
 
 class MemberEditor extends React.Component {
-  static MODE = {
-    CREATE: 'CREATE',
-    UPDATE: 'UPDATE',
-  }
+  static MODE = MODE
 
   static propTypes = {
     open: Prop.bool.isRequired,
@@ -61,13 +62,13 @@ class MemberEditor extends React.Component {
       fieldName: '',
       fieldAmount: '',
       member: member,
-      start: formatISO(member.data.startDate),
-      end: formatISO(member.data.endDate),
+      start: member ? formatISO(member.data.startDate) : null,
+      end:   member ? formatISO(member.data.endDate) : null,
     }
   }
 
   componentWillReceiveProps(props, state) {
-    if (props.mode !== this.props.mode && props.mode === MemberEditor.MODE.CREATE)
+    if (props.mode !== this.props.mode && props.mode === MODE.CREATE)
       this.setState({
         member: EMPTY_MEMBER,
         start: '',
@@ -164,13 +165,6 @@ class MemberEditor extends React.Component {
         open={open}
         onClose={this.onCancel}
       >
-
-
-        <div className='MemberEditor__top'>
-          <Title className='MemberEditor__title'>
-            {mode === MemberEditor.MODE.CREATE ? 'Add Member' : 'Update Member'}
-          </Title>
-        </div>
         <div className='MemberEditor__inner vbox'>
           <table className='MemberEditor__table'>
           <tbody>
@@ -284,7 +278,7 @@ class MemberEditor extends React.Component {
               Cancel
             </Button>
             <div className='fill' />
-            {mode === MemberEditor.MODE.UPDATE && window.ALLOW_DELETION &&
+            {mode === MODE.UPDATE && window.ALLOW_DELETION &&
               <Button
                 variant='error'
                 onClick={() => this.props.onDelete(member)}
@@ -299,7 +293,7 @@ class MemberEditor extends React.Component {
               onClick={this.onDone}
               loading={member.isLoading}
             >
-              Done
+              {mode === MODE.UPDATE ? 'Update' : 'Create'}
             </Button>
           </div>
 
@@ -311,7 +305,7 @@ class MemberEditor extends React.Component {
 
 
 const klass = pure(MemberEditor)
-klass.MODE = MemberEditor.MODE
+klass.MODE = MODE
 
 export default klass
 
