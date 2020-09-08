@@ -74,11 +74,17 @@ class MembersPage extends React.Component {
   }
 
   openCreateMemberForm = () => {
-    this.props.history.push('/members?id=create')
+    this.props.history.push({
+      pathname: this.props.location.pathname,
+      search: '?id=create'
+    })
   }
 
   openUpdateMemberForm = (member) => {
-    this.props.history.push(`/members?id=${member.data.id}`)
+    this.props.history.push({
+      pathname: this.props.location.pathname,
+      search: `?id=${member.data.id}`
+    })
   }
 
   closeMemberForm = () => {
