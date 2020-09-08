@@ -201,14 +201,6 @@ class MemberEditor extends React.Component {
                 </DropZone>
               </td>
             </tr>
-            {mode === MemberEditor.MODE.UPDATE &&
-              <tr>
-                <td><Label>ID:</Label></td>
-                <td>
-                  {member.data.id}
-                </td>
-              </tr>
-            }
             <tr>
               <td><Label>First Name:</Label></td>
               <td>
