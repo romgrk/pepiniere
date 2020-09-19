@@ -50,6 +50,20 @@ class MembersPage extends React.Component {
     return null
   }
 
+  getMemberId() {
+    const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+    return query.id
+  }
+
+  getFormMode() {
+    const memberId = this.getMemberId()
+    const memberFormMode =
+      memberId === undefined ? undefined :
+      memberId === 'create'  ? MODE.CREATE :
+                               MODE.UPDATE
+    return memberFormMode
+  }
+
   onDeleteMember = (member) => {
     if (!window.confirm(`Are you sure you want to delete ${member.data.firstName}?`))
       return
@@ -64,7 +78,7 @@ class MembersPage extends React.Component {
   onUpdateMember = (member, key, value) => Member.update(member.data.id, set(member.data, [key], value))
 
   onEditMemberDone = (member) => {
-    const { memberFormMode: mode } = this.state
+    const mode = this.getFormMode()
     const action = (mode === MODE.CREATE) ?
       this.onCreateMember(member) :
       this.onUpdateMember(member)
@@ -195,12 +209,8 @@ class MembersPage extends React.Component {
 
   render() {
     const { members } = this.props
-    const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
-    const memberId = query.id
-    const memberFormMode =
-      memberId === undefined ? undefined :
-      memberId === 'create'  ? MODE.CREATE :
-                               MODE.UPDATE
+    const memberFormMode = this.getFormMode()
+    const memberId = this.getMemberId()
     const member =
       memberFormMode === MODE.UPDATE ?
         members.find(m => m.data.id === +memberId) : undefined
