@@ -137,11 +137,8 @@ class Expander extends React.Component {
     const triggerClassName = cx('Expander__button', { expanded: open })
     const trigger =
       triggerProp ?
-        React.Children.map(
-          typeof triggerProp === 'function' ?
-            triggerProp({ toggle }) :
-            triggerProp,
-          child =>
+        typeof triggerProp === 'function' ? triggerProp({ toggle }) :
+        React.Children.map(triggerProp, child =>
           React.cloneElement(child, {
             className: cx(child.props.className, { expanded: open }),
             onClick: child.props.onClick || toggle,
