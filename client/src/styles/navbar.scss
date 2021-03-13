@@ -15,7 +15,7 @@
 }
 .Navbar:not(.visible) {
   flex-basis: 0;
-  transform: translateX(calc(-1 * $sidebar-size));
+  transform: translateX(calc(-1 * #{$sidebar-size}));
   overflow: hidden;
   &.vertical {
     width: 0;
