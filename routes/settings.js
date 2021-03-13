@@ -11,13 +11,6 @@ router.get('/list', (req, res, next) => {
   .catch(errorHandler(res))
 })
 
-/* GET single setting */
-router.get('/get/:key', (req, res, next) => {
-  Settings.findByKey(req.params.key)
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
-
 /* POST update setting */
 router.use('/update/:key', (req, res, next) => {
   if (req.params.key === 'password')

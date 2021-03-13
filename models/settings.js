@@ -21,10 +21,11 @@ module.exports = {
 function findAll() {
   return db.findAll('SELECT * FROM settings')
     .then(rows =>
-      rows.reduce((acc, cur) => (
-        acc[cur.key] = JSON.parse(cur.value),
-        acc
-      ), {})
+      rows.reduce((acc, cur) => {
+        if (cur.key !== 'password')
+          acc[cur.key] = JSON.parse(cur.value)
+        return acc
+      }, {})
     )
 }
 
