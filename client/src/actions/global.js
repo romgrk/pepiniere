@@ -23,7 +23,7 @@ export const showWarning      = createAction(SHOW.WARNING, createPayload)
 export const showError        = createAction(SHOW.ERROR, createPayload)
 
 export const fetchAll = createAsyncAction(() => (dispatch, getState) => {
-  const { ui: { loggedIn } } = getState()
+  const { auth: { loggedIn } } = getState()
 
   if (loggedIn.value === false && process.env.NODE_ENV !== 'development')
     return Promise.reject(new Error('Not logged in'))
@@ -37,55 +37,11 @@ export const fetchAll = createAsyncAction(() => (dispatch, getState) => {
   ])
 })
 
-export const checkIsLoggedIn = createFetchActions(LOGGED_IN, requests.auth.isLoggedIn)
-export const login = createAsyncAction((password) => (dispatch, getState) => {
-  const { ui: { loggedIn } } = getState()
-
-  if (loggedIn.value === true)
-    return Promise.resolve()
-
-  dispatch({ type: LOG_IN.REQUEST })
-
-  return requests.auth.login(password)
-    .then(isLoggedIn => {
-      if (!isLoggedIn)
-        return Promise.reject(new Error('Invalid password'))
-
-      dispatch({ type: LOG_IN.RECEIVE, payload: isLoggedIn })
-      return fetchAll()
-    })
-    .catch(error => {
-      dispatch({ type: LOG_IN.ERROR, isError: true, error })
-    })
-})
-
-export const logout = createAsyncAction(() => (dispatch, getState) => {
-  const { ui: { loggedIn } } = getState()
-
-  if (loggedIn.value === false)
-    return Promise.resolve()
-
-  dispatch({ type: LOG_OUT.REQUEST })
-
-  return requests.auth.logout()
-    .then(isLoggedOut => {
-      dispatch({ type: LOG_OUT.RECEIVE, payload: !isLoggedOut })
-      return isLoggedOut
-    })
-    .catch(error => {
-      dispatch({ type: LOG_OUT.ERROR, isError: true, error })
-      showError('Logout failed')
-    })
-})
-
 export default {
   showNotification,
   showInfo,
   showSuccess,
   showWarning,
   showError,
-  checkIsLoggedIn,
-  login,
-  logout,
   fetchAll,
 }

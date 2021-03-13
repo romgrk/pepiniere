@@ -16,8 +16,8 @@ class IndexContainer extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  isLoading: createSelector(state => state.ui.loggedIn.isLoading, state => state),
-  isLoggedIn: createSelector(state => state.ui.loggedIn.value, state => state),
+  isLoading: createSelector(state => state.auth.loggedIn.isLoading, state => state),
+  isLoggedIn: createSelector(state => state.auth.loggedIn.value, state => state),
 })
 
 export default connect(mapStateToProps)(IndexContainer)

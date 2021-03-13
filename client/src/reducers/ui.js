@@ -1,8 +1,5 @@
 import { startOfToday, addDays } from 'date-fns'
 import {
-  LOGGED_IN,
-  LOG_IN,
-  LOG_OUT,
   SHOW,
   SHOW_NOTIFICATION,
   UI
@@ -10,10 +7,6 @@ import {
 
 const initialState = {
   currentDate: addDays(startOfToday(), 1),
-  loggedIn: {
-    isLoading: false,
-    value: false,
-  },
   notifications: [],
 }
 
@@ -43,27 +36,6 @@ export default function ui(state = initialState, action) {
   }
 
   switch (action.type) {
-    case LOGGED_IN.REQUEST:
-      return { ...state, loggedIn: { ...state.loggedIn, isLoading: true } }
-    case LOGGED_IN.RECEIVE:
-      return { ...state, loggedIn: { isLoading: false, value: action.payload } }
-    case LOGGED_IN.ERROR:
-      return { ...state, loggedIn: { isLoading: false, value: false } }
-
-    case LOG_IN.REQUEST:
-      return { ...state, loggedIn: { ...state.loggedIn, isLoading: true } }
-    case LOG_IN.RECEIVE:
-      return { ...state, loggedIn: { isLoading: false, value: action.payload } }
-    case LOG_IN.ERROR:
-      return { ...state, loggedIn: { isLoading: false, value: false } }
-
-    case LOG_OUT.REQUEST:
-      return { ...state, loggedIn: { ...state.loggedIn, isLoading: true } }
-    case LOG_OUT.RECEIVE:
-      return { ...state, loggedIn: { isLoading: false, value: action.payload } }
-    case LOG_OUT.ERROR:
-      return { ...state, loggedIn: { ...state.loggedIn, isLoading: false } }
-
     case UI.SET_CURRENT_DATE:
       return { ...state, currentDate: action.payload }
 

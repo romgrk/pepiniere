@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import qs from 'qs'
 
-import Global from './actions/global'
+import Auth from './actions/auth'
 
 import Navbar from './components/Navbar'
 
@@ -72,7 +72,7 @@ function App({ isLoggedIn, isLoggingIn }) {
                     Tree Nursery
                   </Title>
                 </Navbar.Title>
-                <Navbar.Button icon='sign-out' title='Logout' onClick={Global.logout}>
+                <Navbar.Button icon='sign-out' title='Logout' onClick={Auth.logout}>
                   Logout
                 </Navbar.Button>
               </Navbar>
@@ -116,8 +116,8 @@ App.propTypes = {
 }
 
 const mapStateToProps = createStructuredSelector({
-  isLoggedIn: createSelector(state => state.ui.loggedIn.value, state => state),
-  isLoggingIn: createSelector(state => state.ui.loggedIn.isLoading, state => state),
+  isLoggedIn: createSelector(state => state.auth.loggedIn.value, state => state),
+  isLoggingIn: createSelector(state => state.auth.loggedIn.isLoading, state => state),
 })
 
 export default connect(mapStateToProps)(App)

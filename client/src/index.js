@@ -3,15 +3,13 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import 'font-awesome/css/font-awesome.min.css'
 
-import './helpers/platform-detect.js'
-
 import store from './store'
 import App from './App'
-import registerServiceWorker from './helpers/registerServiceWorker'
-
-import './styles/index.scss'
-
 import global from './actions/global'
+import auth from './actions/auth'
+import registerServiceWorker from './helpers/registerServiceWorker'
+import './helpers/platform-detect.js'
+import './styles/index.scss'
 
 
 window.ALLOW_DELETION = false
@@ -25,11 +23,11 @@ render(
 
 
 if (false /* process.env.NODE_ENV === 'development' */) {
-  global.checkIsLoggedIn.receive(true)
+  auth.checkIsLoggedIn.receive(true)
   global.fetchAll()
 }
 else {
-  global.checkIsLoggedIn()
+  auth.checkIsLoggedIn()
   .then(isLoggedIn => {
     if (isLoggedIn)
       global.fetchAll()
@@ -38,7 +36,7 @@ else {
 
 setInterval(() => {
   const state = store.getState()
-  if (state.ui.loggedIn.value)
+  if (state.auth.loggedIn.value)
     global.fetchAll()
 }, 60 * 1000)
 

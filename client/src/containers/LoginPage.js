@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import cx from 'classname'
 
-import Global from '../actions/global'
+import Auth from '../actions/auth'
 
 import Button from '../components/Button'
 import Input from '../components/Input'
@@ -27,7 +27,7 @@ class LoginPage extends React.Component {
   }
 
   login = () => {
-    Global.login(this.state.password)
+    Auth.login(this.state.password)
   }
 
   render() {
@@ -67,8 +67,8 @@ class LoginPage extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  isLoading: createSelector(state => state.ui.loggedIn.isLoading, state => state),
-  isLoggedIn: createSelector(state => state.ui.loggedIn.value, state => state),
+  isLoading: createSelector(state => state.auth.loggedIn.isLoading, state => state),
+  isLoggedIn: createSelector(state => state.auth.loggedIn.value, state => state),
 })
 
 export default connect(mapStateToProps)(LoginPage)
