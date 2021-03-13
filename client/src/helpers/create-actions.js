@@ -42,6 +42,8 @@ export function createConstants(namespace, others = []) {
     get: (target, name) => {
       if (name in target)
         return target[name]
+      if (name === '$$typeof') // react internal checks
+        return undefined
       throw new Error(`accessing undefined constant: ${name}`)
     }
   }
