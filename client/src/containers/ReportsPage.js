@@ -34,8 +34,15 @@ const getFirstYear = compose(reduce(min, 9999), toYears)
 const getLastYear  = compose(reduce(max, 1900), toYears)
 
 
-class ReportsPage extends React.Component {
+const mapStateToProps = createStructuredSelector({
+  settings:   createSelector(state => state.settings, state => state),
+  members:    createSelector(state => fromLoadable(state.members.data), state => state),
+  categories: createSelector(state => fromLoadable(state.categories.data), state => state),
+  tasks:      createSelector(state => fromLoadable(state.tasks.data), state => state),
+  runs:       createSelector(state => fromLoadable(Object.values(state.runs.data)), state => state),
+})
 
+class ReportsPage extends React.Component {
   static propTypes = {
     members: PropTypes.arrayOf(PropTypes.object).isRequired,
     categories: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -99,18 +106,23 @@ class ReportsPage extends React.Component {
           </Button>
         </Form>
 
+        <div className='row'>
+          <div>
+            <Title>
+              Informations
+            </Title>
+            <Text>
+              Members: <b>{Object.values(this.props.members).length}</b><br/>
+              Runs: <b>{this.props.runs.length}</b><br/>
+            </Text>
+          </div>
+        </div>
+
+
         <div className='ReportPage__controls row no-padding flex' />
       </section>
     )
   }
 }
-
-const mapStateToProps = createStructuredSelector({
-  settings:   createSelector(state => state.settings, state => state),
-  members:    createSelector(state => fromLoadable(state.members.data), state => state),
-  categories: createSelector(state => fromLoadable(state.categories.data), state => state),
-  tasks:      createSelector(state => fromLoadable(state.tasks.data), state => state),
-  runs:       createSelector(state => fromLoadable(Object.values(state.runs.data)), state => state),
-})
 
 export default connect(mapStateToProps)(ReportsPage)

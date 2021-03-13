@@ -176,7 +176,7 @@ class SettingsPage extends React.Component {
               onChange={this.onChangeBackup}
             />
           </Form.Field>
-          <Button variant='danger' loading={isLoading} disabled={!backup}>
+          <Button variant='error' loading={isLoading} disabled={!backup}>
             Restore Backup
           </Button>
         </Form>
