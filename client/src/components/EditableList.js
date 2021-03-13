@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import pure from 'recompose/pure'
-import classname from 'classname'
+import classname from 'clsx'
 
 import arrayEquals from '../helpers/array-equals'
 import Button from './Button'

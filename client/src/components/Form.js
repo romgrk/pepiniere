@@ -1,7 +1,7 @@
 import React from 'react'
 import Prop from 'prop-types'
 import pure from 'recompose/pure'
-import cx from 'classname'
+import cx from 'clsx'
 
 import Icon from './Icon'
 import Spinner from './Spinner'

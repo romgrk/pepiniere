@@ -2,7 +2,7 @@ import React from 'react'
 import Prop from 'prop-types'
 import { createPortal, findDOMNode } from 'react-dom'
 import pure from 'recompose/pure'
-import cx from 'classname'
+import cx from 'clsx'
 import objectEquals from 'object-equals'
 import Color from 'color'
 

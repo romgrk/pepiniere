@@ -1,6 +1,6 @@
 import React from 'react'
 import prop from 'prop-types'
-import cx from 'classname'
+import cx from 'clsx'
 
 class Switch extends React.Component {
   static propTypes = {

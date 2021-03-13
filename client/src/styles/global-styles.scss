@@ -201,10 +201,12 @@ input, textarea, select, button {
 }
 
 
+.Category {
+  margin-bottom: $padding;
+}
 .Category__section {
   position: relative;
   overflow: hidden;
-  margin-bottom: 2 * $padding;
   padding-left: 4*$padding;
   border: 1px solid $border-color-dark;
   border-radius: 2px;
@@ -226,16 +228,28 @@ input, textarea, select, button {
 }
 .Category__tasks {
   padding-left: 4*$padding;
+  padding-bottom: 2*$padding;
+}
+.Category__controls {
+  padding-left: 4*$padding;
   padding-bottom: 4*$padding;
+}
+.Category__toggle {
+  .expanded & {
+    transform: rotate(-90deg);
+  }
 }
 
 .Task {
   position: relative;
   overflow: hidden;
   border: 1px solid $border-color;
-  margin-bottom: 2 * $padding;
-  border-radius: 2px;
+  border-top: none;
   padding-left: $padding;
+}
+.Task:last-child {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
 }
 .Task__name {
   overflow: hidden;

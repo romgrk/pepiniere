@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
-import cx from 'classname'
+import cx from 'clsx'
 
 import Auth from '../actions/auth'
 

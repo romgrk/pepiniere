@@ -1,7 +1,7 @@
 import React from 'react'
 import Prop from 'prop-types'
 import { createPortal, findDOMNode } from 'react-dom'
-import classname from 'classname'
+import classname from 'clsx'
 
 import Button from './Button'
 import Icon from './Icon'

@@ -6,7 +6,7 @@ import { withRouter } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
-import classname from 'classname'
+import classname from 'clsx'
 
 import UIActions from '../actions/ui'
 import SampleActions from '../actions/samples'

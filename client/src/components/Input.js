@@ -1,6 +1,6 @@
 import React from 'react'
 import Prop from 'prop-types'
-import classname from 'classname'
+import classname from 'clsx'
 import { equals } from 'ramda'
 
 import Button from './Button'

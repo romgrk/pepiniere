@@ -1,6 +1,6 @@
 import React from 'react'
 import prop from 'prop-types'
-import classname from 'classname'
+import classname from 'clsx'
 
 import Icon from './Icon'
 

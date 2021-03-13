@@ -1,6 +1,6 @@
 import React from 'react'
 import { findDOMNode, createPortal } from 'react-dom'
-import classname from 'classname'
+import classname from 'clsx'
 import { equals } from 'ramda'
 
 import Button from './Button'

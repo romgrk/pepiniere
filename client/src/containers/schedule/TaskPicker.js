@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 import { format } from 'date-fns'
 import { path, sort } from 'rambda'
-import cx from 'classname'
+import cx from 'clsx'
 
 import { compareRun } from '../../models'
 

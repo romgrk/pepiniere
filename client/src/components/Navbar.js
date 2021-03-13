@@ -2,7 +2,7 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import prop from 'prop-types'
 import { Link } from 'react-router-dom'
-import cx from 'classname'
+import cx from 'clsx'
 
 import Icon from './Icon'
 import Tooltip from './Tooltip'

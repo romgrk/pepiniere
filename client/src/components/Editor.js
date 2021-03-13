@@ -1,7 +1,7 @@
 import React from 'react'
 import pure from 'recompose/pure'
 import MonacoEditor from 'react-monaco-editor'
-import classname from 'classname'
+import classname from 'clsx'
 
 import { DECLARATIONS } from '../models'
 

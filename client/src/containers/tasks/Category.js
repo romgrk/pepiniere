@@ -11,6 +11,7 @@ import Task from '../../actions/tasks'
 import Button from '../../components/Button'
 import ColorPicker from '../../components/ColorPicker'
 import EditableLabel from '../../components/EditableLabel'
+import Expander from '../../components/Expander'
 import Gap from '../../components/Gap'
 import Input from '../../components/Input'
 
@@ -54,52 +55,64 @@ class CategoryComponent extends React.Component {
 
     return (
       <div className='Category'>
-        <div
-          className='Category__section hbox'
-        >
-          <ColorPicker
-            simple
-            className='Category__color'
-            value={category.data.color}
-            onChange={color => this.onUpdate('color', color)}
-          />
-          <EditableLabel
-            className='Category__name fill'
-            value={category.data.name}
-            onEnter={name => this.onUpdate('name', name)}
-          />
-          {window.ALLOW_DELETION &&
-            <Button
-              icon='remove'
-              onClick={this.onDelete}
-            />
-          }
-        </div>
-        <div className='Category__tasks'>
-          {
-            currentTasks.map(task =>
-              <TaskComponent
-                key={task.data.id}
-                task={task}
-              />
-            )
-          }
-          <div className='hbox'>
-            <Input
-              className='fill'
-              value={this.state.newTask}
-              onChange={newTask => this.setState({ newTask })}
-            />
-            <Gap h='10px' />
-            <Button
-              variant='info'
-              onClick={this.onAddTask}
-              loading={isCreating}
+        <Expander
+          trigger={({ toggle }) =>
+            <div
+              className='Category__section hbox'
             >
-              Create
-            </Button>
-          </div>
-        </div>
+              <ColorPicker
+                simple
+                className='Category__color'
+                value={category.data.color}
+                onChange={color => this.onUpdate('color', color)}
+              />
+              <EditableLabel
+                className='Category__name fill'
+                value={category.data.name}
+                onEnter={name => this.onUpdate('name', name)}
+              />
+              {window.ALLOW_DELETION &&
+                <Button
+                  icon='remove'
+                  onClick={this.onDelete}
+                />
+              }
+              <Button
+                className='Category__toggle'
+                icon='chevron-left'
+                onClick={toggle}
+              />
+            </div>
+          }
+        >
+          <>
+            <div className='Category__tasks'>
+              {
+                currentTasks.map(task =>
+                  <TaskComponent
+                    key={task.data.id}
+                    task={task}
+                  />
+                )
+              }
+            </div>
+            <div className='Category__controls hbox'>
+              <Input
+                className='fill'
+                value={this.state.newTask}
+                onChange={newTask => this.setState({ newTask })}
+              />
+              <Gap h='10px' />
+              <Button
+                variant='info'
+                onClick={this.onAddTask}
+                loading={isCreating}
+              >
+                Create
+              </Button>
+            </div>
+          </>
+        </Expander>
       </div>
     )
   }

@@ -7,7 +7,7 @@ import {
   isSunday,
   addDays,
 } from 'date-fns'
-import cx from 'classname'
+import cx from 'clsx'
 
 import { isVisibleAtDate } from '../models'
 import { parseLocal } from '../helpers/time'

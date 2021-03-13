@@ -90,6 +90,7 @@ class TasksPage extends React.Component {
           <Gap h='10px' />
           <Input
             className='fill'
+            placeholder='New category'
             value={this.state.newCategoryName}
             onChange={newCategoryName => this.setState({ newCategoryName })}
           />

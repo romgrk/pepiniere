@@ -1,6 +1,6 @@
 import React from 'react'
 import pure from 'recompose/pure'
-import classname from 'classname'
+import classname from 'clsx'
 
 import Icon from './Icon'
 import Label from './Label'

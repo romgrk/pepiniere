@@ -1,0 +1,71 @@
+/*
+ * Expander
+ */
+
+@import './_variables.scss';
+@import './_mixins.scss';
+
+.Expander {
+  .Expander__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+  .Expander__button .Icon.arrow {
+    transition: $transition;
+  }
+  &.open .Expander__button .Icon.arrow-after {
+    transform: rotate(-90deg);
+  }
+  &.open .Expander__button .Icon.arrow-before {
+    transform: rotate(90deg);
+  }
+
+  .Expander__container {
+    position: relative;
+    overflow: hidden;
+    transition: $transition;
+  }
+  .Expander__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &.vertical {
+    .Expander__content {
+      width: 100%;
+      height: auto;
+    }
+    &:not(.open) .Expander__container {
+      height: 0;
+    }
+  }
+
+  &.horizontal {
+    .Expander__content {
+      height: 100%;
+      width: auto;
+    }
+    &:not(.open) .Expander__container {
+      width: 0;
+    }
+  }
+
+  &.fit-content {
+    &.vertical {
+      .Expander__content {
+        width: max-content;
+      }
+    }
+    &.horizontal {
+      .Expander__content {
+        height: max-content;
+      }
+    }
+  }
+}

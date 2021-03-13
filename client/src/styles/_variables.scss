@@ -92,3 +92,7 @@ $breakpoint-xs: 450px;
 $breakpoint-sm: 800px;
 $breakpoint-md: 1200px;
 $breakpoint-lg: 1600px;
+
+
+$ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$transition: all 150ms $ease-out-quad;

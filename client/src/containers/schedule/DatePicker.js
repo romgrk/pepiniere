@@ -1,7 +1,7 @@
 import React from 'react'
 import Prop from 'prop-types'
 import { format } from 'date-fns'
-import cx from 'classname'
+import cx from 'clsx'
 
 import Input from '../../components/Input'
 import Title from '../../components/Title'

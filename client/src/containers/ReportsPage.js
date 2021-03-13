@@ -10,7 +10,7 @@ import {
   reduce,
   compose,
 } from 'rambda'
-import cx from 'classname'
+import cx from 'clsx'
 
 import { parseLocal } from '../helpers/time'
 import { fromLoadable } from '../helpers/to-loadable'

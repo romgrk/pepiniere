@@ -1,6 +1,6 @@
 import React from 'react'
 import Prop from 'prop-types'
-import cx from 'classname'
+import cx from 'clsx'
 
 import { abbreviate } from '../models'
 import getCountryFlag from '../helpers/get-country-flag'
