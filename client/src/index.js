@@ -64,6 +64,6 @@ if (module.hot) {
     )
   })
 
-  module.hot.accept('./styles/index.css', () =>
-    require('./styles/index.css'))
+  module.hot.accept('./styles/index.scss', () =>
+    require('./styles/index.scss'))
 }
