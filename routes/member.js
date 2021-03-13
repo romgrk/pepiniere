@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { dataHandler, errorHandler } = require('../helpers/handlers.js')
+const { imageHandler, dataHandler, errorHandler } = require('../helpers/handlers.js')
 const Member = require('../models/member.js')
 
 /* GET members list */
@@ -15,6 +15,13 @@ router.get('/list', (req, res, next) => {
 router.get('/get/:id', (req, res, next) => {
   Member.findById(req.params.id)
   .then(dataHandler(res))
+  .catch(errorHandler(res))
+})
+
+/* GET member profile */
+router.get('/photo/:id', (req, res, next) => {
+  Member.findPhotoById(req.params.id)
+  .then(imageHandler(res))
   .catch(errorHandler(res))
 })
 

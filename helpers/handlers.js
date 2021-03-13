@@ -18,6 +18,11 @@ exports.dataHandler = res => data => {
   res.end()
 }
 
+exports.imageHandler = res => data => {
+  res.contentType('image/png')
+  res.end(data, 'binary')
+}
+
 exports.okHandler = res => data => {
   res.json({ ok: true })
   res.end()

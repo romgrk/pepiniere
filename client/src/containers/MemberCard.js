@@ -4,6 +4,7 @@ import cx from 'classname'
 
 import { abbreviate } from '../models'
 import getCountryFlag from '../helpers/get-country-flag'
+import useLoadingImage from '../helpers/use-loading-image'
 
 import DateValue from '../components/Date'
 import Icon from '../components/Icon'
@@ -36,9 +37,14 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
       </div>
     )
 
+  const photoSrc = useLoadingImage(member.data.photo)
+  // const isLoadingPhoto = Boolean(member.data.photo) && !Boolean(photoSrc)
+
   return (
     <div
-      className={cx('MemberCard', className, { 'MemberCard--loading': member.isLoading })}
+      className={cx('MemberCard', className, {
+        'MemberCard--loading': member.isLoading,
+      })}
       role='button'
       {...rest}
     >
@@ -51,12 +57,12 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
                 size={iconSize}
                 style={{ height: imageSize, width: 'auto', opacity: 0.6 }}
               /> :
-            member.data.photo ?
+            photoSrc ?
               <img
                 className='MemberCard__photo__img'
                 width="auto"
                 height={imageSize + 'px'}
-                src={member.data.photo}
+                src={photoSrc}
               /> :
               <Icon
                 name='user-circle'

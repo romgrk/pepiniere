@@ -9,7 +9,7 @@ const k = require('../constants')
 module.exports = {
   findAll,
   findById,
-  findBygoogleID,
+  findPhotoById,
   update,
   create,
 }
@@ -17,24 +17,21 @@ module.exports = {
 
 function findAll() {
   return db.findAll('SELECT * FROM members')
+    .then(ms => ms.map(serialize))
 }
 
 function findById(id) {
   return db.findOne('SELECT * FROM members WHERE id = @id', { id })
-    .catch(err =>
-      err.type === k.ROW_NOT_FOUND ?
-        rejectMessage('User account not found', k.ACCOUNT_NOT_FOUND) :
-        Promise.reject(err)
-    )
+    .then(m => serialize(m))
 }
 
-function findBygoogleID(googleID) {
-  return db.findOne('SELECT * FROM members WHERE "googleID" = @googleID', { googleID })
-    .catch(err =>
-      err.type === k.ROW_NOT_FOUND ?
-        rejectMessage('User account not found', k.ACCOUNT_NOT_FOUND) :
-        Promise.reject(err)
-    )
+function findPhotoById(id) {
+  return db.findOne('SELECT * FROM members WHERE id = @id', { id })
+    .then(m => {
+      const data = m.photo.replace('data:image/png;base64,', '')
+      const buffer = new Buffer(data, 'base64')
+      return buffer
+    })
 }
 
 function update(member) {
@@ -63,4 +60,11 @@ function create(member) {
 
 module.exports.delete = function(id) {
   return db.run('DELETE FROM members WHERE id = @id', { id })
+}
+
+// Helpers
+
+function serialize(member) {
+  member.photo = `/api/member/photo/${member.id}`
+  return member
 }
