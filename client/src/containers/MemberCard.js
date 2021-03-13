@@ -21,6 +21,7 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
   const isDeleted = typeof member === 'number'
   const imageSize = IMAGE_SIZE[size]
   const iconSize = size === 'small' ? '3x' : '5x'
+  const loaderSize = imageSize * 0.9
 
   if (empty || member == undefined)
     return (
@@ -38,12 +39,13 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
     )
 
   const photoSrc = useLoadingImage(member.data.photo)
-  // const isLoadingPhoto = Boolean(member.data.photo) && !Boolean(photoSrc)
+  const isLoadingPhoto = Boolean(member.data.photo) && !Boolean(photoSrc)
 
   return (
     <div
       className={cx('MemberCard', className, {
         'MemberCard--loading': member.isLoading,
+        'MemberCard--loading-photo': isLoadingPhoto,
       })}
       role='button'
       {...rest}
@@ -64,11 +66,31 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
                 height={imageSize + 'px'}
                 src={photoSrc}
               /> :
-              <Icon
-                name='user-circle'
-                size={iconSize}
-                style={{ height: imageSize, width: 'auto' }}
-              />
+              <>
+                <Icon
+                  className='MemberCard__photo__icon'
+                  name='user-circle'
+                  size={iconSize}
+                  style={{ height: imageSize, width: 'auto' }}
+                />
+                {isLoadingPhoto &&
+                  <span
+                    className='MemberCard__photo__loading'
+                    style={{ height: imageSize, width: imageSize }}
+                  >
+                    <Icon
+                      name='circle-o-notch'
+                      size={iconSize}
+                      spin
+                      style={{
+                        height:   loaderSize,
+                        width:    loaderSize,
+                        fontSize: loaderSize,
+                      }}
+                    />
+                  </span>
+                }
+              </>
           }
         </div>
         <div className='text-bold text-center no-wrap no-pointer-events'>

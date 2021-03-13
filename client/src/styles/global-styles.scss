@@ -29,10 +29,21 @@ input, textarea, select, button {
   opacity: 0.4;
 }
 .MemberCard__photo {
+  position: relative;
   margin-bottom: $padding;
 }
 .MemberCard__photo__img {
   border-radius: 50%;
+}
+.MemberCard--loading-photo .MemberCard__photo__icon {
+  opacity: 0.6;
+}
+.MemberCard__photo__loading {
+  position: absolute;
+  opacity: 0.3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .MemberCard__photoEmpty {
   display: inline-block;
