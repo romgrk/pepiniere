@@ -7,8 +7,6 @@ import routes from './routes'
 
 const assets = self.__WB_MANIFEST;
 
-console.log(assets)
-
 // Names of the two caches used in this version of the service worker.
 const PRECACHE = `precache-${hash(assets)}`;
 const RUNTIME = 'runtime';
@@ -26,6 +24,7 @@ const FRONTEND_URLS = routes.map(r => r.path)
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
+  console.log('installing', assets)
   event.waitUntil(
     caches.open(PRECACHE)
       .then(cache => cache.addAll(PRECACHE_URLS))
@@ -36,6 +35,7 @@ self.addEventListener('install', event => {
 // The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', event => {
   const currentCaches = [PRECACHE, RUNTIME];
+  console.log('activating', currentCaches)
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
