@@ -65,6 +65,7 @@ module.exports.delete = function(id) {
 // Helpers
 
 function serialize(member) {
-  member.photo = `/api/member/photo/${member.id}`
+  if (member.photo)
+    member.photo = `/api/member/photo/${member.id}`
   return member
 }
