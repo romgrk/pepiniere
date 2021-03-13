@@ -135,6 +135,9 @@ button.label.editable .Icon {
   transition: opacity .25s;
   flex: 0 0;
 }
+.platform-isTouch button.label.editable .Icon {
+  opacity: 0.8;
+}
 button.label.editable:hover .Icon {
   opacity: 1;
 }

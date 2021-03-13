@@ -2,6 +2,7 @@ import React from 'react'
 import pure from 'recompose/pure'
 import classname from 'classname'
 
+import getPlatform from '../helpers/platform-detect'
 import { isValidDate, humanReadableDate } from '../helpers/human-readable-time'
 import Tooltip from './Tooltip'
 import Text from './Text'
@@ -47,7 +48,7 @@ function Date(props) {
       </abbr> :
       <Text muted small>[Invalid date]</Text>
 
-  if (window.isMobile)
+  if (getPlatform().isTouch)
     return content
 
   return (

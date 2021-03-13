@@ -2,6 +2,7 @@ import React from 'react'
 import pure from 'recompose/pure'
 import classname from 'classname'
 
+import getPlatform from '../helpers/platform-detect'
 import humanReadableTime, { humanDetailedTime } from '../helpers/human-readable-time'
 import Tooltip from './Tooltip'
 
@@ -44,7 +45,7 @@ function Time(props) {
       { humanReadableTime(children) }
     </abbr>
 
-  if (window.isMobile)
+  if (getPlatform().isTouch)
     return content
 
   return (
