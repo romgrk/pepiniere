@@ -43,6 +43,28 @@ class SchedulePage extends React.Component {
     lastCreatedDate: undefined,
   }
 
+  constructor(props) {
+    super(props)
+    this.membersContainer = React.createRef()
+  }
+
+  componentDidMount() {
+    this.membersContainer.current.addEventListener('touchstart', this.onTouchStartMember, { passive: false })
+  }
+
+  componentWillUnmount() {
+    this.membersContainer.current.removeEventListener('touchstart', this.onTouchStartMember)
+  }
+
+  onTouchStartMember = ev => {
+    const id = findDataID(ev)
+    if (!id)
+      return
+    ev.preventDefault()
+    const m = this.props.members.find(m => m.data.id === id)
+    this.startDrag(ev, m)
+  }
+
   nextPeriod = () => {
     const { currentDate } = this.props
     const { isAM } = this.state
@@ -139,6 +161,7 @@ class SchedulePage extends React.Component {
 
     if (e instanceof TouchEvent) {
       e.target.addEventListener('touchmove', this.onDragMove)
+      e.target.addEventListener('touchend', this.stopDrag)
     }
     else {
       document.addEventListener('mousemove', this.onDragMove)
@@ -229,7 +252,7 @@ class SchedulePage extends React.Component {
           <Button icon='chevron-right' onClick={this.nextPeriod} />
         </div>
 
-        <div className='SchedulePage__members hbox'>
+        <div className='SchedulePage__members hbox' ref={this.membersContainer}>
           {
             visibleMembers.map(m =>
               <MemberCard
@@ -238,9 +261,8 @@ class SchedulePage extends React.Component {
                 style={{ opacity: dragMember === m ? 0 : 1 }}
                 size='small'
                 member={m}
+                data-member-id={m.data.id}
                 onMouseDown={ev => this.startDrag(ev, m)}
-                onTouchStart={ev => this.startDrag(ev, m)}
-                onTouchEnd={ev => this.stopDrag(ev)}
               />
             )
           }
@@ -262,7 +284,7 @@ class SchedulePage extends React.Component {
                 <RunComponent
                   key={r.data.id}
                   run={r}
-                  data-id={r.data.id}
+                  data-run-id={r.data.id}
                 />
               )
             }
@@ -320,7 +342,20 @@ const mapStateToProps = createStructuredSelector({
 export default connect(mapStateToProps)(SchedulePage)
 
 
-function getEventPosition(e) {
+function findDataID(e) {
+  let current = e.target
+  while (current) {
+    const id = current.getAttribute('data-member-id')
+    if (id)
+      return parseInt(id, 10)
+    current = current.parentElement
+  }
+  return undefined
+}
+
+function getEventPosition(ev) {
+  const e = ev.nativeEvent || ev
+
   if (e instanceof TouchEvent) {
     const touch = e.targetTouches[0] || e.touches[0]
     const x = touch.pageX
@@ -336,7 +371,7 @@ function getEventPosition(e) {
 function getRunID(x, y) {
   let target = document.elementFromPoint(x, y)
   let runID
-  while (target !== null && (runID = target.getAttribute('data-id')) === null)
+  while (target !== null && (runID = target.getAttribute('data-run-id')) === null)
     target = target.parentElement
   return +runID
 }
