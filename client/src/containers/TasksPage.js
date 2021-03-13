@@ -113,9 +113,9 @@ class TasksPage extends React.Component {
     return (
       <div className='Page__section vbox'>
         <div className='Page__controls Page__controls--top row no-padding flex'>
-          <Link to='/tasks' className='Button iconButton has-icon'>
+          <button className='Button iconButton has-icon' onClick={this.props.history.goBack}>
             <Icon name='arrow-left' />
-          </Link>
+          </button>
           <Gap h='10px' />
           <Title>{task ? task.data.name : 'Loading...'}</Title>
         </div>
