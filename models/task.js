@@ -24,6 +24,7 @@ function update(task) {
   return db.run(`
     UPDATE tasks
        SET ${db.toMapping(task)}
+         , updatedAt = strftime('%s','now')
      WHERE id = @id
     `, task)
     .then(() => findById(task.id))

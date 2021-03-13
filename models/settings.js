@@ -35,7 +35,12 @@ function findByKey(key) {
 }
 
 function update(key, value) {
-  return db.run('UPDATE settings SET value = @value WHERE key = @key', {
+  return db.run(`
+    UPDATE settings
+       SET value = @value
+         , updatedAt = strftime('%s','now')
+     WHERE key = @key`,
+  {
     key,
     value: JSON.stringify(value)
   })

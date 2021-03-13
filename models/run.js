@@ -26,6 +26,7 @@ function update(run) {
   return db.run(`
     UPDATE runs
        SET ${db.toMapping(run)}
+         , updatedAt = strftime('%s','now')
      WHERE id = @id
     `, serialize(run))
     .then(() => findById(run.id))
@@ -37,6 +38,7 @@ function addMember(id, memberId) {
     db.run(`
       UPDATE runs
         SET membersId = @membersId
+          , updatedAt = strftime('%s','now')
       WHERE id = @id
     `, serialize({ id, membersId: run.membersId.concat(memberId) }))
   )
@@ -48,6 +50,7 @@ function removeMember(id, memberId) {
     db.run(`
       UPDATE runs
         SET membersId = @membersId
+          , updatedAt = strftime('%s','now')
       WHERE id = @id
     `, serialize({ id, membersId: run.membersId.filter(id => id !== memberId) }))
   )

@@ -24,6 +24,7 @@ function update(category) {
   return db.run(`
     UPDATE categories
        SET ${db.toMapping(category)}
+         , updatedAt = strftime('%s','now')
      WHERE id = @id
     `, category)
     .then(() => findById(category.id))

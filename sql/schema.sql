@@ -5,14 +5,11 @@
 
 
 CREATE TABLE settings (
-    key    varchar(100) primary key,
-    value  text         not null
+    key       varchar(100) primary key,
+    value     text         not null,
+    createdAt integer      null,
+    updatedAt integer      null
 );
-INSERT INTO settings (key, value) VALUES
-    ('password', '"$2b$10$9atLhFED4kZaWIl7/o89rON/gfqW3ElL4sSqOIOLW.PJ9L4Aoh4pW"'); -- "secret"
-INSERT INTO settings (key, value) VALUES
-    ('defaultTasks', '[]');
-
 CREATE TABLE members (
     id          integer     primary key autoincrement,
     firstName   text        not null,
@@ -21,19 +18,25 @@ CREATE TABLE members (
     photo       text        null,
     isPermanent integer     null,
     startDate   integer     null,
-    endDate     integer     null
+    endDate     integer     null,
+    createdAt   integer     null,
+    updatedAt   integer     null
 );
 
 CREATE TABLE categories (
-    id       integer     primary key autoincrement,
-    name     text        not null,
-    color    text        not null
+    id          integer     primary key autoincrement,
+    name        text        not null,
+    color       text        not null,
+    createdAt   integer     null,
+    updatedAt   integer     null
 );
 
 CREATE TABLE tasks (
     id         integer   primary key autoincrement,
     categoryId integer   not null,
-    name       text      not null
+    name       text      not null,
+    createdAt  integer   null,
+    updatedAt  integer   null
 );
 
 CREATE TABLE runs (
@@ -42,12 +45,18 @@ CREATE TABLE runs (
     membersId text    not null,
     date      integer not null,
     isAM      integer default 1,
-    notes     text    default ''
+    notes     text    default '',
+    createdAt integer null,
+    updatedAt integer null
 );
 
 
 -- Bootstrap data
 
+INSERT INTO settings (key, value) VALUES
+    ('password', '"$2b$10$9atLhFED4kZaWIl7/o89rON/gfqW3ElL4sSqOIOLW.PJ9L4Aoh4pW"'); -- "secret"
+INSERT INTO settings (key, value) VALUES
+    ('defaultTasks', '[]');
 
 -- Mock data
 
@@ -67,15 +76,5 @@ INSERT INTO tasks (categoryId, name) VALUES (1, 'Seed Collecting');
 INSERT INTO tasks (categoryId, name) VALUES (1, 'Planting');
 INSERT INTO tasks (categoryId, name) VALUES (1, 'Weeding');
 
-
-
-/* INSERT INTO users (id, "googleID", token, name, email, password) VALUES (
- *     nextval('users_id_seq'),
- *     null,
- *     null,
- *     'System',
- *     null,
- *     'Gr4nts'
- * ); */
 
 -- vim:et

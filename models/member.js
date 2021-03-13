@@ -38,6 +38,7 @@ function update(member) {
   return db.run(`
     UPDATE members
        SET ${db.toMapping(member)}
+         , updatedAt = strftime('%s','now')
      WHERE id = @id
     `, member)
     .then(() => findById(member.id))
