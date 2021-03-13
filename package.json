@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "npm run setup",
+    "postinstall": "npm run setup && cd client && npm i",
     "setup": "if [ ! -f ./data/db.sqlite ]; then mkdir -p data/images && sqlite3 ./data/db.sqlite < ./schema.sql; fi",
     "start": "node ./bin/www",
     "start:dev": "NODE_ENV=development nodemon --ignore 'client/*' ./bin/www",
