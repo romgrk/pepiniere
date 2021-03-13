@@ -11,17 +11,16 @@ function loadImage(source) {
     return loadedImages[source]
 
   const loader = new Promise((resolve, reject) => {
-    // timeout to allow data more time to load
-    setTimeout(() => {
-      const imgLoader = new Image()
-      imgLoader.onload = function(){
-        resolve(this.src)
-        loader.done = true
-      }
-      imgLoader.src = source
-    }, 250)
+    const imgLoader = new Image()
+    imgLoader.onload = function(){
+      loader.done = true
+      resolve(this.src)
+    }
+    imgLoader.src = source
   })
+
   loadedImages[source] = loader
+
   return loader
 }
 
