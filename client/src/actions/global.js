@@ -13,6 +13,7 @@ import members from './members.js'
 import categories from './categories.js'
 import tasks from './tasks.js'
 import runs from './runs.js'
+import ui from './ui.js'
 
 const createPayload = (message, details) => ({ message, details })
 
@@ -35,6 +36,9 @@ export const fetchAll = createAsyncAction(() => (dispatch, getState) => {
     tasks.fetch(),
     runs.fetch(),
   ])
+  .then(() => {
+    ui.setDidLoad()
+  })
 })
 
 export default {

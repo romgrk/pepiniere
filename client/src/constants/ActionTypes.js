@@ -7,9 +7,7 @@ import {
 // UI
 export const UI = createConstants('UI', [
   'SET_CURRENT_DATE',
-  'ADD_FILTERING_CATEGORY',
-  'DELETE_FILTERING_CATEGORY',
-  'SET_FILTERING_CATEGORIES',
+  'SET_DID_LOAD',
 ])
 
 export const LOGGED_IN = createNetworkConstants('LOGGED_IN')
