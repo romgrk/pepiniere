@@ -13,7 +13,6 @@ import qs from 'qs'
 import Auth from './actions/auth'
 
 import Navbar from './components/Navbar'
-
 import NotificationsContainer from './containers/NotificationsContainer'
 import MembersPage from './containers/MembersPage'
 import LoginPage from './containers/LoginPage'
@@ -23,13 +22,7 @@ import SchedulePage from './containers/SchedulePage'
 import ReportsPage from './containers/ReportsPage'
 import Title from './components/Title'
 
-const items = [
-  { type: 'item', icon: 'cogs',        label: 'Settings', path: '/settings' },
-  { type: 'item', icon: 'user-circle', label: 'Members',  path: '/members'},
-  { type: 'item', icon: 'tasks',       label: 'Tasks',    path: '/tasks' },
-  { type: 'item', icon: 'calendar',    label: 'Schedule', path: '/schedule' },
-  { type: 'item', icon: 'table',       label: 'Report',   path: '/reports' },
-]
+import routes from './routes'
 
 const indexPath = '/schedule'
 
@@ -64,8 +57,8 @@ function App({ isLoggedIn, isLoggingIn }) {
               <Navbar
                 direction='horizontal'
                 visible={isLoggedIn}
-                index={items.findIndex(i => props.location.pathname.startsWith(i.path))}
-                items={items}
+                index={routes.findIndex(i => props.location.pathname.startsWith(i.path))}
+                items={routes}
               >
                 <Navbar.Title className='sm-hidden'>
                   <Title large keepCase muted>
@@ -83,7 +76,7 @@ function App({ isLoggedIn, isLoggingIn }) {
 
             <Route render={(props) => {
               /* Render document title */
-              const activeItem = items.find(i => props.location.pathname.startsWith(i.path))
+              const activeItem = routes.find(i => props.location.pathname.startsWith(i.path))
 
               if (activeItem && activeItem.title !== undefined)
                 document.title = activeItem.title

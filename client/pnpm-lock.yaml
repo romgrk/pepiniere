@@ -25,6 +25,7 @@ dependencies:
   node-sass-chokidar: 0.0.3
   object-assign: 4.1.1
   object-equals: 0.3.0
+  object-hash: 2.1.1
   object-path-immutable: 4.1.1
   partial.lenses: 13.16.0
   popmotion: 8.7.6
@@ -9967,6 +9968,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ohwpvRXLVdPilHZMr3EserWka4Zz0aX9/BbTg6Z1SWv1QHsSfu3pXbzcOavH8G9eF9XMgTd0qT2g2IlQFEnOgA==
+  /object-hash/2.1.1:
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-VOJmgmS+7wvXf8CjbQmimtCnEx3IAoLxI3fp2fbWehxrWBcAQFbk+vcwb6vzR0VZv/eNCJ/27j151ZTwqW/JeQ==
   /object-inspect/1.9.0:
     dev: false
     resolution:
@@ -15142,6 +15149,7 @@ specifiers:
   node-sass-chokidar: 0.0.3
   object-assign: 4.1.1
   object-equals: ^0.3.0
+  object-hash: ^2.1.1
   object-path-immutable: ^4.1.0
   partial.lenses: ^13.1.1
   plop: ^1.7.4

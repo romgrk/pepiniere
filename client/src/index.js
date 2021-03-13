@@ -11,8 +11,10 @@ import registerServiceWorker from './helpers/registerServiceWorker'
 import './helpers/platform-detect.js'
 import './styles/index.scss'
 
-
 window.ALLOW_DELETION = false
+
+
+console.log(`Mode: ${process.env.NODE_ENV}`)
 
 initializeStore().then(store => {
 
