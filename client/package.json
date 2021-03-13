@@ -7,7 +7,6 @@
     "axios": "^0.21.1",
     "bowser": "^2.11.0",
     "chalk": "2.3.0",
-    "classname": "0.0.0",
     "clsx": "^1.1.1",
     "color": "^3.0.0",
     "countries-list": "^2.5.6",
