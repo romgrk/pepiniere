@@ -4,12 +4,16 @@
 
 import isObject from 'is-object'
 
-import store from '../store/index.js'
+let store
 
 const A = (state, ...args) => args
 const identity = x => x
 const isFunction = x => typeof x === 'function'
 const isNull = x => x == null
+
+export function setStore(s) {
+  store = s
+}
 
 export function createModelConstants(namespace, others = []) {
   const constants = {

@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import 'font-awesome/css/font-awesome.min.css'
 
-import store from './store'
+import initializeStore from './store'
 import App from './App'
 import global from './actions/global'
 import auth from './actions/auth'
@@ -14,33 +14,27 @@ import './styles/index.scss'
 
 window.ALLOW_DELETION = false
 
-render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-)
+initializeStore().then(store => {
 
+  // Render app
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root')
+  )
 
-if (false /* process.env.NODE_ENV === 'development' */) {
-  auth.checkIsLoggedIn.receive(true)
-  global.fetchAll()
-}
-else {
-  auth.checkIsLoggedIn()
-  .then(isLoggedIn => {
+  auth.checkIsLoggedIn().then(isLoggedIn => {
     if (isLoggedIn)
       global.fetchAll()
   })
-}
 
-setInterval(() => {
-  const state = store.getState()
-  if (state.auth.loggedIn.value)
-    global.fetchAll()
-}, 60 * 1000)
-
-
+  setInterval(() => {
+    const state = store.getState()
+    if (state.auth.loggedIn.value)
+      global.fetchAll()
+  }, 60 * 1000)
+})
 
 // Register service worker
 registerServiceWorker()
