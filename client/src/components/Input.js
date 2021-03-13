@@ -11,6 +11,7 @@ class Input extends React.Component {
     status: Prop.oneOf(['info', 'warning', 'error', 'success']),
     size: Prop.oneOf(['small', 'medium', 'large']),
     validate: Prop.func,
+    icon: Prop.string,
   }
 
   state = {

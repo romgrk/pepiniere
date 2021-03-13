@@ -34,16 +34,16 @@ class LoginPage extends React.Component {
     const { password } = this.state
     const { isLoading } = this.props
 
-    const className = cx('LoginPage vbox')
+    const className = cx('LoginPage vbox box--center')
 
     return (
       <section className={className}>
 
-        <div className='fill' />
         <div className='LoginPage__controls vbox box--justify-center'>
           <Input
             size='large'
             type='password'
+            icon='user'
             placeholder='Password'
             className='LoginPage__input'
             value={password}
@@ -60,7 +60,6 @@ class LoginPage extends React.Component {
             Login
           </Button>
         </div>
-        <div className='fill' />
 
       </section>
     )

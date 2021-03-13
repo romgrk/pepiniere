@@ -13,17 +13,22 @@
 }
 .Input__icon {
   position: absolute;
-  top: 60%;
-  left: 6px;
-  transform: translate(0, -50%);
+  width: 2em !important;
+  height: 100% !important;
+  @include center;
+  opacity: 0.3;
+  .Input:focus-within & {
+    opacity: 0.6;
+  }
 }
 .Input__element {
   color: $input-color;
   background-color: $input-bg-color;
   outline: none;
+  font-size: inherit;
   border: 1px solid $input-border-color;
   border-radius: 2px;
-  padding: 0 8px;
+  padding: 0 1em;
   height: 30px;
   width: 100%;
   transition: box-shadow .25s;
@@ -46,16 +51,17 @@
   width: 100%;
 }
 .Input.has-icon .Input__element {
-  padding-left: 25px;
+  padding-left: 2em;
 }
 .Input.small {
+  font-size: 12px;
   line-height: 20px;
 }
 .Input.small .Input__element {
-  font-size: 12px;
   height: 20px;
 }
 .Input.large {
+  font-size: 18px;
   line-height: 40px;
 }
 .Input.large .Input__element {

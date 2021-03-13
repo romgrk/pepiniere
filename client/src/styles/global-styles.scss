@@ -76,14 +76,14 @@ input, textarea, select, button {
   padding: (6 * $padding);
 }
 .LoginPage__controls {
-  max-width: 800px;
+  width: 100%;
+  max-width: 400px;
 }
 .LoginPage__input {
   width: 100%;
   margin-bottom: 1em;
 }
-.LoginPage__button {
-}
+.LoginPage__button {}
 
 
 /*
