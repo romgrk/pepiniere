@@ -55,8 +55,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.Button > .Button__icon {}
-.Button > .Button__iconAfter {}
+.Button > .Button__icon,
+.Button > .Button__iconAfter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .Button.flat {
   background-color: transparent;

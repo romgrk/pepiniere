@@ -17,6 +17,7 @@ import UI from '../actions/ui'
 
 import Button from '../components/Button'
 import Gap from '../components/Gap'
+import Label from '../components/Label'
 import Switch from '../components/Switch'
 import Text from '../components/Text'
 
@@ -26,9 +27,23 @@ import RunComponent from './schedule/Run'
 import TaskPicker from './schedule/TaskPicker'
 
 
+const mapStateToProps = createStructuredSelector({
+  didInitialLoad: createSelector(state => state.ui.didInitialLoad, state => state),
+  isLoading: createSelector(state => state.runs.isLoading || state.runs.isCreating, state => state),
+  currentDate: createSelector(state => state.ui.currentDate, state => state),
+  settings: createSelector(state => state.settings, state => state),
+  members: createSelector(state => Object.values(state.members.data), state => state),
+  categories: createSelector(state => Object.values(state.categories.data), state => state),
+  tasks: createSelector(state => Object.values(state.tasks.data), state => state),
+  runs: createSelector(state => Object.values(state.runs.data), state => state),
+  defaultTasks: createSelector(state =>
+    state.settings.data.defaultTasks ? state.settings.data.defaultTasks.data : [], state => state),
+})
+
 class SchedulePage extends React.Component {
 
   static propTypes = {
+    didInitialLoad: PropTypes.bool.isRequired,
     members: PropTypes.arrayOf(PropTypes.object).isRequired,
     categories: PropTypes.arrayOf(PropTypes.object).isRequired,
     tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -203,6 +218,7 @@ class SchedulePage extends React.Component {
   render() {
     const { isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
     const {
+      didInitialLoad,
       isLoading,
       defaultTasks,
       currentDate,
@@ -222,7 +238,6 @@ class SchedulePage extends React.Component {
       isVisibleAtDate(m, currentDate) && !assignedMembersId.some(id => id === m.data.id))
 
     const unassignedTasks = tasks.filter(t => !assignedTasksId.includes(t.data.id))
-
     const missingDefaultTasks = defaultTasks.filter(taskId =>
       visibleRuns.find(r => r.data.taskId === taskId) === undefined)
 
@@ -298,13 +313,26 @@ class SchedulePage extends React.Component {
         </div>
 
         <div className='SchedulePage__controls row no-padding flex'>
-          <Button onClick={this.copyLast}>
-            Copy Last
+          <Button icon='clipboard' onClick={this.copyLast}>
+            Copy Last Day
           </Button>
+          {!didInitialLoad &&
+            <Label muted>
+              Refreshing data...
+            </Label>
+          }
+          <div className='fill' />
           <TaskPicker
             tasks={unassignedTasks}
             onDone={this.onAddTasks}
-          />
+          >
+            <Button
+              icon='plus'
+              variant='info'
+            >
+              Add Tasks
+            </Button>
+          </TaskPicker>
         </div>
 
         <div
@@ -318,26 +346,12 @@ class SchedulePage extends React.Component {
           <MemberCard
             size='small'
             member={dragMember}
-            onTouchMove={this.onTouchMoveMember}
-            onTouchEnd={this.onTouchEndMember}
           />
         </div>
       </section>
     )
   }
 }
-
-const mapStateToProps = createStructuredSelector({
-  isLoading: createSelector(state => state.runs.isLoading || state.runs.isCreating, state => state),
-  currentDate: createSelector(state => state.ui.currentDate, state => state),
-  settings: createSelector(state => state.settings, state => state),
-  members: createSelector(state => Object.values(state.members.data), state => state),
-  categories: createSelector(state => Object.values(state.categories.data), state => state),
-  tasks: createSelector(state => Object.values(state.tasks.data), state => state),
-  runs: createSelector(state => Object.values(state.runs.data), state => state),
-  defaultTasks: createSelector(state =>
-    state.settings.data.defaultTasks ? state.settings.data.defaultTasks.data : [], state => state),
-})
 
 export default connect(mapStateToProps)(SchedulePage)
 

@@ -11,7 +11,6 @@ import { compareRun } from '../../models'
 import Button from '../../components/Button'
 import Icon from '../../components/Icon'
 import Modal from '../../components/Modal'
-import Title from '../../components/Title'
 
 class TaskPicker extends React.Component {
 
@@ -55,20 +54,20 @@ class TaskPicker extends React.Component {
 
   render() {
     const { open, selectedTasks } = this.state
-    const { isCreating, isLoading, tasks, tasksByID, categories, runs } = this.props
+    const { children, tasks, tasksByID, categories, runs } = this.props
 
     const sortedRuns = sort(compareRun, runs).reverse()
     const orderedTasks = getMRUTasksId(sortedRuns, tasks, tasksByID)
 
+    const trigger = React.Children.map(children, c => 
+      React.cloneElement(c, {
+        onClick: this.open,
+      })
+    )
+
     return (
       <>
-        <Button
-          className='ScheduleTaskPicker__button fill'
-          variant='info'
-          onClick={this.open}
-        >
-          Add Tasks
-        </Button>
+        {trigger}
         <Modal
           className='ScheduleTaskPicker__modal'
           scrollable

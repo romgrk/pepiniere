@@ -6,7 +6,7 @@ import {
 } from '../constants/ActionTypes'
 
 const initialState = {
-  didLoadInitialData: false,
+  didInitialLoad: false,
   currentDate: addDays(startOfToday(), 1),
   notifications: [],
 }
@@ -41,7 +41,7 @@ export default function ui(state = initialState, action) {
       return { ...state, currentDate: action.payload }
 
     case UI.SET_DID_LOAD:
-      return { ...state, didLoadInitialData: true }
+      return { ...state, didInitialLoad: true }
 
     case SHOW_NOTIFICATION:
       return { ...state, notifications: state.notifications.concat(action.payload) }
