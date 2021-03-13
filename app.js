@@ -2,6 +2,7 @@ global.Promise = require('bluebird')
 const path = require('path')
 const express = require('express')
 const session = require('express-session')
+const sqliteSession = require('express-session-sqlite').default
 const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
@@ -9,6 +10,8 @@ const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const formData = require('express-form-data');
 const compression = require('compression');
+const sqlite = require('sqlite3');
+const SqliteStore = sqliteSession(session)
 
 const config = require('./config')
 const backup = require('./helpers/backup')
@@ -39,7 +42,16 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 
 // Passport setup
-app.use(session({ secret: 'SECRET', resave: false, saveUninitialized: true }))
+app.use(session({
+  secret: 'SECRET',
+  resave: false,
+  saveUninitialized: true,
+  store: new SqliteStore({
+    driver: sqlite.Database,
+    path: config.paths.sessions,
+    ttl: 2 * 24 * 60 * 60 * 1000,
+  })
+}))
 app.use(passport.initialize())
 app.use(passport.session()) // persistent login sessions
 app.use(flash()) // use connect-flash for flash messages stored in session

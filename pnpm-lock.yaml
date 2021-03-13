@@ -12,6 +12,7 @@ dependencies:
   express: 4.15.5
   express-form-data: 2.0.14
   express-session: 1.17.1
+  express-session-sqlite: 2.0.8
   formidable: 1.2.2
   jade: 1.11.0
   morgan: 1.8.2
@@ -956,6 +957,14 @@ packages:
       node: '>=5.0.0'
     resolution:
       integrity: sha512-c+6JbNxeS62WNRFOAB1/pO/LUcPuWpu70mnNliKTOgM/4g55Zsu0r+3sUDuo6yZlW5uczxioHWar/iZUzMxfag==
+  /express-session-sqlite/2.0.8:
+    dependencies:
+      debug: 4.3.1
+      sql-template-strings: 2.2.2
+      sqlite: 4.0.19
+    dev: false
+    resolution:
+      integrity: sha512-DMMP+w3BwXadc5jFIhaj8FcrNDNU5O1EqlYnaHEXBaMVDU9THUP2RSLF9ikqVNGRQV5CGDZRoxf+WcfQs22M5A==
   /express-session/1.17.1:
     dependencies:
       cookie: 0.4.0
@@ -2879,6 +2888,16 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==
+  /sql-template-strings/2.2.2:
+    dev: false
+    engines:
+      node: '>=4.0.0'
+    resolution:
+      integrity: sha1-PxFQiiWt384hejBCqdMAwxk7lv8=
+  /sqlite/4.0.19:
+    dev: false
+    resolution:
+      integrity: sha512-UiHAgJI4NzbnBXdD3r8EHOpwCOiv8VxcC6dnOoEYPEde8bw6t2HRqUcvGppF3uOV/SrqyVHicMl5Cjmuaalnlw==
   /sqlite3/5.0.2:
     dependencies:
       node-addon-api: 3.1.0
@@ -3412,6 +3431,7 @@ specifiers:
   express: ~4.15.2
   express-form-data: ^2.0.14
   express-session: ^1.15.6
+  express-session-sqlite: ^2.0.8
   formidable: ^1.1.1
   jade: ~1.11.0
   morgan: ~1.8.1
@@ -3422,4 +3442,4 @@ specifiers:
   passport-local: ^1.0.0
   react-drop-zone: ^4.1.0
   serve-favicon: ~2.4.2
-  sqlite3: ^5.0.0
+  sqlite3: ^5.0.2
