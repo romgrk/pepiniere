@@ -75,6 +75,9 @@ input, textarea, select, button {
 .LoginPage {
   padding: (6 * $padding);
 }
+.LoginPage__controls {
+  max-width: 800px;
+}
 .LoginPage__input {
   width: 100%;
   margin-bottom: 1em;

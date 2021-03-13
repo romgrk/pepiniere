@@ -40,7 +40,7 @@ class LoginPage extends React.Component {
       <section className={className}>
 
         <div className='fill' />
-        <div className='vbox box--justify-center'>
+        <div className='LoginPage__controls vbox box--justify-center'>
           <Input
             size='large'
             type='password'

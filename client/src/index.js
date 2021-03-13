@@ -1,7 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { initDevTools } from 'inferno-devtools';
 import 'font-awesome/css/font-awesome.min.css'
 
 import './helpers/platform-detect.js'
@@ -10,14 +9,9 @@ import store from './store'
 import App from './App'
 import registerServiceWorker from './helpers/registerServiceWorker'
 
-import './styles/index.css'
+import './styles/index.scss'
 
 import global from './actions/global'
-
-
-if (process.env.NODE_ENV === 'development') {
-  initDevTools()
-}
 
 
 window.ALLOW_DELETION = false
