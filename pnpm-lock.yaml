@@ -20,7 +20,6 @@ dependencies:
   passport: 0.4.1
   passport-google-oauth: 1.0.0
   passport-local: 1.0.0
-  react-drop-zone: 4.3.2
   serve-favicon: 2.4.5
   sqlite3: 5.0.2
 devDependencies:
@@ -2532,13 +2531,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==
-  /react-drop-zone/4.3.2:
-    dev: false
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    resolution:
-      integrity: sha512-ANIn3wUT5Wg8XX7aqo6gN3G+vkQ17EQ+MADaSsogh/NXgyjGPoRKk6zQW60ulMa9Pl699p1NkVvNA56+tbjzVw==
   /readable-stream/2.3.7:
     dependencies:
       core-util-is: 1.0.2
@@ -3440,6 +3432,5 @@ specifiers:
   passport: ^0.4.0
   passport-google-oauth: ^1.0.0
   passport-local: ^1.0.0
-  react-drop-zone: ^4.1.0
   serve-favicon: ~2.4.2
   sqlite3: ^5.0.2
