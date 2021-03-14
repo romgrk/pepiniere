@@ -135,13 +135,17 @@ class Expander extends React.Component {
     const containerStyle = this.getContainerStyle()
 
     const triggerClassName = cx('Expander__button', { expanded: open })
+    const isRenderFunction = typeof triggerProp === 'function'
     const trigger =
       triggerProp ?
-        typeof triggerProp === 'function' ? triggerProp({ toggle }) :
-        React.Children.map(triggerProp, child =>
+        React.Children.map(
+          isRenderFunction ?
+            triggerProp({ toggle }) :
+            triggerProp,
+          child =>
           React.cloneElement(child, {
             className: cx(child.props.className, { expanded: open }),
-            onClick: child.props.onClick || toggle,
+            onClick: isRenderFunction ? undefined : (child.props.onClick || toggle),
           })
         ) :
       !label ? null :
