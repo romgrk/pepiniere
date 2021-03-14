@@ -48,7 +48,7 @@ export const logout = createAsyncAction(() => (dispatch, getState) => {
     })
     .catch(error => {
       dispatch({ type: LOG_OUT.ERROR, isError: true, error })
-      showError('Logout failed')
+      global.showError('Logout failed')
     })
 })
 
