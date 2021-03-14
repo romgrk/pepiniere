@@ -4,8 +4,8 @@ import {
   indexBy,
   prop,
   assoc,
-  dissoc
-} from 'ramda'
+  dissoc,
+} from 'rambda'
 import { MEMBERS } from '../constants/ActionTypes'
 
 import toLoadable from '../helpers/to-loadable'

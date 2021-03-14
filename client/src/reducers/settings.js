@@ -1,4 +1,10 @@
-import { set, lensPath } from 'ramda'
+import {
+  set,
+  lensPath,
+  map,
+  indexBy,
+  prop,
+} from 'rambda'
 import { SETTINGS } from '../constants/ActionTypes'
 
 import toLoadable from '../helpers/to-loadable'

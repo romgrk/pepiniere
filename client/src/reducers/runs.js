@@ -2,8 +2,8 @@ import {
   indexBy,
   prop,
   assoc,
-  dissoc
-} from 'ramda'
+  dissoc,
+} from 'rambda'
 import { set, merge } from 'object-path-immutable'
 import { RUNS } from '../constants/ActionTypes'
 

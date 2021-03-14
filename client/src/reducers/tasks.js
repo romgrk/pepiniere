@@ -4,7 +4,7 @@ import {
   indexBy,
   prop,
   assoc,
-  dissoc
+  dissoc,
 } from 'ramda'
 import { TASKS } from '../constants/ActionTypes'
 
