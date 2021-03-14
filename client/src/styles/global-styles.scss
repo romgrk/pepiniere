@@ -77,6 +77,10 @@ input, textarea, select, button {
 .MemberEditor__table td {
   padding-bottom: 0.5em;
 }
+.MemberEditor__table td:first-child {
+  padding-right: 2*$padding;
+  text-align: right;
+}
 
 
 /*
@@ -334,8 +338,13 @@ input, textarea, select, button {
   overflow: hidden;
   padding-left: 2 * $padding;
   margin-bottom: $padding;
+
   & .title {
+    flex: 1 1;
     font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 // .Run__title__color {
@@ -351,6 +360,12 @@ input, textarea, select, button {
   flex-direction: row;
   flex-wrap: wrap;
   margin: 0 2*$padding;
+}
+.Run__notes .Input__element {
+  &:not(:focus) {
+    background: rgba(white, 0.5);
+    opacity: 0.8;
+  }
 }
 
 
