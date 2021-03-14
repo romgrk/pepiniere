@@ -24,10 +24,17 @@ export default function getPlatform() {
   // mobile, desktop, tablet
   const type = data.platform.type.toLowerCase()
 
+  const isDeviceTouch = type === 'mobile' || type === 'tablet'
+
+  const supportsPointer =
+    window.matchMedia('(pointerx: fine)').matches ||
+    window.matchMedia('(pointerx: coarse)').matches
+  const isPointerCoarse = window.matchMedia('(pointerx: coarse)')
+
   platform = {
     os,
     type,
-    isTouch: type === 'mobile' || type === 'tablet',
+    isTouch: supportsPointer ? isPointerCoarse : isDeviceTouch,
   }
 
   document.body.classList.forEach(c => {
