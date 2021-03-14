@@ -23,6 +23,9 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
   const iconSize = size === 'small' ? '3x' : '5x'
   const loaderSize = imageSize * 0.9
 
+  const photoSrc = useLoadingImage(member?.data.photo)
+  const isLoadingPhoto = Boolean(member?.data.photo) && !Boolean(photoSrc)
+
   if (empty || member == undefined)
     return (
       <div className={cx('MemberCard vbox', className)}>
@@ -37,9 +40,6 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
         </div>
       </div>
     )
-
-  const photoSrc = useLoadingImage(member.data.photo)
-  const isLoadingPhoto = Boolean(member.data.photo) && !Boolean(photoSrc)
 
   return (
     <div
