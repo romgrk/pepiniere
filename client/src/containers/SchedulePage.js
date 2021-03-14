@@ -170,7 +170,14 @@ class SchedulePage extends React.Component {
     const dragPosition = getEventPosition(e)
 
     this.dragPosition = dragPosition
-    this.dragOffset = { x: dragPosition.x - element.x, y: dragPosition.y - element.y }
+    this.dragOffset = {
+      x: dragPosition.x - element.x,
+      y: dragPosition.y - element.y,
+      // We need both the element & the drag indicator to be
+      // the same size for the offset to be correct.
+      width: element.width,
+      height: element.height,
+    }
 
     this.setState({
       dragMember: member,
@@ -225,8 +232,9 @@ class SchedulePage extends React.Component {
        * or dragging */
       const dx = Math.abs(newPosition.x - this.dragPosition.x)
       const dy = Math.abs(newPosition.y - this.dragPosition.y)
+      const yPercent = dy / (dy + dx)
 
-      if (dx > dy) {
+      if (yPercent < 0.3) {
         /* Horizontal move: user is scrolling */
         this.stopDrag(e)
         return
@@ -247,6 +255,8 @@ class SchedulePage extends React.Component {
       this.dragIndicator.style.display = 'initial'
       this.dragIndicator.style.top     = `${this.dragPosition.y - this.dragOffset.y}px`
       this.dragIndicator.style.left    = `${this.dragPosition.x - this.dragOffset.x}px`
+      this.dragIndicator.style.width   = `${this.dragOffset.width}px`
+      this.dragIndicator.style.height  = `${this.dragOffset.height}px`
     }
     else {
       this.dragIndicator.style.display = 'none'
