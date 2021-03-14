@@ -69,6 +69,13 @@ class RunComponent extends React.Component {
     Run.update(run.data.id, { notes })
   }
 
+  onRefInput = ref => {
+    if (ref && this.mustFocus) {
+      this.mustFocus = false
+      ref.focus()
+    }
+  }
+
   onDeleteMember = (memberId) => {
     const { run } = this.props
     Run.removeMember(run.data.id, memberId)
@@ -145,7 +152,7 @@ class RunComponent extends React.Component {
                 value={notes}
                 onChange={this.onChangeNotes}
                 onBlur={this.onBlurNotes}
-                ref={ref => { ref && this.mustFocus && ref.focus() }}
+                ref={this.onRefInput}
               />
           }
         </div>
