@@ -27,6 +27,11 @@ import RunComponent from './schedule/Run'
 import TaskPicker from './schedule/TaskPicker'
 
 
+/*
+ * This component implements drag&drop behavior outside of react
+ * for performance reasons.
+ */
+
 const mapStateToProps = createStructuredSelector({
   didInitialLoad: createSelector(state => state.ui.didInitialLoad, state => state),
   isLoading: createSelector(state => state.runs.isLoading || state.runs.isCreating, state => state),
@@ -49,11 +54,11 @@ class SchedulePage extends React.Component {
     tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
+  dragPosition = { x: 0, y: 0 }
+  dragOffset   = { x: 0, y: 0 }
   state = {
     isAM: true,
     isDragging: false,
-    dragPosition: { x: 0, y: 0 },
-    dragOffset: { x: 0, y: 0 },
     dragMember: undefined,
     lastCreatedDate: undefined,
   }
@@ -164,9 +169,10 @@ class SchedulePage extends React.Component {
     const element = e.target.getBoundingClientRect()
     const dragPosition = getEventPosition(e)
 
+    this.dragPosition = dragPosition
+    this.dragOffset = { x: dragPosition.x - element.x, y: dragPosition.y - element.y }
+
     this.setState({
-      dragPosition,
-      dragOffset: { x: dragPosition.x - element.x, y: dragPosition.y - element.y },
       dragMember: member,
     })
 
@@ -179,11 +185,13 @@ class SchedulePage extends React.Component {
       this.setState({ isDragging: true })
       document.addEventListener('mousemove', this.onDragMove)
       document.addEventListener('mouseup', this.stopDrag)
+      this.applyDragStyles(true)
     }
   }
 
   stopDrag = (e) => {
-    const { dragPosition, dragMember } = this.state
+    const { dragPosition } = this
+    const { dragMember } = this.state
     const { x, y } = dragPosition
     const runId = getRunID(x, y)
 
@@ -191,10 +199,11 @@ class SchedulePage extends React.Component {
       Run.addMember(runId, dragMember.data.id)
     }
 
+    this.dragPosition = { x: 0, y: 0 }
+    this.dragOffset   = { x: 0, y: 0 }
+
     this.setState({
       isDragging: false,
-      dragPosition: { x: 0, y: 0 },
-      dragOffset: { x: 0, y: 0 },
       dragMember: undefined,
     })
 
@@ -205,6 +214,7 @@ class SchedulePage extends React.Component {
       document.removeEventListener('mousemove', this.onDragMove)
       document.removeEventListener('mouseup', this.stopDrag)
     }
+    this.applyDragStyles(false)
   }
 
   onDragMove = e => {
@@ -213,12 +223,13 @@ class SchedulePage extends React.Component {
     if (this.state.isDragging === false) {
       /* Touch device: we haven't decided yet if we are scrolling
        * or dragging */
-      const dx = Math.abs(newPosition.x - this.state.dragPosition.x)
-      const dy = Math.abs(newPosition.y - this.state.dragPosition.y)
+      const dx = Math.abs(newPosition.x - this.dragPosition.x)
+      const dy = Math.abs(newPosition.y - this.dragPosition.y)
 
       if (dx > dy) {
         /* Horizontal move: user is scrolling */
         this.stopDrag(e)
+        return
       }
       else {
         /* Vertical move: user is dragging */
@@ -227,13 +238,23 @@ class SchedulePage extends React.Component {
       }
     }
 
-    this.setState({
-      dragPosition: newPosition,
-    })
+    this.dragPosition = newPosition
+    this.applyDragStyles(true)
+  }
+
+  applyDragStyles(isDragging) {
+    if (isDragging) {
+      this.dragIndicator.style.display = 'initial'
+      this.dragIndicator.style.top     = `${this.dragPosition.y - this.dragOffset.y}px`
+      this.dragIndicator.style.left    = `${this.dragPosition.x - this.dragOffset.x}px`
+    }
+    else {
+      this.dragIndicator.style.display = 'none'
+    }
   }
 
   render() {
-    const { isAM, isDragging, dragPosition, dragOffset, dragMember } = this.state
+    const { isAM, isDragging, dragMember } = this.state
     const {
       didInitialLoad,
       isLoading,
@@ -354,11 +375,7 @@ class SchedulePage extends React.Component {
 
         <div
           className='SchedulePage__dragIndicator'
-          style={{
-            display: isDragging ? undefined : 'none',
-            top:  dragPosition.y - dragOffset.y,
-            left: dragPosition.x - dragOffset.x,
-          }}
+          ref={ref => (ref && (this.dragIndicator = ref))}
         >
           <MemberCard
             size='small'
