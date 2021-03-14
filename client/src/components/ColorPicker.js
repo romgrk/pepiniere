@@ -276,9 +276,9 @@ class ColorPicker extends React.Component {
                 groupByNumber(COLORS, 4).map((colors, i) =>
                   <div key={i}>
                     {
-                      colors.map(color =>
+                      colors.map((color, i) =>
                         <button
-                          key={color}
+                          key={color + i}
                           type='button'
                           className='ColorPicker__color ColorPicker__color--button'
                           style={{ backgroundColor: color }}

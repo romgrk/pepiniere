@@ -57,9 +57,7 @@ class CategoryComponent extends React.Component {
       <div className='Category'>
         <Expander
           trigger={({ toggle }) =>
-            <div
-              className='Category__section hbox'
-            >
+            <div className='Category__section hbox'>
               <ColorPicker
                 simple
                 className='Category__color'
@@ -67,17 +65,20 @@ class CategoryComponent extends React.Component {
                 onChange={color => this.onUpdate('color', color)}
               />
               <EditableLabel
+                size='large'
                 className='Category__name fill'
                 value={category.data.name}
                 onEnter={name => this.onUpdate('name', name)}
               />
               {window.ALLOW_DELETION &&
                 <Button
+                  size='large'
                   icon='remove'
                   onClick={this.onDelete}
                 />
               }
               <Button
+                size='large'
                 className='Category__toggle'
                 icon='chevron-left'
                 onClick={toggle}
@@ -98,6 +99,7 @@ class CategoryComponent extends React.Component {
             </div>
             <div className='Category__controls hbox'>
               <Input
+                size='large'
                 className='fill'
                 placeholder='New task'
                 value={this.state.newTask}
@@ -105,6 +107,7 @@ class CategoryComponent extends React.Component {
               />
               <Gap h='10px' />
               <Button
+                size='large'
                 variant='info'
                 onClick={this.onAddTask}
                 loading={isCreating}

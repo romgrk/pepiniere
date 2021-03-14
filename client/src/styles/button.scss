@@ -101,13 +101,18 @@
 }
 .Button.iconButton {
   min-width: 30px;
-  border-radius: 50%;
   width: 30px;
   padding-left: 9px;
   border: none;
   &:hover,
   &:active {
     background-color: transparent;
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & .Button__icon {
+    margin: 0;
   }
 }
 

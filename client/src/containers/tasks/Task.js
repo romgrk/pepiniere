@@ -31,12 +31,13 @@ class TaskComponent extends React.Component {
       <div className='Task hbox'>
         <div className='Task__name fill'>
           <EditableLabel
+            size='large'
             className='fill'
             value={task.data.name}
             onEnter={name => this.onUpdate('name', name)}
           />
         </div>
-        <Link to={`/tasks/${task.data.id}`} className='Button iconButton has-icon'>
+        <Link to={`/tasks/${task.data.id}`} className='Button iconButton has-icon large'>
           <Icon name='arrow-right' />
         </Link>
         {window.ALLOW_DELETION &&

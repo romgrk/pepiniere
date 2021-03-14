@@ -288,7 +288,7 @@ class SchedulePage extends React.Component {
     return (
       <section className={className}>
 
-        <div className='SchedulePage__dateControls row'>
+        <div className='SchedulePage__dateControls hbox'>
           <Button icon='chevron-left'  onClick={this.previousPeriod} />
           <div className='fill' />
           <DatePicker

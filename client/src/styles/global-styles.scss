@@ -219,23 +219,23 @@ input, textarea, select, button {
 .Category__color {
   position: absolute;
   display: inline-block;
-  left: 5px;
-  top: 10%;
-  height: 80%;
-  width: 3*$padding;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2*$padding;
   border: none;
-  border-radius: 10px;
+  border-radius: 0;
 }
 .Category__name {
   padding: $padding;
   margin-left: $padding;
 }
 .Category__tasks {
-  padding-left: 4*$padding;
+  padding-left: 2*$padding;
   padding-bottom: 2*$padding;
 }
 .Category__controls {
-  padding-left: 4*$padding;
+  padding-left: 2*$padding;
   padding-bottom: 4*$padding;
 }
 .Category__toggle {
@@ -249,7 +249,7 @@ input, textarea, select, button {
   overflow: hidden;
   border: 1px solid $border-color;
   border-top: none;
-  padding-left: $padding;
+  padding-left: 3*$padding;
 }
 .Task:last-child {
   border-bottom-left-radius: 2px;
@@ -286,6 +286,10 @@ input, textarea, select, button {
 .SchedulePage__dateControls {
   background-color: $bg-color-dark;
   border-bottom: 1px solid $border-color;
+}
+.SchedulePage__dateControls .Button {
+  width:  8*$padding;
+  height: 8*$padding;
 }
 .SchedulePage__members {
   background-color: $bg-color-dark;
