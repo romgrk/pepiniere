@@ -1,5 +1,6 @@
 {
   "name": "pepiniere-client",
+  "private": true,
   "description": "",
   "version": "0.1.0",
   "author": "romgrk",
@@ -19,15 +20,16 @@
     "fs-extra": "5.0.0",
     "graphql": "0.12.3",
     "graphql-tag": "2.6.1",
-    "html-webpack-plugin": "2.30.1",
     "idb-keyval": "^3.2.0",
     "identity-obj-proxy": "3.0.0",
     "immutable": "^3.8.2",
+    "inferno": "^7.4.8",
+    "inferno-compat": "^7.4.8",
     "is-object": "^1.0.1",
     "localforage": "^1.9.0",
     "match-sorter": "^2.2.0",
-    "node-sass": "^4.14.1",
-    "node-sass-chokidar": "0.0.3",
+    "node-sass": "^5.0.0",
+    "node-sass-chokidar": "^1.5.0",
     "object-assign": "4.1.1",
     "object-equals": "^0.3.0",
     "object-hash": "^2.1.1",
@@ -36,7 +38,6 @@
     "popmotion": "^8.3.3",
     "promise": "8.0.1",
     "prop-types": "^15.6.2",
-    "pts": "git+https://github.com/romgrk/pts.git#webpack-es5",
     "qs": "^6.9.4",
     "raf": "3.4.0",
     "rambda": "^5.9.0",
@@ -48,7 +49,7 @@
     "react-router-dom": "^4.1.1",
     "react-scripts": "^4.0.3",
     "react-transition-group": "^2.9.0",
-    "recompose": "^0.23.4",
+    "recompose": "0.30.0",
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.0",
     "redux-logger": "^3.0.6",
@@ -57,19 +58,19 @@
     "sheetjs-style": "^0.15.6",
     "spreadsheet-column": "^1.1.1",
     "styled-components": "^2.0.0",
-    "url-loader": "0.6.2",
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
     "lint-staged": "^4.2.1",
     "node-plop": "^0.5.5",
     "plop": "^1.7.4",
-    "prettier": "^1.7.0"
+    "prettier": "^1.7.0",
+    "react-app-rewired": "^2.1.8"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "generate": "plop --plopfile generators/index.js"
   },
   "engines": {
