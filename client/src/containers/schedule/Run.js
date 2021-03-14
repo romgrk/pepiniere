@@ -29,9 +29,9 @@ const DELETED_MEMBER = {
 class RunComponent extends React.Component {
 
   static propTypes = {
-    members: PropTypes.arrayOf(PropTypes.object).isRequired,
-    categories: PropTypes.arrayOf(PropTypes.object).isRequired,
-    tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+    members: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired,
+    tasks: PropTypes.object.isRequired,
   }
 
   constructor(props) {
