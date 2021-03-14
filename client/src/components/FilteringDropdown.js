@@ -19,7 +19,7 @@ class FilteringDropdown extends React.Component {
   static propTypes = {
     items: Prop.arrayOf(Prop.object).isRequired,
     value: Prop.any,
-    multiple: Prop.boolean,
+    multiple: Prop.bool,
     selectedItems: Prop.arrayOf(Prop.any),
     setItems: Prop.func.isRequired,
     selectItem: Prop.func.isRequired,
@@ -29,7 +29,7 @@ class FilteringDropdown extends React.Component {
     renderItem: Prop.func,
     getItemText: Prop.func,
     onCreate: Prop.func,
-    clearInputOnSelect: Prop.boolean,
+    clearInputOnSelect: Prop.bool,
   }
 
   static defaultProps = {

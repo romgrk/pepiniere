@@ -39,14 +39,14 @@ class Modal extends React.Component {
     title: prop.string,
     open: prop.bool.isRequired,
     onClose: prop.func.isRequired,
-    scrollable: prop.boolean,
-    small: prop.boolean,
-    large: prop.boolean,
+    scrollable: prop.bool,
+    small: prop.bool,
+    large: prop.bool,
     width: prop.number,
     height: prop.number,
-    showHeader: prop.boolean,
-    showClose: prop.boolean,
-    minimal: prop.boolean,
+    showHeader: prop.bool,
+    showClose: prop.bool,
+    minimal: prop.bool,
   }
 
   constructor(props) {
