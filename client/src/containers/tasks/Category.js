@@ -99,6 +99,7 @@ class CategoryComponent extends React.Component {
             <div className='Category__controls hbox'>
               <Input
                 className='fill'
+                placeholder='New task'
                 value={this.state.newTask}
                 onChange={newTask => this.setState({ newTask })}
               />
