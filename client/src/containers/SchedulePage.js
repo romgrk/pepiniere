@@ -241,7 +241,7 @@ class SchedulePage extends React.Component {
     const missingDefaultTasks = defaultTasks.filter(taskId =>
       visibleRuns.find(r => r.data.taskId === taskId) === undefined)
 
-    if (!isLoading && !isSunday(currentDate) && missingDefaultTasks.length > 0) {
+    if (didInitialLoad && !isLoading && !isSunday(currentDate) && missingDefaultTasks.length > 0) {
       this.addMissingTasks(missingDefaultTasks)
     }
 
