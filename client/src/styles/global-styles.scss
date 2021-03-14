@@ -215,12 +215,12 @@ input, textarea, select, button {
 .Category__color {
   position: absolute;
   display: inline-block;
-  left: 0;
-  top: 0;
-  height: 105%;
-  width: 4*$padding;
+  left: 5px;
+  top: 10%;
+  height: 80%;
+  width: 3*$padding;
   border: none;
-  border-radius: 0;
+  border-radius: 10px;
 }
 .Category__name {
   padding: $padding;

@@ -155,8 +155,7 @@ input.label.editable {
 }
 input.label.editable:active,
 input.label.editable:focus {
-  outline: none;
-  box-shadow: 0 0 0 1px $focus-color;
+  @include focus();
   background-color: $input-bg-color;
 }
 

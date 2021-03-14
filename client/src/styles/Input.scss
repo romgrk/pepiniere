@@ -31,7 +31,7 @@
   padding: 0 1em;
   height: 30px;
   width: 100%;
-  transition: box-shadow .25s;
+  transition: $focus_transition;
 }
 .Input__element:active,
 .Input__element:focus {
