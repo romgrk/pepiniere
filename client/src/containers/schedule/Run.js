@@ -38,6 +38,7 @@ class RunComponent extends React.Component {
     super(props)
 
     this.state = {
+      showNotes: false,
       notes: props.run.data.notes,
     }
   }
@@ -49,13 +50,20 @@ class RunComponent extends React.Component {
       })
   }
 
+  showNotes = () => {
+    this.mustFocus = true
+    this.setState({ showNotes: true })
+  }
+
   onChangeNotes = notes => {
     this.setState({ notes })
   }
 
   onBlurNotes = ev => {
     const { run } = this.props
-    const notes = ev.target.value
+    const notes = ev.target.value.trim()
+    if (notes === '')
+      this.setState({ showNotes: false })
     if (notes === run.data.notes)
       return
     Run.update(run.data.id, { notes })
@@ -75,7 +83,8 @@ class RunComponent extends React.Component {
 
   render() {
     const { run, categories, tasks, members, dispatch, ...rest } = this.props
-    const { notes } = this.state
+    const { showNotes, notes } = this.state
+    const notesVisible = showNotes || notes
     const task = tasks[run.data.taskId] || { isLoading: true, data: { name: 'Loading' } }
     const category = categories[task.data.categoryId] || { isLoading: true, data: { name: 'Loading' } }
     const runMembers = run.data.membersId.map(id => {
@@ -88,14 +97,19 @@ class RunComponent extends React.Component {
 
     return (
       <div key={run.data.id} className='Run vbox' {...rest}>
-        <div
-          className='Run__title hbox'
-        >
+        <div className='Run__title hbox'>
           <div className='Run__title__color'
             style={{ backgroundColor: category.data.color }}
           />
           <Title>{task.data.name}</Title>
-          <div className='fill' />
+          <Button
+            flat
+            variant='muted'
+            icon='pencil'
+            onClick={this.showNotes}
+          >
+            Add Notes
+          </Button>
           <Button
             icon='remove'
             onClick={this.onDelete}
@@ -123,13 +137,17 @@ class RunComponent extends React.Component {
           }
         </div>
         <div className='Run__notes row'>
-          <Input
-            className='fill'
-            placeholder='Notes...'
-            value={notes}
-            onChange={this.onChangeNotes}
-            onBlur={this.onBlurNotes}
-          />
+          {
+            notesVisible &&
+              <Input
+                className='fill'
+                placeholder='Notes...'
+                value={notes}
+                onChange={this.onChangeNotes}
+                onBlur={this.onBlurNotes}
+                ref={ref => { ref && this.mustFocus && ref.focus() }}
+              />
+          }
         </div>
       </div>
     )
