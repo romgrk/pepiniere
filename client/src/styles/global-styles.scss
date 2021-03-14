@@ -364,22 +364,25 @@ input, textarea, select, button {
   border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
 }
-.ScheduleTaskPicker__category__name,
-.ScheduleTaskPicker__task {
-}
+// .ScheduleTaskPicker__category__name,
+// .ScheduleTaskPicker__task {
+// }
 .ScheduleTaskPicker__category__name {
   background-color: $bg-color-dark;
   padding: $padding (4 * $padding);
 }
 .ScheduleTaskPicker__task {
   position: relative;
+  cursor: pointer;
   font-size: 18px !important;
-  font-weight: normal !important;
   border: none;
   padding: (2 * $padding) (4 * $padding);
   border-bottom: 1px solid $border-color-subtle;
   &:first-child {
     border-top: 1px solid $border-color-subtle;
+  }
+  &.active {
+    background-color: rgba(black, 0.1);
   }
 }
 .ScheduleTaskPicker__task__color {
@@ -387,7 +390,7 @@ input, textarea, select, button {
   display: inline-block;
   top: 0;
   left: 0;
-  width: 10px;
+  width: 5px;
   height: 100%;
 }
 .ScheduleTaskPicker__task__name {

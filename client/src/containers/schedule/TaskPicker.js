@@ -79,7 +79,7 @@ class TaskPicker extends React.Component {
             {orderedTasks.map(t =>
               <div
                 key={t.data.id}
-                className='ScheduleTaskPicker__task hbox'
+                className={cx('ScheduleTaskPicker__task hbox', { active: selectedTasks.has(t.data.id) })}
                 role='button'
                 onClick={() => this.toggleSelectedTask(t.data.id)}
               >
