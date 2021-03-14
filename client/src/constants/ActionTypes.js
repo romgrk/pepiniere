@@ -6,6 +6,7 @@ import {
 
 // UI
 export const UI = createConstants('UI', [
+  'SET_METADATA',
   'SET_CURRENT_DATE',
   'SET_DID_LOAD',
   // Notifications

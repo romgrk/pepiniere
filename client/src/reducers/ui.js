@@ -6,6 +6,7 @@ import {
 } from '../constants/ActionTypes'
 
 const initialState = {
+  metadata: {},
   didInitialLoad: false,
   currentDate: addDays(startOfToday(), 1),
   notifications: [],
@@ -38,6 +39,9 @@ export default function ui(state = initialState, action) {
   }
 
   switch (action.type) {
+    case UI.SET_METADATA:
+      return { ...state, metadata: action.payload }
+
     case UI.SET_CURRENT_DATE:
       return { ...state, currentDate: action.payload }
 
