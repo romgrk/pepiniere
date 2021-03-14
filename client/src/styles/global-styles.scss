@@ -189,17 +189,13 @@ input, textarea, select, button {
 }
 .TasksPage__listContainer {
   overflow: auto;
-  padding: 0 (6 * $padding);
+  padding: 0 (4 * $padding);
   padding-top: (4 * $padding);
 }
-.TasksPage__list {
-}
-@media (min-width: $breakpoint-sm) { .TasksPage__list {
-}}
-@media (min-width: $breakpoint-md) { .TasksPage__list {
-}}
-.TasksPage__run__notes {
-}
+// .TasksPage__list {}
+// @media (min-width: $breakpoint-sm) { .TasksPage__list {}}
+// @media (min-width: $breakpoint-md) { .TasksPage__list {}}
+// .TasksPage__run__notes {}
 .TasksPage__run__date {
   align-self: flex-start;
 }
