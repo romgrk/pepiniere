@@ -401,6 +401,21 @@ input, textarea, select, button {
 }
 
 
+.ScheduleDatePicker {
+  position: relative;
+}
+.ScheduleDatePicker__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  &:not(:focus-within) {
+    opacity: 0;
+  }
+}
+
+
 /*
  * ReportsPage
  */

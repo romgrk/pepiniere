@@ -3,6 +3,7 @@ import Prop from 'prop-types'
 import { format } from 'date-fns'
 import cx from 'clsx'
 
+import getPlatform from '../../helpers/platform-detect'
 import Input from '../../components/Input'
 import Title from '../../components/Title'
 
@@ -17,49 +18,51 @@ class DatePicker extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isEditing: false,
       date: props.date
     }
   }
 
-  setEditing(isEditing) {
-    this.setState({ isEditing })
+  blur() {
+    if (this.input)
+      this.input.blur()
+  }
+
+  onChange = (value) => {
+    this.props.setDate(value)
+    if (getPlatform().isTouch)
+      this.blur()
   }
 
   onRef = ref => {
-    if (ref)
-      ref.focus()
+    if (ref) {
+      this.input = ref
+    }
   }
 
   render() {
-    const { isEditing } = this.state
     const { date, setDate, className } = this.props
 
     const elementClassName = cx('ScheduleDatePicker', className)
 
-    if (!isEditing)
-      return (
+    return (
+      <div className={elementClassName}>
         <Title
           large
           center
-          className={elementClassName}
+          className='ScheduleDatePicker__title'
           role='button'
-          onClick={() => this.setEditing(true)}
         >
           {formatReadableDate(date)}
         </Title>
-      )
-
-    return (
-      <Input
-        type='date'
-        className={elementClassName}
-        value={formatEditableDate(date)}
-        onChange={setDate}
-        onBlur={() => this.setEditing(false)}
-        onEnter={date => { setDate(date); this.setEditing(false) }}
-        ref={this.onRef}
-      />
+        <Input
+          type='date'
+          className='ScheduleDatePicker__input'
+          value={formatEditableDate(date)}
+          onChange={this.onChange}
+          onEnter={date => { setDate(date); this.blur() }}
+          ref={this.onRef}
+        />
+      </div>
     )
   }
 }
