@@ -49,6 +49,7 @@ CREATE TABLE runs (
     createdAt integer null,
     updatedAt integer null
 );
+CREATE UNIQUE INDEX run_idx ON runs(taskId, date, isAM);
 
 
 -- Bootstrap data

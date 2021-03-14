@@ -27,5 +27,7 @@ update tasks set updatedAt = strftime('%s', current_timestamp);
 update runs set updatedAt = strftime('%s', current_timestamp);
 update runs set updatedAt = strftime('%s', current_timestamp);
 
+create unique index run_idx on runs(taskId, date, isAM);
+
 
 -- vim:et
