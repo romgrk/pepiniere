@@ -8,20 +8,19 @@ import {
 export const UI = createConstants('UI', [
   'SET_CURRENT_DATE',
   'SET_DID_LOAD',
+  // Notifications
+  'CLEAR_NOTIFICATIONS',
+  'SHOW_NOTIFICATION',
+  'SHOW_INFO',
+  'SHOW_SUCCESS',
+  'SHOW_WARNING',
+  'SHOW_ERROR',
 ])
 
 export const LOGGED_IN = createNetworkConstants('LOGGED_IN')
 export const LOG_IN = createNetworkConstants('LOG_IN')
 export const LOG_OUT = createNetworkConstants('LOG_OUT')
 
-// Notifications
-export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION'
-export const SHOW = {
-  INFO:    'SHOW.INFO',
-  SUCCESS: 'SHOW.SUCCESS',
-  WARNING: 'SHOW.WARNING',
-  ERROR:   'SHOW.ERROR',
-}
 export const SETTINGS = createModelConstants('SETTINGS', [
   'CHANGE_PASSWORD',
   'RESTORE_BACKUP',

@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cuid from 'cuid'
+import { connect } from 'react-redux'
+import { createStructuredSelector, createSelector } from 'reselect'
 
-import { isOlderThan, MINUTES } from '../helpers/time'
-import Icon from './Icon'
-import Input from './Input'
-import Button from './Button'
+import Icon from '../components/Icon'
 
 /*
  * Types:
@@ -16,19 +15,24 @@ import Button from './Button'
  *   { type: 'error', title: 'Oh no!', message: 'Hello' }
  */
 
-const animationDelay = 500
+const animationDelay    = 500
 const notificationDelay = 10 * 1000
+
+
+const mapStateToProps = createStructuredSelector({
+  list: createSelector(state => state.ui.notifications, state => state),
+  clearNotificationsBefore: createSelector(state => state.ui.clearNotificationsBefore, state => state),
+})
 
 class Notifications extends React.Component {
   static propTypes = {
     list: PropTypes.array.isRequired,
+    clearNotificationsBefore: PropTypes.number,
   }
 
   constructor() {
     super()
-
     this.infos = new WeakMap()
-
     this.state = { udpate: 0 }
   }
 
@@ -63,14 +67,15 @@ class Notifications extends React.Component {
   }
 
   render() {
-    const { list } = this.props
+    const { list, clearNotificationsBefore } = this.props
 
     const shownItems = list
       .map(notification => {
         const info = this.get(notification)
         return { notification, info }
       })
-      .filter(item => !item.info.closed)
+      .filter(item => !item.info.closed
+        && (clearNotificationsBefore ? item.date > clearNotificationsBefore : true))
 
     return (
       <div className='Notifications'>
@@ -133,4 +138,4 @@ class Notifications extends React.Component {
   }
 }
 
-export default Notifications
+export default connect(mapStateToProps)(Notifications)

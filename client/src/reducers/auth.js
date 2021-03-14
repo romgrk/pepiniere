@@ -39,11 +39,11 @@ export default function auth(state = initialState, action) {
 
     case LOG_OUT.REQUEST:
       // Let's just be optimist about this one
-      return { ...state, loggedIn: { ...state.loggedIn, isLoading: false, value: false } }
+      return { ...state, loggedIn: { isLoading: false, value: false } }
     case LOG_OUT.RECEIVE:
-      return { ...state, loggedIn: { isLoading: false, value: action.payload } }
+      return { ...state, loggedIn: { isLoading: false, value: false } }
     case LOG_OUT.ERROR:
-      return { ...state, loggedIn: { ...state.loggedIn, isLoading: false } }
+      return { ...state, loggedIn: { isLoading: false, value: true } }
 
     default:
       return state

@@ -13,7 +13,7 @@ import qs from 'qs'
 import Auth from './actions/auth'
 
 import Navbar from './components/Navbar'
-import NotificationsContainer from './containers/NotificationsContainer'
+import Notifications from './containers/Notifications'
 import MembersPage from './containers/MembersPage'
 import LoginPage from './containers/LoginPage'
 import TasksPage from './containers/TasksPage'
@@ -96,7 +96,7 @@ function App({ isLoggedIn, isLoggingIn }) {
             </Switch>
           </div>
 
-          <NotificationsContainer />
+          <Notifications />
         </div>
       </>
     </Router>

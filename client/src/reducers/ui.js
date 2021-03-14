@@ -9,6 +9,7 @@ const initialState = {
   didInitialLoad: false,
   currentDate: addDays(startOfToday(), 1),
   notifications: [],
+  clearNotificationsBefore: null,
 }
 
 export default function ui(state = initialState, action) {
@@ -43,16 +44,18 @@ export default function ui(state = initialState, action) {
     case UI.SET_DID_LOAD:
       return { ...state, didInitialLoad: true }
 
-    case SHOW_NOTIFICATION:
+    case UI.CLEAR_NOTIFICATIONS:
+      return { ...state, clearNotificationsBefore: Date.now() }
+    case UI.SHOW_NOTIFICATION:
       return { ...state, notifications: state.notifications.concat(action.payload) }
-    case SHOW.INFO:
-      return { ...state, notifications: state.notifications.concat({ type: 'info', ...action.payload }) }
-    case SHOW.SUCCESS:
-      return { ...state, notifications: state.notifications.concat({ type: 'success', ...action.payload }) }
-    case SHOW.WARNING:
-      return { ...state, notifications: state.notifications.concat({ type: 'warning', ...action.payload }) }
-    case SHOW.ERROR:
-      return { ...state, notifications: state.notifications.concat({ type: 'error', ...action.payload }) }
+    case UI.SHOW_INFO:
+      return { ...state, notifications: state.notifications.concat({ type: 'info', date: Date.now(), ...action.payload }) }
+    case UI.SHOW_SUCCESS:
+      return { ...state, notifications: state.notifications.concat({ type: 'success', date: Date.now(), ...action.payload }) }
+    case UI.SHOW_WARNING:
+      return { ...state, notifications: state.notifications.concat({ type: 'warning', date: Date.now(), ...action.payload }) }
+    case UI.SHOW_ERROR:
+      return { ...state, notifications: state.notifications.concat({ type: 'error', date: Date.now(), ...action.payload }) }
 
     default:
       return state

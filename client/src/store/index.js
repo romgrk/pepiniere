@@ -36,7 +36,7 @@ export function getStore() {
   return store
 }
 
-function saveState() {
+export function saveStore() {
   const state = clone(store.getState())
   delete state.ui
   traverse(state, (key, value, node) => {
@@ -64,6 +64,6 @@ function traverse(root, fn) {
 const terminationEvent = 'onpagehide' in window ? 'pagehide' : 'unload'
 const visibilityEvent = 'visibilitychange'
 
-window.addEventListener(terminationEvent, saveState)
-window.addEventListener(visibilityEvent,  saveState)
+window.addEventListener(terminationEvent, saveStore)
+window.addEventListener(visibilityEvent,  saveStore)
 

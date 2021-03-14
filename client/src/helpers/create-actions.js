@@ -87,7 +87,7 @@ export function createFetchActions(namespace, fn, contraMapFn, mapFn, errorMapFn
   const action = createFetchFunction(fn, fnMap)
   action.request = createAction(namespace.REQUEST, contraMapFn)
   action.receive = createAction(namespace.RECEIVE, undefined, mapFn)
-  action.error   = createAction(namespace.ERROR, undefined, errorMapFn)
+  action.error   = createAction(namespace.ERROR,   undefined, errorMapFn)
   return action
 }
 

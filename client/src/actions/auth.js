@@ -10,8 +10,10 @@ import {
 import { createAction, createAsyncAction, createFetchActions } from '../helpers/create-actions'
 import * as requests from '../requests'
 import global from './global'
+import ui from './ui'
 
 export const checkIsLoggedIn = createFetchActions(LOGGED_IN, requests.auth.isLoggedIn)
+
 export const login = createAsyncAction((password) => (dispatch, getState) => {
   const { auth: { loggedIn } } = getState()
 
@@ -19,6 +21,7 @@ export const login = createAsyncAction((password) => (dispatch, getState) => {
     return Promise.resolve()
 
   dispatch({ type: LOG_IN.REQUEST })
+  ui.clearNotifications()
 
   return requests.auth.login(password)
     .then(isLoggedIn => {
@@ -33,24 +36,7 @@ export const login = createAsyncAction((password) => (dispatch, getState) => {
     })
 })
 
-export const logout = createAsyncAction(() => (dispatch, getState) => {
-  const { auth: { loggedIn } } = getState()
-
-  if (loggedIn.value === false)
-    return Promise.resolve()
-
-  dispatch({ type: LOG_OUT.REQUEST })
-
-  return requests.auth.logout()
-    .then(isLoggedOut => {
-      dispatch({ type: LOG_OUT.RECEIVE, payload: !isLoggedOut })
-      return isLoggedOut
-    })
-    .catch(error => {
-      dispatch({ type: LOG_OUT.ERROR, isError: true, error })
-      global.showError('Logout failed')
-    })
-})
+export const logout = createFetchActions(LOG_OUT, requests.auth.logout)
 
 export default {
   checkIsLoggedIn,

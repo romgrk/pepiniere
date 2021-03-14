@@ -26,10 +26,8 @@ initializeStore().then(store => {
     document.getElementById('root')
   )
 
-  auth.checkIsLoggedIn().then(isLoggedIn => {
-    if (isLoggedIn)
-      global.fetchAll()
-  })
+  // Sync data
+  global.fetchAll()
 
   setInterval(() => {
     const state = store.getState()
