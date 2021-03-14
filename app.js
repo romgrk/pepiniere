@@ -66,6 +66,7 @@ app.use('/api/member',       apiProtected, require('./routes/member'))
 app.use('/api/category',     apiProtected, require('./routes/category'))
 app.use('/api/task',         apiProtected, require('./routes/task'))
 app.use('/api/run',          apiProtected, require('./routes/run')) 
+app.use('/api/sync',         apiProtected, require('./routes/sync')) 
 app.use('/api', (req, res) => {
   res.status(404)
   res.json({ ok: false, message: '404', url: req.originalUrl })

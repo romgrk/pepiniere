@@ -56,7 +56,9 @@ export const runs = {
   delete: (id) => POST(`/run/delete/${id}`),
 }
 
-
+export const sync = {
+  all: (after) => POST('/sync/all', { after }),
+}
 
 
 function fetchAPI(url, params, options = {}) {
