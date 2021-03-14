@@ -23,9 +23,9 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
   const iconSize = size === 'small' ? '3x' : '5x'
   const loaderSize = imageSize * 0.9
 
-  const photoSrc = member?.data.photo
+  const photoSrc = member?.data?.photo
   const loadingState = useLoadingImage(photoSrc)
-  const isLoadingPhoto = Boolean(member?.data.photo) && loadingState === LoadingState.LOADING
+  const isLoadingPhoto = Boolean(photoSrc) && loadingState === LoadingState.LOADING
 
   if (empty || member == undefined)
     return (
