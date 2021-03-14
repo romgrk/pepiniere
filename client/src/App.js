@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import prop from 'prop-types'
 import {
   BrowserRouter as Router,
@@ -42,6 +42,10 @@ function checkRedirect(location, isLoggedIn, isLoggingIn) {
 }
 
 function App({ isLoggedIn, isLoggingIn }) {
+
+  useEffect(() => {
+    document.body.classList.remove('loading')
+  }, [])
 
   return (
     <Router>
