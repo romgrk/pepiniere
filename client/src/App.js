@@ -55,6 +55,7 @@ function App({ isLoggedIn, isLoggingIn }) {
           <div className='App__navbar'>
             <Route render={(props) =>
               <Navbar
+                inverted
                 direction='horizontal'
                 visible={isLoggedIn}
                 index={routes.findIndex(i => props.location.pathname.startsWith(i.path))}

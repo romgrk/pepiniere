@@ -26,6 +26,7 @@ const Item = prop.shape({
 
 class Navbar extends React.Component {
   static propTypes = {
+    inverted: prop.bool,
     index: prop.number.isRequired,
     items: prop.arrayOf(Item).isRequired,
     direction: prop.oneOf(['vertical', 'horizontal']),
@@ -119,12 +120,14 @@ class Navbar extends React.Component {
       index,
       items,
       visible,
+      inverted,
       direction,
       children,
     } = this.props
 
     const navClassName = cx('Navbar', `Navbar--${direction}`, {
       visible,
+      inverted,
       [direction]: true,
       'vbox': direction === 'vertical',
       'hbox': direction === 'horizontal',

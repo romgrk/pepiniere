@@ -20,9 +20,12 @@ $border-color-darkest: #121212;
 
 $hover-color: rgba(black, 0.8);
 $hover-bg-color: rgba(black, 0.05);
+$hover-bg-color-inverted: rgba(white, 0.35);
 $hover-light-bg-color: rgba(black, 0.05);
 
 $active-bg-color: rgba(black, 0.025);
+$active-bg-color-inverted: rgba(white, 0.25);
+
 $border-color-light: rgba(black, 0.05);
 $border-color-medium: rgba(black, 0.15);
 $border-color-dark: rgba(black, 0.3);
@@ -83,6 +86,9 @@ $colors: (
   warning: (text: $text-color-warning, bg: $bg-color-warning, bg-light: $bg-light-color-warning,),
   error:   (text: $text-color-error,   bg: $bg-color-error,   bg-light: $bg-light-color-error,  ),
 );
+
+$bg-color-navbar-inverted: #000000;
+$text-color-navbar-inverted: $text-color-inverted;
 
 $padding: 5px;
 
