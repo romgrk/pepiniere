@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 
-import Global from '../actions/global'
 import Settings from '../actions/settings'
 
 import Button from '../components/Button'
@@ -80,10 +79,7 @@ class SettingsPage extends React.Component {
       return
 
     Settings.restoreBackup(backup)
-    .then(() => Global.fetchAll())
-    .then(() => {
-      this.setState({ backupKey: 'initial', backup: undefined })
-    })
+    .then(() => window.reload())
   }
 
   render() {
