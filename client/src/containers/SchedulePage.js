@@ -75,7 +75,6 @@ class SchedulePage extends React.Component {
     const id = findDataID(ev)
     if (!id)
       return
-    ev.preventDefault()
     const m = this.props.members.find(m => m.data.id === id)
     this.startDrag(ev, m)
   }
@@ -162,13 +161,10 @@ class SchedulePage extends React.Component {
   }
 
   startDrag = (e, member) => {
-    e.preventDefault()
-
     const element = e.target.getBoundingClientRect()
     const dragPosition = getEventPosition(e)
 
     this.setState({
-      isDragging: true,
       dragPosition,
       dragOffset: { x: dragPosition.x - element.x, y: dragPosition.y - element.y },
       dragMember: member,
@@ -179,6 +175,8 @@ class SchedulePage extends React.Component {
       e.target.addEventListener('touchend', this.stopDrag)
     }
     else {
+      e.preventDefault()
+      this.setState({ isDragging: true })
       document.addEventListener('mousemove', this.onDragMove)
       document.addEventListener('mouseup', this.stopDrag)
     }
@@ -210,8 +208,27 @@ class SchedulePage extends React.Component {
   }
 
   onDragMove = e => {
+    const newPosition = getEventPosition(e)
+
+    if (this.state.isDragging === false) {
+      /* Touch device: we haven't decided yet if we are scrolling
+       * or dragging */
+      const dx = Math.abs(newPosition.x - this.state.dragPosition.x)
+      const dy = Math.abs(newPosition.y - this.state.dragPosition.y)
+
+      if (dx > dy) {
+        /* Horizontal move: user is scrolling */
+        this.stopDrag(e)
+      }
+      else {
+        /* Vertical move: user is dragging */
+        e.preventDefault()
+        this.setState({ isDragging: true })
+      }
+    }
+
     this.setState({
-      dragPosition: getEventPosition(e),
+      dragPosition: newPosition,
     })
   }
 
@@ -273,7 +290,7 @@ class SchedulePage extends React.Component {
               <MemberCard
                 key={m.data.id}
                 className='SchedulePage__member'
-                style={{ opacity: dragMember === m ? 0 : 1 }}
+                style={{ opacity: (isDragging && dragMember === m) ? 0 : 1 }}
                 size='small'
                 member={m}
                 data-member-id={m.data.id}
