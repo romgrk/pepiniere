@@ -4,7 +4,7 @@ import cx from 'clsx'
 
 import { abbreviate } from '../models'
 import getCountryFlag from '../helpers/get-country-flag'
-import useLoadingImage from '../helpers/use-loading-image'
+import useLoadingImage, { LoadingState } from '../helpers/use-loading-image'
 
 import DateValue from '../components/Date'
 import Icon from '../components/Icon'
@@ -23,8 +23,9 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
   const iconSize = size === 'small' ? '3x' : '5x'
   const loaderSize = imageSize * 0.9
 
-  const photoSrc = useLoadingImage(member?.data.photo)
-  const isLoadingPhoto = Boolean(member?.data.photo) && !Boolean(photoSrc)
+  const photoSrc = member?.data.photo
+  const loadingState = useLoadingImage(photoSrc)
+  const isLoadingPhoto = Boolean(member?.data.photo) && loadingState === LoadingState.LOADING
 
   if (empty || member == undefined)
     return (
@@ -59,7 +60,7 @@ function MemberCard({ className, size, member, empty, label, detailed, ...rest }
                 size={iconSize}
                 style={{ height: imageSize, width: 'auto', opacity: 0.6 }}
               /> :
-            photoSrc ?
+            (photoSrc && loadingState === LoadingState.SUCCESS) ?
               <img
                 className='MemberCard__photo__img'
                 width="auto"
