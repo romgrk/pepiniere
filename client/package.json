@@ -68,9 +68,9 @@
     "react-app-rewired": "^2.1.8"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "generate": "plop --plopfile generators/index.js"
   },
   "engines": {
