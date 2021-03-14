@@ -32,10 +32,12 @@ function update(task) {
 
 function create(task) {
   return db.insert(`
-    INSERT INTO tasks (categoryId, name)
+    INSERT INTO tasks (categoryId, name, createdAt, updatedAt)
     VALUES (
       @categoryId,
-      @name
+      @name,
+      strftime('%s','now'),
+      strftime('%s','now')
     )`, task)
     .then(id => findById(id))
 }

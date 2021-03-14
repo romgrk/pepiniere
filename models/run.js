@@ -58,13 +58,15 @@ function removeMember(id, memberId) {
 
 function create(run) {
   return db.insert(`
-    INSERT INTO runs (taskId, membersId, date, isAM, notes)
+    INSERT INTO runs (taskId, membersId, date, isAM, notes, createdAt, updatedAt)
     VALUES (
       @taskId,
       @membersId,
       @date,
       @isAM,
-      @notes
+      @notes,
+      strftime('%s','now'),
+      strftime('%s','now')
     )`, serialize(run))
     .then(id => findById(id))
 }

@@ -46,7 +46,7 @@ function update(member) {
 
 function create(member) {
   return db.insert(`
-    INSERT INTO members (firstName, lastName, country, photo, isPermanent, startDate, endDate)
+    INSERT INTO members (firstName, lastName, country, photo, isPermanent, startDate, endDate, createdAt, updatedAt)
     VALUES (
       @firstName,
       @lastName,
@@ -54,7 +54,9 @@ function create(member) {
       @photo,
       @isPermanent,
       @startDate,
-      @endDate
+      @endDate,
+      strftime('%s','now'),
+      strftime('%s','now')
     )`, member)
     .then(id => findById(id))
 }

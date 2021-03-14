@@ -32,10 +32,12 @@ function update(category) {
 
 function create(category) {
   return db.insert(`
-    INSERT INTO categories (name, color)
+    INSERT INTO categories (name, color, createdAt, updatedAt)
     VALUES (
       @name,
-      @color
+      @color,
+      strftime('%s','now'),
+      strftime('%s','now')
     )`, category)
     .then(id => findById(id))
 }
