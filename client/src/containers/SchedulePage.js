@@ -325,7 +325,7 @@ class SchedulePage extends React.Component {
                 className='SchedulePage__member'
                 size='small'
                 empty
-                label='All users assigned'
+                label='Empty'
               />
           }
         </div>
