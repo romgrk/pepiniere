@@ -13,9 +13,8 @@ import Input from '../components/Input'
 class LoginPage extends React.Component {
 
   static propTypes = {
-    members: PropTypes.arrayOf(PropTypes.object).isRequired,
-    categories: PropTypes.arrayOf(PropTypes.object).isRequired,
-    tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isLoading: PropTypes.bool,
+    isLoggedIn: PropTypes.bool,
   }
 
   state = {
