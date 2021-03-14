@@ -5,10 +5,11 @@
 
 
 CREATE TABLE settings (
-    key       varchar(100) primary key,
+    id        varchar(100) primary key,
     value     text         not null,
     createdAt integer      null,
-    updatedAt integer      null
+    updatedAt integer      null,
+    deleted   integer      default 0
 );
 CREATE TABLE members (
     id          integer     primary key autoincrement,
@@ -20,7 +21,8 @@ CREATE TABLE members (
     startDate   integer     null,
     endDate     integer     null,
     createdAt   integer     null,
-    updatedAt   integer     null
+    updatedAt   integer     null,
+    deleted     integer     default 0
 );
 
 CREATE TABLE categories (
@@ -28,7 +30,8 @@ CREATE TABLE categories (
     name        text        not null,
     color       text        not null,
     createdAt   integer     null,
-    updatedAt   integer     null
+    updatedAt   integer     null,
+    deleted     integer     default 0
 );
 
 CREATE TABLE tasks (
@@ -36,7 +39,8 @@ CREATE TABLE tasks (
     categoryId integer   not null,
     name       text      not null,
     createdAt  integer   null,
-    updatedAt  integer   null
+    updatedAt  integer   null,
+    deleted    integer   default 0
 );
 
 CREATE TABLE runs (
@@ -47,16 +51,16 @@ CREATE TABLE runs (
     isAM      integer default 1,
     notes     text    default '',
     createdAt integer null,
-    updatedAt integer null
+    updatedAt integer null,
+    deleted   integer default 0
 );
-CREATE UNIQUE INDEX run_idx ON runs(taskId, date, isAM);
 
 
 -- Bootstrap data
 
-INSERT INTO settings (key, value) VALUES
+INSERT INTO settings (id, value) VALUES
     ('password', '"$2b$10$9atLhFED4kZaWIl7/o89rON/gfqW3ElL4sSqOIOLW.PJ9L4Aoh4pW"'); -- "secret"
-INSERT INTO settings (key, value) VALUES
+INSERT INTO settings (id, value) VALUES
     ('defaultTasks', '[]');
 
 -- Mock data
