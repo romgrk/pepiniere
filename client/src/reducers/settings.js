@@ -19,7 +19,8 @@ export default function settings(state = initialState, action) {
     case SETTINGS.FETCH.REQUEST:
       return { ...state, isLoading: true }
     case SETTINGS.FETCH.RECEIVE:
-      return { ...state, isLoading: false, data: toLoadable(action.payload) }
+      return { ...state, isLoading: false, data:
+        toLoadable(map(prop('value'), indexBy(prop('id'), action.payload))) }
     case SETTINGS.FETCH.ERROR:
       return { ...state, isLoading: false }
     case SETTINGS.UPDATE.REQUEST:

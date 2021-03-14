@@ -12,11 +12,11 @@ router.get('/list', (req, res, next) => {
 })
 
 /* POST update setting */
-router.use('/update/:key', (req, res, next) => {
-  if (req.params.key === 'password')
+router.use('/update/:id', (req, res, next) => {
+  if (req.params.id === 'password')
     return errorHandler(res)(new Error('use /settings/change-password'))
 
-  Settings.update(req.params.key, req.body.value)
+  Settings.update(req.params.id, req.body.value)
   .then(dataHandler(res))
   .catch(errorHandler(res))
 })

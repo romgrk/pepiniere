@@ -3,8 +3,7 @@
  */
 
 const db = require('../database.js')
-const { rejectMessage } = require('../helpers/promise')
-const k = require('../constants')
+const query = require('../helpers/query.js')
 
 module.exports = {
   findAll,
@@ -15,8 +14,8 @@ module.exports = {
 }
 
 
-function findAll() {
-  return db.findAll('SELECT * FROM members')
+function findAll(params) {
+  return db.findAll(...query.where('SELECT * FROM members', params))
     .then(ms => ms.map(serialize))
 }
 
@@ -37,7 +36,7 @@ function findPhotoById(id) {
 function update(member) {
   return db.run(`
     UPDATE members
-       SET ${db.toMapping(member)}
+       SET ${query.toMapping(member)}
          , updatedAt = strftime('%s','now')
      WHERE id = @id
     `, member)
@@ -62,7 +61,7 @@ function create(member) {
 }
 
 module.exports.delete = function(id) {
-  return db.run('DELETE FROM members WHERE id = @id', { id })
+  return db.run('UPDATE members SET deleted = 1 WHERE id = @id', { id })
 }
 
 // Helpers

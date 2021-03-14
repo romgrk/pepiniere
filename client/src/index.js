@@ -3,10 +3,9 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import 'font-awesome/css/font-awesome.min.css'
 
-import initializeStore from './store'
+import initializeStore, { getSyncData } from './store'
 import App from './App'
-import global from './actions/global'
-import auth from './actions/auth'
+import sync from './actions/sync'
 import registerServiceWorker from './helpers/registerServiceWorker'
 import './helpers/platform-detect.js'
 import './styles/index.scss'
@@ -17,6 +16,8 @@ window.ALLOW_DELETION = false
 console.log(`Mode: ${process.env.NODE_ENV}`)
 
 initializeStore().then(store => {
+  // Hydrate sync data
+  sync.hydrate(getSyncData())
 
   // Render app
   render(
@@ -27,13 +28,13 @@ initializeStore().then(store => {
   )
 
   // Sync data
-  global.fetchAll()
+  sync.all()
 
   setInterval(() => {
     const state = store.getState()
     if (state.auth.loggedIn.value)
-      global.fetchAll()
-  }, 60 * 1000)
+      sync.all()
+  }, 15 * 1000)
 })
 
 // Register service worker

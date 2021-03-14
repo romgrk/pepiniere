@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector, createSelector } from 'reselect'
 
+import { clear as clearStore } from '../store'
 import Settings from '../actions/settings'
 
 import Button from '../components/Button'
@@ -71,6 +72,11 @@ class SettingsPage extends React.Component {
       backupKey: file.name,
       backup: file
     })
+  }
+
+  onClearData = () => {
+    clearStore()
+    window.location.reload()
   }
 
   onRestoreBackup = () => {
@@ -156,6 +162,16 @@ class SettingsPage extends React.Component {
           </Form.Field>
           <Button variant='info' loading={isLoading}>
             Change
+          </Button>
+        </Form>
+
+        <Form className='Settings__section' onSubmit={this.onRestoreBackup}>
+          <Title>Clear App Data</Title>
+          <Text block muted>
+            This resets the app data on your device.
+          </Text>
+          <Button variant='info' onClick={this.onClearData}>
+            Clear Data
           </Button>
         </Form>
 

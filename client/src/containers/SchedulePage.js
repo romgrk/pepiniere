@@ -183,7 +183,7 @@ class SchedulePage extends React.Component {
       dragMember: member,
     })
 
-    if (e instanceof TouchEvent) {
+    if (window.TouchEvent && e instanceof TouchEvent) {
       e.target.addEventListener('touchmove', this.onDragMove)
       e.target.addEventListener('touchend', this.stopDrag)
     }
@@ -214,7 +214,7 @@ class SchedulePage extends React.Component {
       dragMember: undefined,
     })
 
-    if (e instanceof TouchEvent) {
+    if (window.TouchEvent && e instanceof TouchEvent) {
       e.target.removeEventListener('touchmove', this.onDragMove)
     }
     else {
@@ -414,7 +414,7 @@ function findDataID(e) {
 function getEventPosition(ev) {
   const e = ev.nativeEvent || ev
 
-  if (e instanceof TouchEvent) {
+  if (window.TouchEvent && e instanceof TouchEvent) {
     const touch = e.targetTouches[0] || e.touches[0]
     const x = touch.pageX
     const y = touch.pageY

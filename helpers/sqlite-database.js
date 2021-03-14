@@ -126,15 +126,6 @@ class SqliteDatabase {
       })
     })
   }
-
-  toMapping(obj) {
-    return (
-      Object.keys(obj)
-        .filter(key => key !== 'id')
-        .map(key => `${key} = @${key}`)
-        .join(', ') || ''
-    );
-  }
 }
 
 module.exports = SqliteDatabase

@@ -13,6 +13,7 @@ import qs from 'qs'
 import Auth from './actions/auth'
 
 import Navbar from './components/Navbar'
+import ErrorBoundary from './containers/ErrorBoundary'
 import Notifications from './containers/Notifications'
 import MembersPage from './containers/MembersPage'
 import LoginPage from './containers/LoginPage'
@@ -42,14 +43,13 @@ function checkRedirect(location, isLoggedIn, isLoggingIn) {
 }
 
 function App({ isLoggedIn, isLoggingIn }) {
-
   useEffect(() => {
     document.body.classList.remove('loading')
   }, [])
 
   return (
     <Router>
-      <>
+      <ErrorBoundary>
         <Route
           render={props => checkRedirect(props.location, isLoggedIn, isLoggingIn)}
         />
@@ -102,7 +102,7 @@ function App({ isLoggedIn, isLoggingIn }) {
 
           <Notifications />
         </div>
-      </>
+      </ErrorBoundary>
     </Router>
   )
 }

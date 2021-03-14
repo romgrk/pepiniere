@@ -9,7 +9,7 @@ import {
 } from '../constants/ActionTypes'
 import { createAction, createAsyncAction, createFetchActions } from '../helpers/create-actions'
 import * as requests from '../requests'
-import global from './global'
+import sync from './sync'
 import ui from './ui'
 
 export const checkIsLoggedIn = createFetchActions(LOGGED_IN, requests.auth.isLoggedIn)
@@ -29,7 +29,7 @@ export const login = createAsyncAction((password) => (dispatch, getState) => {
         return Promise.reject(new Error('Invalid password'))
 
       dispatch({ type: LOG_IN.RECEIVE, payload: isLoggedIn })
-      return global.fetchAll()
+      return sync.all()
     })
     .catch(error => {
       dispatch({ type: LOG_IN.ERROR, isError: true, error })

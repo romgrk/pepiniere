@@ -5,7 +5,7 @@
  * Distributed under terms of the MIT license.
  */
 
-alter table settings rename column key id;
+alter table settings rename column key to id;
 
 alter table settings add column createdAt integer null;
 alter table settings add column updatedAt integer null;

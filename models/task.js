@@ -3,6 +3,7 @@
  */
 
 const db = require('../database.js')
+const query = require('../helpers/query.js')
 
 module.exports = {
   findAll,
@@ -12,8 +13,8 @@ module.exports = {
 }
 
 
-function findAll() {
-  return db.findAll('SELECT * FROM tasks')
+function findAll(params) {
+  return db.findAll(...query.where('SELECT * FROM tasks', params))
 }
 
 function findById(id) {
@@ -23,7 +24,7 @@ function findById(id) {
 function update(task) {
   return db.run(`
     UPDATE tasks
-       SET ${db.toMapping(task)}
+       SET ${query.toMapping(task)}
          , updatedAt = strftime('%s','now')
      WHERE id = @id
     `, task)
@@ -43,5 +44,5 @@ function create(task) {
 }
 
 module.exports.delete = function(id) {
-  return db.run('DELETE FROM tasks WHERE id = @id', { id })
+  return db.run('UPDATE tasks SET deleted = 1 WHERE id = @id', { id })
 }

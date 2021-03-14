@@ -11,8 +11,19 @@ const Task = require('../models/task.js')
 
 /* GET all items */
 router.post('/all', (req, res, next) => {
-  const after = req.body.after
-  const params = { after }
+
+  /* If this changes, we send a full update to the client */
+  const id = 1
+  /* Last update time  in seconds. We remove 1 min to 
+   * ensure no data is missed in case of long requests. */
+  const lastUpdate = Math.floor(Date.now() / 1000) - 1 * 60
+  /* Whether or not this is a full sync */
+  const full  = req.body.id !== id || !Boolean(req.body.lastUpdate)
+
+  const metadata = { id, lastUpdate, full }
+
+  /* Should contain the last `metadata` sent to the client */
+  const params = full ? {} : req.body
 
   Promise.all([
     Category.findAll(params),
@@ -26,9 +37,16 @@ router.post('/all', (req, res, next) => {
     members,
     runs,
     settings,
-    tasks
+    tasks,
   ]) => ({
-    categories, members, runs, settings, tasks
+    // Metadata
+    metadata,
+    // Data
+    categories,
+    members,
+    runs,
+    settings,
+    tasks,
   }))
   .then(dataHandler(res))
   .catch(errorHandler(res))

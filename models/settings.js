@@ -6,6 +6,7 @@
 const fs = require('fs')
 const bcrypt = require('bcrypt')
 const db = require('../database.js')
+const query = require('../helpers/query.js')
 const config = require('../config')
 
 module.exports = {
@@ -18,30 +19,31 @@ module.exports = {
 }
 
 
-function findAll() {
-  return db.findAll('SELECT * FROM settings')
+function findAll(params) {
+  return db.findAll(...query.where('SELECT * FROM settings', params))
     .then(rows =>
       rows.reduce((acc, cur) => {
-        if (cur.key !== 'password')
-          acc[cur.key] = JSON.parse(cur.value)
-        return acc
-      }, {})
+        if (cur.id === 'password')
+          return acc
+        cur.value = JSON.parse(cur.value)
+        return acc.concat(cur)
+      }, [])
     )
 }
 
-function findByKey(key) {
-  return db.findOne('SELECT value FROM settings WHERE key = @key', { key })
+function findByKey(id) {
+  return db.findOne('SELECT value FROM settings WHERE id = @id', { id })
     .then(({ value }) => JSON.parse(value))
 }
 
-function update(key, value) {
+function update(id, value) {
   return db.run(`
     UPDATE settings
        SET value = @value
          , updatedAt = strftime('%s','now')
-     WHERE key = @key`,
+     WHERE id = @id`,
   {
-    key,
+    id,
     value: JSON.stringify(value)
   })
   .then(() => value)

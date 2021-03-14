@@ -57,7 +57,7 @@ export const runs = {
 }
 
 export const sync = {
-  all: (after) => POST('/sync/all', { after }),
+  all: (metadata) => POST('/sync/all', metadata),
 }
 
 
