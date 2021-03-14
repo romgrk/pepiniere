@@ -39,8 +39,22 @@ export function getStore() {
 function saveState() {
   const state = clone(store.getState())
   delete state.ui
+  traverse(state, (key, value, node) => {
+    if (key === 'isLoading' || key === 'isCreating')
+      node[key] = false
+  })
   const serialized = JSON.stringify(state)
   storage.setItem(STORE_KEY, serialized)
+}
+
+function traverse(root, fn) {
+  Object.keys(root).forEach(key => {
+    const value = root[key]
+    if (typeof value === 'object' && value !== null)
+      traverse(value, fn)
+    else
+      fn(key, value, root)
+  })
 }
 
 /*
