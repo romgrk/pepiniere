@@ -7,21 +7,34 @@ import Icon from './Icon'
 import Spinner from './Spinner'
 
 function Form(props) {
-  const { className, children, ...rest } = props
+  const { className, children, preventDefault, onSubmit: onSubmitProp, ...rest } = props
 
   const formClassName = cx(
     'Form',
     className,
   )
 
+  const onSubmit = ev => {
+    if (preventDefault)
+      ev.preventDefault()
+    if (onSubmitProp)
+      onSubmitProp(ev)
+  }
+
   return (
-    <form className={formClassName} action="javascript:void(0)" {...rest}>
+    <form className={formClassName} {...rest} onSubmit={onSubmit}>
       {children}
     </form>
   )
 }
 
 Form.propTypes = {
+  onSubmit: Prop.func,
+  preventDefault: Prop.bol,
+}
+
+Form.defaultProps = {
+  preventDefault: true,
 }
 
 function Field({ children, className, ...rest }) {

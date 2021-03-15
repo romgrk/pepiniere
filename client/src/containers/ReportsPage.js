@@ -12,16 +12,11 @@ import {
 } from 'rambda'
 import cx from 'clsx'
 
-import { parseLocal } from '../helpers/time'
 import { fromLoadable } from '../helpers/to-loadable'
 import download from '../helpers/download'
-import generateReport from '../helpers/generate-report'
 
 import Button from '../components/Button'
 import Form from '../components/Form'
-import Gap from '../components/Gap'
-import Icon from '../components/Icon'
-import Input from '../components/Input'
 import Label from '../components/Label'
 import Select from '../components/Select'
 import Text from '../components/Text'
@@ -52,6 +47,8 @@ class ReportsPage extends React.Component {
 
   state = {
     year: new Date().getFullYear(),
+    isGenerating: false,
+    error: undefined,
   }
 
   componentWillReceiveProps(props) {
@@ -65,13 +62,22 @@ class ReportsPage extends React.Component {
     const { year } = this.state
     const { members, categories, tasks, runs } = this.props
 
-    const report = generateReport(year, runs, members, categories, tasks)
+    this.setState({ isGenerating: true })
 
-    download(`report-${year}.xlsx`, report)
+    import('../helpers/generate-report').then(({ default: generateReport }) => {
+      const report = generateReport(year, runs, members, categories, tasks)
+      download(`report-${year}.xlsx`, report)
+    })
+    .catch(err => {
+      this.setState({ error: err.message })
+    })
+    .then(() => {
+      this.setState({ isGenerating: false })
+    })
   }
 
   render() {
-    const { year } = this.state
+    const { year, isGenerating, error } = this.state
     const { runs } = this.props
 
     const className = cx('ReportsPage vbox')
@@ -85,13 +91,18 @@ class ReportsPage extends React.Component {
       <section className={className}>
 
         <div className='row'>
-          <div>
+          <div className='vbox full-width'>
             <Title>
               Reports
             </Title>
             <Text>
               Select the year for which you want to generate a report for.
             </Text>
+            {error &&
+              <Label error>
+                Error: {error}
+              </Label>
+            }
           </div>
         </div>
 
@@ -101,10 +112,11 @@ class ReportsPage extends React.Component {
               <option value={y}>{y}</option>
             )}
           </Select>
-          <Button>
+          <Button loading={isGenerating}>
             Generate Report
           </Button>
         </Form>
+
 
         <div className='row'>
           <div>
