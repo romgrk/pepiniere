@@ -3,7 +3,7 @@ import * as store from '../store'
 
 const HOST =
   process.env.NODE_ENV === 'production' ?
-    window.location.host : 'localhost:3001'
+    `wss://${window.location.host}` : 'ws://localhost:3001'
 
 
 let connectionWanted = false
@@ -16,7 +16,7 @@ function spawn() {
   if (!window.WebSocket)
     return
 
-  socket = new window.WebSocket(`ws://${HOST}/api/sync/socket`)
+  socket = new window.WebSocket(`${HOST}/api/sync/socket`)
 
   socket.addEventListener('open', () => {
     socket.send('connected')
