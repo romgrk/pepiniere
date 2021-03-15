@@ -3,6 +3,7 @@ import { createAsyncAction } from '../helpers/create-actions'
 import * as store from '../store'
 import * as requests from '../requests'
 
+import syncSocket from '../helpers/sync-socket'
 import ui from './ui.js'
 import auth from './auth.js'
 import settings from './settings.js'
@@ -13,25 +14,36 @@ import runs from './runs.js'
 
 const indexById = indexBy(prop('id'))
 
-function combineRows(previousRows = [], updatedRows) {
-  const previousById = indexById(previousRows)
-  const updatedById = indexById(updatedRows)
-  const rowsById = assign(previousById, updatedById)
-  const newRows = Object.values(rowsById).filter(row => row.deleted !== 1)
-  return newRows
-}
 
-function combine(previous = {}, updated) {
-  return {
-    metadata: updated.metadata,
-    categories: combineRows(previous.categories, updated.categories),
-    members: combineRows(previous.members, updated.members),
-    runs: combineRows(previous.runs, updated.runs),
-    settings: combineRows(previous.settings, updated.settings),
-    tasks: combineRows(previous.tasks, updated.tasks),
-  }
-}
+export const init = () => {
+  return store.init().then(storeInstance => {
+    // Hydrate data
+    hydrate(store.getSyncData())
 
+    // Sync data
+    all()
+    .then(() => { syncSocket.start() })
+    .catch(err => {
+      /* Ignore, user not authenticated */
+      console.error(err)
+    })
+
+    // Setup interval check, in case the WebSocket
+    // isn't available
+    setInterval(() => {
+      if (syncSocket.isAlive()) return
+      if (!storeInstance.getState().auth.loggedIn.value) return
+      all()
+    }, 15 * 1000)
+
+    return storeInstance
+  })
+  .catch(err => {
+    ui.showError('An error occurred while initializing the app: ' + err.message)
+    // Clear the store as we don't know how the data is
+    store.clear()
+  })
+}
 
 export const hydrate = (syncData) => {
   if (!syncData)
@@ -101,6 +113,30 @@ export const all = createAsyncAction(() => (dispatch, getState) => {
 })
 
 export default {
+  init,
   all,
   hydrate,
+}
+
+
+// Helpers
+
+/** Combines syncData instances */
+function combine(previous = {}, updated) {
+  return {
+    metadata: updated.metadata,
+    categories: combineRows(previous.categories, updated.categories),
+    members: combineRows(previous.members, updated.members),
+    runs: combineRows(previous.runs, updated.runs),
+    settings: combineRows(previous.settings, updated.settings),
+    tasks: combineRows(previous.tasks, updated.tasks),
+  }
+}
+
+function combineRows(previousRows = [], updatedRows) {
+  const previousById = indexById(previousRows)
+  const updatedById = indexById(updatedRows)
+  const rowsById = assign(previousById, updatedById)
+  const newRows = Object.values(rowsById).filter(row => row.deleted !== 1)
+  return newRows
 }

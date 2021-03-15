@@ -18,7 +18,7 @@ const STORE_KEY = 'SAVED_APP_STATE'
 let store
 let syncData
 
-export default function initializeStore() {
+export function init() {
   return storage.getItem(STORE_KEY).then(data => {
     let initialState = {}
     try {
@@ -43,6 +43,8 @@ export function get() {
 }
 
 export function save(d) {
+  if (!store)
+    return
   const { auth } = store.getState()
   const state = { auth }
 
