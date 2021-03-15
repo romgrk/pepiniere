@@ -11,4 +11,8 @@ const items = [
   { type: 'item', icon: 'table',       label: 'Report',   path: '/reports' },
 ]
 
+export const routes = items.map(i => i.path)
+  .concat(['/login'])
+
+
 export default items

@@ -3,7 +3,7 @@
  */
 
 import hash from 'object-hash'
-import routes from './routes'
+import { routes } from './routes'
 
 const assets = self.__WB_MANIFEST;
 
@@ -20,7 +20,7 @@ const INDEX = '/index.html'
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = assets.map(a => a.url);
-const FRONTEND_URLS = routes.map(r => r.path)
+const FRONTEND_URLS = routes
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
