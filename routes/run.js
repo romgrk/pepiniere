@@ -1,57 +1,43 @@
 const express = require('express')
 const router = express.Router()
 
-const { dataHandler, errorHandler } = require('../helpers/handlers.js')
+const { readRoute, writeRoute } = require('../helpers/handlers.js')
 const Run = require('../models/run.js')
 
 /* GET members list */
-router.get('/list', (req, res, next) => {
+router.get('/list', readRoute(() =>
   Run.findAll()
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 /* GET single member */
-router.get('/get/:id', (req, res, next) => {
+router.get('/get/:id', writeRoute((req) =>
   Run.findById(req.params.id)
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 /* POST create member */
-router.use('/create', (req, res, next) => {
+router.use('/create', writeRoute((req) =>
   Run.create(req.body)
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 /* POST update run */
-router.use('/update/:id', (req, res, next) => {
+router.use('/update/:id', writeRoute((req) =>
   Run.update({ ...req.body, id: req.params.id })
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 /* POST add member */
-router.use('/add-member/:id/:memberId', (req, res, next) => {
+router.use('/add-member/:id/:memberId', writeRoute((req) =>
   Run.addMember(req.params.id, +req.params.memberId)
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 /* POST remove member */
-router.use('/remove-member/:id/:memberId', (req, res, next) => {
+router.use('/remove-member/:id/:memberId', writeRoute((req) =>
   Run.removeMember(req.params.id, +req.params.memberId)
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 /* POST delete member */
-router.use('/delete/:id', (req, res, next) => {
+router.use('/delete/:id', writeRoute((req) =>
   Run.delete(req.params.id)
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 
 module.exports = router

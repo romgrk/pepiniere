@@ -58,7 +58,8 @@
     "sheetjs-style": "^0.15.6",
     "spreadsheet-column": "^1.1.1",
     "styled-components": "^2.0.0",
-    "whatwg-fetch": "2.0.3"
+    "whatwg-fetch": "2.0.3",
+    "ws": "^7.4.4"
   },
   "devDependencies": {
     "lint-staged": "^4.2.1",

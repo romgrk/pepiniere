@@ -30,7 +30,15 @@ router.use('/login-failure', (req, res) => {
 
 /* POST logout */
 router.use('/logout', (req, res) => {
+  const sessionID = req.sessionID
   req.logout()
+
+  req.app.wss.getWss().clients.forEach(client => {
+    if (client.sessionID === sessionID) {
+      client.close()
+    }
+  })
+
   dataHandler(res)(true)
 })
 

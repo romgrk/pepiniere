@@ -95,6 +95,8 @@ export const all = createAsyncAction(() => (dispatch, getState) => {
     categories.fetch.error()
     tasks.fetch.error()
     runs.fetch.error()
+
+    return Promise.reject(err)
   })
 })
 

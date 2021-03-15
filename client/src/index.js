@@ -1,11 +1,13 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
+import ws from 'ws'
 import 'font-awesome/css/font-awesome.min.css'
 
 import initializeStore, { getSyncData } from './store'
 import App from './App'
 import sync from './actions/sync'
+import syncSocket from './helpers/sync-socket'
 import registerServiceWorker from './helpers/registerServiceWorker'
 import './helpers/platform-detect.js'
 import './styles/index.scss'
@@ -29,11 +31,20 @@ initializeStore().then(store => {
 
   // Sync data
   sync.all()
+  .then(() => {
+    syncSocket.start()
+  })
+  .catch(err => {
+    /* Ignore, user not authenticated */
+    console.error(err)
+  })
 
   setInterval(() => {
-    const state = store.getState()
-    if (state.auth.loggedIn.value)
-      sync.all()
+    if (syncSocket.isAlive())
+      return
+    if (!store.getState().auth.loggedIn.value)
+      return
+    sync.all()
   }, 15 * 1000)
 })
 

@@ -1,39 +1,31 @@
 const express = require('express')
 const router = express.Router()
 
-const { dataHandler, errorHandler } = require('../helpers/handlers.js')
+const { readRoute, writeRoute } = require('../helpers/handlers.js')
 const Settings = require('../models/settings.js')
 
 /* GET users list */
-router.get('/list', (req, res, next) => {
+router.get('/list', readRoute((req, res, next) =>
   Settings.findAll()
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 /* POST update setting */
-router.use('/update/:id', (req, res, next) => {
+router.use('/update/:id', writeRoute((req, res, next) => {
   if (req.params.id === 'password')
-    return errorHandler(res)(new Error('use /settings/change-password'))
+    return Promise.reject(new Error('use /settings/change-password'))
 
-  Settings.update(req.params.id, req.body.value)
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+  return Settings.update(req.params.id, req.body.value)
+}))
 
 /* POST change password */
-router.use('/change-password', (req, res, next) => {
+router.use('/change-password', writeRoute((req, res, next) =>
   Settings.validatePassword(req.body.password)
-  .then(() => Settings.changePassword(req.body.newPassword))
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+    .then(() => Settings.changePassword(req.body.newPassword))
+))
 
 /* POST restore backup */
-router.use('/restore-backup', (req, res, next) => {
+router.use('/restore-backup', writeRoute((req, res, next) =>
   Settings.restoreBackup(req.files.file)
-  .then(dataHandler(res))
-  .catch(errorHandler(res))
-})
+))
 
 module.exports = router

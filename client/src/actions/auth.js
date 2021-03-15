@@ -7,6 +7,7 @@ import {
   LOG_IN,
   LOG_OUT,
 } from '../constants/ActionTypes'
+import syncSocket from '../helpers/sync-socket'
 import { createAction, createAsyncAction, createFetchActions } from '../helpers/create-actions'
 import * as requests from '../requests'
 import sync from './sync'
@@ -29,6 +30,8 @@ export const login = createAsyncAction((password) => (dispatch, getState) => {
         return Promise.reject(new Error('Invalid password'))
 
       dispatch({ type: LOG_IN.RECEIVE, payload: isLoggedIn })
+
+      syncSocket.start()
       return sync.all()
     })
     .catch(error => {

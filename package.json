@@ -18,6 +18,7 @@
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "debug": "~2.6.3",
     "deep-diff": "^0.3.8",
     "ejs": "^2.5.7",
@@ -25,6 +26,7 @@
     "express-form-data": "^2.0.14",
     "express-session": "^1.15.6",
     "express-session-sqlite": "^2.0.8",
+    "express-ws": "^4.0.0",
     "formidable": "^1.1.1",
     "jade": "~1.11.0",
     "morgan": "~1.8.1",
@@ -33,7 +35,8 @@
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.4.2",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "ws": "^7.4.4"
   },
   "devDependencies": {
     "eslint-config-prettier": "^3.0.1",

@@ -2,8 +2,9 @@
  * handlers.js
  */
 
+const socketClients = require('./socket-clients')
 
-exports.errorHandler = res => err => {
+const errorHandler = res => err => {
   res.json({
     ok: false,
     message: err.toString(),
@@ -13,18 +14,47 @@ exports.errorHandler = res => err => {
   res.end()
 }
 
-exports.dataHandler = res => data => {
+const dataHandler = res => data => {
   res.json({ ok: true, data: data })
   res.end()
 }
 
-exports.imageHandler = res => data => {
+const imageHandler = res => data => {
   res.contentType('image/png')
   res.end(data, 'binary')
 }
 
-exports.okHandler = res => data => {
+const okHandler = res => data => {
   res.json({ ok: true })
   res.end()
 }
 
+const socketHandler = req => data => {
+  socketClients.emit('update', req)
+  return data
+}
+
+const readRoute = fn => {
+  return (req, res, next) =>
+    fn(req, res, next)
+      .then(dataHandler(res))
+      .catch(errorHandler(res))
+}
+
+const writeRoute = fn => {
+  return (req, res, next) =>
+    fn(req, res, next)
+      .then(socketHandler(req))
+      .then(dataHandler(res))
+      .catch(errorHandler(res))
+}
+
+module.exports = {
+  errorHandler,
+  dataHandler,
+  imageHandler,
+  okHandler,
+  socketHandler,
+  readRoute,
+  writeRoute,
+}

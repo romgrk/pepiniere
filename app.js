@@ -11,19 +11,20 @@ const flash = require('connect-flash')
 const formData = require('express-form-data');
 const compression = require('compression');
 const sqlite = require('sqlite3');
+const cors = require('cors')
 const SqliteStore = sqliteSession(session)
 
 const config = require('./config')
 const backup = require('./helpers/backup')
 const passport = require('./passport')
 const k = require('./constants')
-// const User = require('./models/user.js')
 
 // Start backups
 backup.start()
 
 // Setup application
 const app = express()
+app.wss = require('express-ws')(app)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -33,6 +34,7 @@ app.set('view engine', 'ejs')
 // Middlewares
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(compression())
+app.use(cors())
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -55,7 +57,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session()) // persistent login sessions
 app.use(flash()) // use connect-flash for flash messages stored in session
-
 
 
 // API
